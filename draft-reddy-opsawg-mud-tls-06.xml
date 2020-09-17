@@ -1,0 +1,924 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<?rfc toc="yes"?>
+<?rfc tocompact="yes"?>
+<?rfc tocdepth="3"?>
+<?rfc tocindent="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes"?>
+<?rfc comments="yes"?>
+<?rfc inline="yes"?>
+<?rfc compact="yes"?>
+<?rfc subcompact="no"?>
+<rfc category="std" docName="draft-reddy-opsawg-mud-tls-06" ipr="trust200902">
+  <front>
+    <title abbrev="MUD TLS profile for IoT devices">MUD (D)TLS profiles for
+    IoT devices</title>
+
+    <author fullname="Tirumaleswar Reddy" initials="T." surname="Reddy">
+      <organization abbrev="McAfee">McAfee, Inc.</organization>
+
+      <address>
+        <postal>
+          <street>Embassy Golf Link Business Park</street>
+
+          <city>Bangalore</city>
+
+          <region>Karnataka</region>
+
+          <code>560071</code>
+
+          <country>India</country>
+        </postal>
+
+        <email>kondtir@gmail.com</email>
+      </address>
+    </author>
+
+    <author fullname="Dan Wing" initials="D." surname="Wing">
+      <organization abbrev="Citrix">Citrix Systems, Inc.</organization>
+
+      <address>
+        <postal>
+          <street>4988 Great America Pkwy</street>
+
+          <city>Santa Clara</city>
+
+          <region>CA</region>
+
+          <code>95054</code>
+
+          <country>USA</country>
+        </postal>
+
+        <email>danwing@gmail.com</email>
+      </address>
+    </author>
+
+    <author fullname="Blake Anderson" initials="B." surname="Anderson">
+      <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
+
+      <address>
+        <postal>
+          <street>170 West Tasman Dr</street>
+
+          <city>San Jose</city>
+
+          <region>CA</region>
+
+          <code>95134</code>
+
+          <country>USA</country>
+        </postal>
+
+        <email>blake.anderson@cisco.com</email>
+      </address>
+    </author>
+
+    <date />
+
+    <workgroup>OPSWG WG</workgroup>
+
+    <abstract>
+      <t>This memo extends Manufacturer Usage Description (MUD) to incorporate
+      (D)TLS profile parameters. This allows a network element to identify
+      unexpected (D)TLS usage, which can indicate the presence of unauthorized
+      software or malware on an endpoint.</t>
+    </abstract>
+  </front>
+
+  <middle>
+    <section anchor="intro" title="Introduction">
+      <t>Encryption is necessary to protect the privacy of end users using IoT
+      devices. In a network setting, TLS <xref target="RFC8446"></xref> and
+      DTLS <xref target="I-D.ietf-tls-dtls13"></xref> are the dominant
+      protocols providing encryption for IoT device traffic. Unfortunately, in
+      conjunction with IoT applications' rise of encryption, malware is also
+      using encryption which thwarts network-based analysis such as deep
+      packet inspection (DPI). Other mechanisms are needed to notice malware
+      is running on the IoT device.</t>
+
+      <t>Malware frequently uses its own libraries for its activities, and
+      those libraries are re-used much like any other software engineering
+      project. Research <xref target="malware"></xref> indicates there are
+      observable differences in how malware uses encryption compared with how
+      non-malware uses encryption. There are several interesting findings
+      specific to DTLS and TLS which were found common to malware: <list
+          style="symbols">
+          <t>Older and weaker cryptographic parameters (e.g.,
+          TLS_RSA_WITH_RC4_128_SHA).</t>
+
+          <t>TLS SNI and server certificates are composed of subjects with
+          characteristics of a domain generation algorithm (DGA) (e.g.,
+          www.33mhwt2j.net).</t>
+
+          <t>Higher use of self-signed certificates compared with typical
+          legitimate software.</t>
+
+          <t>Discrepancies in the server name indication (SNI) TLS extension
+          in the ClientHello message and the DNS names in the
+          SubjectAltName(SAN) X.509 extension in the server certificate
+          message.</t>
+
+          <t>Discrepancies in the key exchange algorithm and the client public
+          key length in comparison with legitimate flows. As a reminder,
+          Client Key Exchange message has been removed from TLS 1.3.</t>
+
+          <t>Lower diversity in TLS client advertised TLS extensions compared
+          to legitimate clients.</t>
+
+          <t>Malware using privacy enhancing technologies like Tor, Psiphon
+          and Ultrasurf (see <xref target="malware-tls"></xref>) and, evasion
+          techniques such as ClientHello randomization to evade detection in
+          order to continue exploiting the end user.</t>
+
+          <t>Malware using DNS-over-HTTPS <xref target="RFC8484"></xref> to
+          avoid detection by malware DNS filtering service (<xref
+          target="malware-doh"></xref>). Malware agent may not use the
+          DNS-over-HTTPS server provided by the local network.</t>
+        </list></t>
+
+      <t>If observable (D)TLS profile parameters are used, the following
+      functions are possible which have a favorable impact on network
+      security:</t>
+
+      <t><list style="symbols">
+          <t>Permit intended DTLS or TLS use and block malicious DTLS or TLS
+          use. This is superior to the layer 3 and layer 4 ACLs of
+          Manufacturer Usage Description Specification (MUD) <xref
+          target="RFC8520"></xref> which are not suitable for broad
+          communication patterns.</t>
+
+          <t>Ensure TLS certificates are valid. Several TLS deployments have
+          been vulnerable to active Man-In-The-Middle (MITM) attacks because
+          of the lack of certificate validation or vulnerability in the
+          certificate validation function (see <xref
+          target="cryto-vulnerability"></xref>). By observing (D)TLS profile
+          parameters, a network element can detect when the TLS SNI mismatches
+          the SubjectAltName and when the server's certificate is invalid. In
+          TLS 1.2, the ClientHello, ServerHello and Certificate messages are
+          all sent in clear-text, however in TLS 1.3, the Certificate message
+          is encrypted thereby hiding the server identity from any
+          intermediary. In TLS 1.3, the middle-box needs to act as a TLS proxy
+          to validate the server certificate and to detect TLS SNI mismatch
+          with the server certificate.</t>
+
+          <t>Support new communication patterns. An IoT device can learn a new
+          capability, and the new capability can change the way the IoT device
+          communicates with other devices located in the local network and
+          Internet. There would be an inaccurate policy if an IoT device
+          rapidly changes the IP addresses and domain names it communicates
+          with while the MUD ACLs were slower to update. In such a case,
+          observable (D)TLS profile parameters can be used to permit intended
+          use and to block malicious behaviour from the IoT device.</t>
+        </list></t>
+
+      <t>This document extends MUD <xref target="RFC8520"></xref> to model
+      observable (D)TLS profile parameters. Using these (D)TLS profile
+      parameters, an active MUD-enforcing firewall can identify MUD
+      non-compliant (D)TLS behavior indicating outdated cryptography or
+      malware. This detection can prevent malware downloads, block access to
+      malicious domains, enforce use of strong ciphers, stop data
+      exfiltration, etc. In addition, organizations may have policies around
+      acceptable ciphers and certificates on the websites the IoT devices
+      connect to. Examples include no use of old and less secure versions of
+      TLS, no use of self-signed certificates, deny-list or accept-list of
+      Certificate Authorities, valid certificate expiration time, etc. These
+      policies can be enforced by observing the (D)TLS profile parameters.
+      Enterprise firewalls can use the IoT device's (D)TLS profile parameters
+      to identify legitimate flows by observing (D)TLS sessions, and can make
+      inferences to permit legitimate flows and to block malicious or insecure
+      flows. The proposed technique is also suitable in deployments where
+      decryption techniques are not ideal due to privacy concerns,
+      non-cooperating end-points and expense.</t>
+    </section>
+
+    <section anchor="notation" title="Terminology">
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described in BCP 14
+      <xref target="RFC2119"></xref><xref target="RFC8174"></xref> when, and
+      only when, they appear in all capitals, as shown here.</t>
+
+      <t>"(D)TLS" is used for statements that apply to both Transport Layer
+      Security <xref target="RFC8446"></xref> and Datagram Transport Layer
+      Security <xref target="RFC6347"></xref>. Specific terms are used for any
+      statement that applies to either protocol alone.</t>
+
+      <t>'DoH/DoT' refers to DNS-over-HTTPS and/or DNS-over-TLS.</t>
+    </section>
+
+    <section title="Overview of MUD (D)TLS profiles for IoT devices">
+      <t>In Enterprise networks, protection and detection are typically done
+      both on end hosts and in the network. Host agents have deep visibility
+      on the devices where they are installed, whereas the network has broader
+      visibility. Installing host agents may not be a viable option on IoT
+      devices, and network-based security is an efficient means to protect
+      such IoT devices. (D)TLS profile parameters of IoT device can be used by
+      middle-boxes to detect and block malware communication, while at the
+      same time preserving the privacy of legitimate uses of encryption.
+      Middle-boxes need not proxy (D)TLS but can passively observe the
+      parameters of (D)TLS handshakes from IoT devices and gain good
+      visibility into TLS 1.0 to 1.2 parameters and partial visibility into
+      TLS 1.3 parameters. Malicious agents can try to use the (D)TLS profile
+      parameters of legitimate agents to evade detection, but it becomes a
+      challenge to mimic the behavior of various IoT device types and IoT
+      device models from several manufacturers. In other words, malware
+      developers will have to develop malicious agents per IoT device type,
+      manufacturer and model, infect the device with the tailored malware
+      agent and will have keep up with updates to the device's (D)TLS profile
+      parameters over time. Further, the malware's command and control server
+      certificates need to be signed by the same certifying authorities
+      trusted by the IoT devices. Typically, IoT devices have an
+      infrastructure that supports a rapid deployment of updates, and malware
+      agents will have a near-impossible task of similarly deploying updates
+      and continuing to mimic the TLS behavior of the IoT device it has
+      infected.</t>
+
+      <t>The compromised IoT devices are typically used for launching DDoS
+      attacks (Section 3 of <xref target="RFC8576"></xref>). Some of the DDoS
+      attacks like Slowloris and Transport Layer Security (TLS) re-negotiation
+      can be detected by observing the (D)TLS profile parameters. For example,
+      the victim's server certificate need not be signed by the same
+      certifying authorities trusted by the IoT device.</t>
+    </section>
+
+    <section title="(D)TLS 1.3 handshake">
+      <t>In (D)TLS 1.3, full (D)TLS handshake inspection is not possible since
+      all (D)TLS handshake messages excluding the ClientHello message are
+      encrypted. (D)TLS 1.3 has introduced new extensions in the handshake
+      record layers called Encrypted Extensions. Using these extensions
+      handshake messages will be encrypted and network devices (such as a
+      firewall) are incapable deciphering the handshake, thus cannot view the
+      server certificate. However, the ClientHello and ServerHello still have
+      some fields visible, such as the list of supported versions, named
+      groups, cipher suites, signature algorithms and extensions in
+      ClientHello and, chosen cipher in the ServerHello. For instance, if the
+      malware uses evasion techniques like ClientHello randomization, the
+      observable list of cipher suites and extensions offered by the malware
+      agent in the ClientHello message will not match the list of cipher
+      suites and extensions offered by the legitimate client in the
+      ClientHello message, and the middle-box can block malicious flows
+      without acting as a (D)TLS 1.3 proxy.</t>
+
+      <section title="Full (D)TLS 1.3 handshake inspection">
+        <t>To obtain more visibility into negotiated TLS 1.3 parameters, a
+        middle-box can act as a (D)TLS 1.3 proxy. A middle-box can act as a
+        (D)TLS proxy for the IoT devices owned and managed by the IT team in
+        the Enterprise network and the (D)TLS proxy must meet the security and
+        privacy requirements of the organization. In other words, the scope of
+        middle-box acting as a (D)TLS proxy is restricted to Enterprise
+        network owning and managing the IoT devices. The middle-box would have
+        to follow the behaviour explained in Section 9.3 of <xref
+        target="RFC8446"></xref> to act as a compliant (D)TLS 1.3 proxy.</t>
+
+        <t>The mechanism to configure the IoT device with the middle-box's CA
+        certificate is out of scope. </t>
+      </section>
+
+      <section title="Encrypted SNI">
+        <t>To increase privacy, encrypted SNI (ESNI, <xref
+        target="I-D.ietf-tls-sni-encryption"></xref>) prevents passive
+        observation of the TLS Server Name Indication extension. To
+        effectively provide that privacy protection, SNI encryption needs to
+        be used in conjunction with DNS encryption (e.g., DNS-over-TLS (DoT)
+        <xref target="RFC7858"></xref> or DNS-over-HTTPS (DoH) <xref
+        target="RFC8484"></xref>). A middle-box (e.g., firewall) passively
+        inspecting an encrypted SNI (D)TLS handshake cannot observe the
+        encrypted SNI nor observe the encrypted DNS traffic. If an IoT device
+        is pre-configured to use public DoH/DoT servers, that middle-box needs
+        to act as a DoH/DoT proxy and replace the ECH configuration in the
+        "echconfig" SvcParamKey (Section 6.3 of <xref
+        target="I-D.ietf-dnsop-svcb-https"></xref>) with the middle
+        box&rsquo;s ECH configuration. Instead of an unappealing DoH/DoT
+        proxy, the IoT device can be bootstrapped to discover and authenticate
+        DoH/DoT servers provided by a local network by making use of one of
+        the mechanisms described in Section 4 of <xref
+        target="I-D.reddy-add-enterprise"></xref>. The local DoH/DoT server
+        replaces the ECH configuration in the "echconfig" SvcParamKey with the
+        middle box&rsquo;s ECH configuration.</t>
+
+        <t>A common usage pattern for certain type of IoT devices (e.g., light
+        bulb) is for it to "call home" to a service that resides on the public
+        Internet, where that service is referenced through a domain name (A or
+        AAAA record). As discussed in Manufacturer Usage Description
+        Specification <xref target="RFC8520"></xref>, because these devices
+        tend to require access to very few sites, all other access should be
+        considered suspect. If an IoT device is pre-configured to use public
+        DoH/DoT server, the MUD policy enforcement point is moved to that
+        public server, which cannot enforce the MUD policy based on domain
+        names (Section 8 of <xref target="RFC8520"></xref>). If the DNS query
+        is not accessible for inspection, it becomes quite difficult for the
+        infrastructure to suspect anything. Thus the use of a public DoH/DoT
+        server is incompatible with MUD in general. A local DoH/DoT server is
+        necessary to allow MUD policy enforcement on the local network.</t>
+      </section>
+    </section>
+
+    <section anchor="YANG" title="(D)TLS profile YANG module">
+      <t>This document specifies a YANG module for representing (D)TLS
+      profile. The (D)TLS profile YANG module provides a method for firewall
+      to observe the (D)TLS profile parameters in the (D)TLS handshake to
+      permit intended use and to block malicious behavior. This module uses
+      the common YANG types defined in <xref target="RFC6991"></xref> , rules
+      defined in <xref target="RFC8519"></xref> and cryptographic types
+      defined in <xref target="I-D.ietf-netconf-crypto-types"></xref>.</t>
+
+      <t>The (D)TLS profiles and the parameters in each (D)TLS profile include
+      the following:<list style="symbols">
+          <t>Profile name</t>
+
+          <t>(D)TLS versions supported by the IoT device. </t>
+
+          <t>List of supported symmetric encryption algorithms. As a reminder,
+          TLS 1.3 defines five cipher suites (Appendix B.4 of <xref
+          target="RFC8446"></xref>), but most clients are continuing to offer
+          TLS 1.2 compatible cipher suites for backwards compatibility.</t>
+
+          <t>List of supported compression methods for data compression. In
+          TLS 1.3, only the "null" compression method is allowed (Section
+          4.1.2 of <xref target="RFC8446"></xref>).</t>
+
+          <t>List of supported extension types</t>
+
+          <t>List of trust anchor certificates used by the IoT device. If the
+          server certificate is signed by one of the trust anchors, the
+          middle-box continues with the connection as normal. Otherwise, the
+          middle-box will react as if the server certificate validation has
+          failed and takes appropriate action (e.g, block the (D)TLS session).
+          An IoT device can use a private trust anchor to validate a server's
+          certificate (e.g., the private trust anchor can be preloaded at
+          manufacturing time on the IoT device and the IoT device fetches the
+          firmware image from the Firmware server whose certificate is signed
+          by the private CA).</t>
+
+          <t>List of SPKI pin set pre-configured on the client to validate
+          self-signed server certificates or raw public keys. A SPKI pin set
+          is a cryptographic digest to "pin" public key information in a
+          manner similar to HTTP Public Key Pinning (HPKP) <xref
+          target="RFC7469"></xref>. If SPKI pin set is present in the (D)TLS
+          profile of a IoT device and the server certificate does not pass the
+          PKIX certification path validation, the middle-box computes the SPKI
+          Fingerprint for the public key found in the server's certificate (or
+          in the raw public key, if the server provides that instead). If a
+          computed fingerprint exactly matches one of the SPKI pin sets in the
+          (D)TLS profile, the middle-box continues with the connection as
+          normal. Otherwise, the middle-box will act on the SPKI validation
+          failure and takes appropriate action.</t>
+
+          <t>Cryptographic hash algorithm used to generate the SPKI
+          pinsets</t>
+
+          <t>List of pre-shared key exchange modes</t>
+
+          <t>List of named groups (DHE or ECDHE) supported by the client</t>
+
+          <t>List signature algorithms the client can validate in X.509 server
+          certificates</t>
+
+          <t>List signature algorithms the client is willing to accept for
+          CertificateVerify message (Section 4.2.3 of <xref
+          target="RFC8446"></xref>). For example, a TLS client implementation
+          can support different sets of algorithms for certificates and in TLS
+          to signal the capabilities in "signature_algorithms_cert" and
+          "signature_algorithms" extensions.</t>
+
+          <t>List of supported application protocols (e.g., h3, h2, http/1.1
+          etc.)</t>
+
+          <t>List of certificate compression algorithms (defined in <xref
+          target="I-D.ietf-tls-certificate-compression"></xref>)</t>
+
+          <t>List of the distinguished names <xref target="X501"></xref> of
+          acceptable certificate authorities, represented in DER-encoded
+          format <xref target="X690"> </xref> (defined in Section 4.2.4 of
+          <xref target="RFC8446"></xref>)</t>
+        </list></t>
+
+      <t>The (D)TLS profile parameters MUST NOT include the GREASE values for
+      extension types, named groups, signature algorithms, (D)TLS versions,
+      pre-shared key exchange modes, cipher suites and for any other TLS
+      parameters defined in future RFCs. </t>
+
+      <t>If the (D)TLS profile parameters are not observed in a (D)TLS session
+      from the IoT device but known to the firewall, the default behaviour is
+      to block the (D)TLS session. If the (D)TLS profile parameters are not
+      observed in a (D)TLS session from the IoT device but unknown to the
+      firewall, the behaviour is not to block the (D)TLS session.</t>
+
+      <t>Note: The TLS and DTLS IANA registries are available from <eref
+      target="https://www.iana.org/assignments/tls-parameters/tls-parameters.txt"></eref>
+      and <eref
+      target="https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.txt"></eref>.</t>
+
+      <section title="Tree Structure">
+        <t>This document augments the "ietf-mud" MUD YANG module defined in
+        <xref target="RFC8520"></xref> for signaling the IoT device (D)TLS
+        profile. This document defines the YANG module
+        "reddy-opsawg-mud-tls-profile", which has the following tree
+        structure:</t>
+
+        <t><figure>
+            <artwork><![CDATA[module: reddy-opsawg-mud-tls-profile
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
+    +--rw client-profile
+       +--rw tls-profiles* [profile-name]
+          +--rw profile-name                   string
+          +--rw supported_versions*            uint16
+          +--rw encryption-algorithms*         encryption-algorithm
+          +--rw compression-methods*           compression-method
+          +--rw extension-types*               extension-type
+          +--rw acceptlist-ta-certs*           ct:trust-anchor-cert-cms
+          +--rw SPKI-pin-sets*                 SPKI-pin-set
+          +--rw SPKI-hash-algorithm?           iha:hash-algorithm-type
+          +--rw psk-key-exchange-modes*        psk-key-exchange-mode
+          +--rw supported-groups*              supported-group
+          +--rw signature-algorithms-cert*     signature-algorithm
+          +--rw signature-algorithms*          signature-algorithm
+          +--rw application-protocols*         application-protocol
+          +--rw cert-compression-algorithms*   cert-compression-algorithm
+          +--rw certificate_authorities*       certificate_authority
+
+]]></artwork>
+          </figure></t>
+      </section>
+
+      <section title="YANG Module">
+        <t><figure>
+            <artwork><![CDATA[module reddy-opsawg-mud-tls-profile {
+   yang-version 1.1;
+   namespace "urn:ietf:params:xml:ns:yang:reddy-opsawg-mud-tls-profile";
+   prefix mud-tls-profile;
+
+
+   import ietf-crypto-types {
+     prefix ct;
+     reference "draft-ietf-netconf-crypto-types-01: 
+                Common YANG Data Types for Cryptography";
+   }
+
+   import iana-hash-algs {
+     prefix iha;
+     reference
+          "RFC XXXX: Common YANG Data Types for Hash algorithms";
+   }
+
+   import ietf-access-control-list {
+     prefix acl;
+     reference
+       "RFC 8519: YANG Data Model for Network Access
+                  Control Lists (ACLs)";
+   }
+
+   organization
+     "IETF Operations and Management Area Working Group Working Group";
+   contact
+      "Editor:  Konda, Tirumaleswar Reddy
+               <mailto:TirumaleswarReddy_Konda@McAfee.com>";
+
+   description
+     "This module contains YANG definition for the IoT device
+      (D)TLS profile.
+
+      Copyright (c) 2019 IETF Trust and the persons identified as
+      authors of the code.  All rights reserved.
+
+      Redistribution and use in source and binary forms, with or
+      without modification, is permitted pursuant to, and subject
+      to the license terms contained in, the Simplified BSD License
+      set forth in Section 4.c of the IETF Trust's Legal Provisions
+      Relating to IETF Documents
+      (http://trustee.ietf.org/license-info).
+
+      This version of this YANG module is part of RFC XXXX; see
+      the RFC itself for full legal notices.";
+
+   revision 2019-06-12 {
+     description
+       "Initial revision";
+   }
+
+   typedef compression-method {
+     type uint8;
+     description "Compression method";
+   }
+
+   typedef extension-type {
+     type uint16;
+     description "Extension type";
+   }
+
+   typedef encryption-algorithm {
+     type uint16;
+     description "Encryption algorithm";
+   }
+
+   typedef supported-group {
+     type uint16;
+     description "Named group (DHE or ECDHE)";
+   }
+
+   typedef SPKI-pin-set {
+     type binary;
+     description "Subject Public Key Info pin set";
+   }
+
+   typedef signature-algorithm {
+     type uint16;
+     description "Signature algorithm";
+   }
+
+   typedef key-exchange-algorithm {
+     type uint8;
+     description "key exchange algorithm";
+   }
+
+   typedef psk-key-exchange-mode {
+     type uint8;
+     description "pre-shared key exchange mode";
+   }
+
+   typedef client-public-key-length {
+     type uint8;
+     description "client public key length";
+   }
+
+   typedef application-protocol {
+     type string;
+     description "application protocol";
+   }
+
+   typedef cert-compression-algorithm {
+     type uint8;
+     description "certificate compression algorithm";
+   }
+
+   typedef certificate_authority {
+     type binary;
+     description "Distinguished Name of Certificate authority";
+   }
+
+   grouping client-profile {
+     description
+       "A grouping for (D)TLS profiles."; 
+     container client-profile {
+       list tls-profiles {
+         key "profile-name";
+         description
+          "A list of (D)TLS version profiles supported by the client.";
+        leaf profile-name {
+          type string {
+            length "1..64";
+          }
+          description
+            "The name of (D)TLS profile; space and special
+            characters are not allowed.";
+         }
+         leaf-list supported_versions {
+           type uint16;
+           description 
+             "(D)TLS versions supported by the client";
+         }  
+         leaf-list encryption-algorithms {
+           type encryption-algorithm;   
+           description "Encryption algorithms";
+         }
+         leaf-list compression-methods {
+           type compression-method;
+            description "Compression methods";
+         } 
+         leaf-list extension-types {
+           type extension-type;
+           description "Extension Types";
+         }
+         leaf-list acceptlist-ta-certs { 
+           type ct:trust-anchor-cert-cms;
+           description 
+             "A list of trust anchor certificates used by the client.";
+         }
+         leaf-list SPKI-pin-sets { 
+            type SPKI-pin-set;
+            description 
+             "A list of SPKI pin sets pre-configured on the client 
+              to validate self-signed server certificate or 
+              raw public key.";
+         }
+         leaf SPKI-hash-algorithm {
+           type iha:hash-algorithm-type;
+           description 
+             "cryptographic hash algorithm used to generate the 
+              SPKI pinset.";
+         }
+         leaf-list psk-key-exchange-modes {
+           type psk-key-exchange-mode;
+           description 
+             "pre-shared key exchange modes";
+         }
+         leaf-list supported-groups { 
+            type supported-group;
+            description 
+             "A list of named groups supported by the client.";
+         }
+         leaf-list signature-algorithms-cert { 
+            type signature-algorithm;
+            description 
+             "A list signature algorithms the client can validate 
+              in X.509 certificates.";
+         }
+         leaf-list signature-algorithms { 
+            type signature-algorithm;
+            description 
+             "A list signature algorithms the client can validate 
+              in the CertificateVerify message.";
+         }
+         leaf-list application-protocols { 
+            type application-protocol;
+            description 
+             "A list application protocols supported by the client";
+         }
+         leaf-list cert-compression-algorithms { 
+            type cert-compression-algorithm;
+            description 
+             "A list certificate compression algorithms 
+              supported by the client";
+         }
+         leaf-list certificate_authorities { 
+            type certificate_authority;
+            description 
+             "A list of the distinguished names of certificate authorities 
+              acceptable to the client";
+         }
+   }
+  }   
+ }
+ augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
+   description
+     "MUD (D)TLS specific matches.";
+   uses client-profile;
+ }
+}
+]]></artwork>
+          </figure></t>
+      </section>
+    </section>
+
+    <section anchor="Example" title="MUD File Example">
+      <t>This example below contains (D)TLS profile parameters for a IoT
+      device used to reach servers listening on port 443 using TCP transport.
+      JSON encoding of YANG modelled data <xref target="RFC7951"></xref> is
+      used to illustrate the example.</t>
+
+      <t><figure>
+          <artwork><![CDATA[{
+   "ietf-mud:mud": {
+     "mud-version": 1,
+      "mud-url": "https://example.com/IoTDevice",
+      "last-update": "2019-18-06T03:56:40.105+10:00",
+      "cache-validity": 100,
+      "is-supported": true,
+      "systeminfo": "IoT device name",
+      "from-device-policy": {
+         "access-lists": {
+           "access-list": [
+             {
+               "name": "mud-7500-profile"
+             }
+           ]
+         }
+      },
+     "ietf-access-control-list:acls": {
+       "acl": [
+         {
+           "name": "mud-7500-profile",
+           "type": "ipv6-acl-type",
+           "aces": {
+             "ace": [
+               {
+                 "name": "cl0-frdev",
+                 "matches": {
+                   "ipv6": {
+                     "protocol": 6
+                   },
+                   "tcp": {
+                     "ietf-mud:direction-initiated": "from-device",
+                     "destination-port": {
+                       "operator": "eq",
+                       "port": 443
+                     }
+                   },
+                   "reddy-opsawg-mud-tls-profile:client-profile" : {
+                     "tls-profiles" : [
+                        {
+                           "supported-versions" : [771],
+                           "encryption-algorithms" : 
+                              [31354, 4865, 4866, 4867],  
+                           "extension-types" : [10],  
+                           "supported-groups" : [29]
+                        } 
+                      ]
+                   },
+                   "actions": {
+                      "forwarding": "accept"
+                   }
+               }
+            }
+          ]
+         }
+        }
+       ]
+     }
+   }
+}
+]]></artwork>
+        </figure></t>
+    </section>
+
+    <section anchor="Security" title="Security Considerations">
+      <t>Security considerations in <xref target="RFC8520"></xref> need to be
+      taken into consideration. Although it is challenging for a malware to
+      mimic the TLS behavior of various IoT device types and IoT device models
+      from several manufacturers, malicious agents have a very low probabilty
+      of using the same (D)TLS profile parameters as legitimate agents on the
+      IoT device to evade detection. Network security services should also
+      rely on contextual network data to detect false negatives. In order to
+      detect such malicious flows, anomaly detection (deep learning techniques
+      on network data) can be used to detect malicious agents using the same
+      (D)TLS profile parameters as legitimate agent on the IoT device. In
+      anomaly detection, the main idea is to maintain rigorous learning of
+      "normal" behavior and where an "anomaly" (or an attack) is identified
+      and categorized based on the knowledge about the normal behavior and a
+      deviation from this normal behavior.</t>
+    </section>
+
+    <section anchor="Privacy" title="Privacy Considerations">
+      <t>The middle-box acting as a (D)TLS proxy must immediately delete the
+      decrypted data upon completing any necessary inspection functions. TLS
+      proxy potentially has access to a user's PII (Personally identifiable
+      information) and PHI (Protected Health Information). The TLS proxy must
+      not store, process or modify PII data. For example, IT administrator can
+      configure firewall to bypass payload inspection for a connection
+      destined to a specific service due to privacy compliance
+      requirements.</t>
+    </section>
+
+    <section anchor="IANA" title="IANA Considerations">
+      <t>This document requests IANA to register the following URIs in the
+      "ns" subregistry within the "IETF XML Registry" <xref
+      target="RFC3688"></xref>: <figure>
+          <artwork><![CDATA[      URI: urn:ietf:params:xml:ns:yang:reddy-opsawg-mud-tls-profile
+      Registrant Contact: The IESG.
+      XML: N/A; the requested URI is an XML namespace.
+]]></artwork>
+        </figure></t>
+    </section>
+
+    <section anchor="acknowledgments" title="Acknowledgments">
+      <t>Thanks to Flemming Andreasen, Shashank Jain, Michael Richardson,
+      Piyush Joshi and Harsha Joshi for the discussion and comments.</t>
+    </section>
+  </middle>
+
+  <back>
+    <references title="Normative References">
+      <?rfc include="reference.RFC.2119"?>
+
+      <?rfc include='reference.RFC.8174'?>
+
+      <?rfc include="reference.RFC.6991"?>
+
+      <?rfc include="reference.RFC.8446"?>
+
+      <?rfc include="reference.RFC.6347"?>
+
+      <?rfc include="reference.RFC.8519"?>
+
+      <?rfc include='reference.RFC.3688'?>
+
+      <?rfc include="reference.I-D.ietf-tls-dtls13" ?>
+
+      <?rfc include="reference.I-D.ietf-netconf-crypto-types"  ?>
+
+      <?rfc include="reference.I-D.ietf-tls-certificate-compression"?>
+
+      <?rfc include='reference.RFC.8701'?>
+
+      <reference anchor="X690">
+        <front>
+          <title>Information technology - ASN.1 encoding Rules: Specification
+          of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and
+          Distinguished Encoding Rules (DER)</title>
+
+          <author>
+            <organization>ITU-T</organization>
+          </author>
+
+          <date year="2002" />
+        </front>
+
+        <seriesInfo name="ISO/IEC" value="8825-1:2002" />
+      </reference>
+    </references>
+
+    <references title="Informative References">
+      <?rfc include='reference.RFC.8520'?>
+
+      <?rfc include='reference.RFC.7951'?>
+
+      <?rfc include="reference.RFC.7469"?>
+
+      <?rfc include="reference.RFC.8576"?>
+
+      <?rfc include="reference.RFC.8484"?>
+
+      <?rfc include="reference.RFC.7858"?>
+
+      <?rfc include="reference.I-D.ietf-tls-sni-encryption" 
+?>
+
+      <?rfc include='reference.I-D.reddy-add-enterprise'?>
+
+      <?rfc include='reference.I-D.ietf-dnsop-svcb-https' ?>
+
+      <reference anchor="malware" target="https://arxiv.org/abs/1607.01639">
+        <front>
+          <title>Deciphering Malware&rsquo;s use of TLS (without
+          Decryption)</title>
+
+          <author fullname="Blake Anderson" initials="B." surname="Anderson">
+            <organization>Cisco</organization>
+          </author>
+
+          <author fullname="Subharthi Paul" initials="S." surname="Paul">
+            <organization>Cisco</organization>
+          </author>
+
+          <author fullname="David McGrew" initials="D." surname="McGrew">
+            <organization>Cisco</organization>
+          </author>
+
+          <date month="July" year="2016" />
+        </front>
+      </reference>
+
+      <reference anchor="X501">
+        <front>
+          <title>Information Technology - Open Systems Interconnection - The
+          Directory: Models</title>
+
+          <author>
+            <organization></organization>
+          </author>
+
+          <date year="1993" />
+        </front>
+
+        <seriesInfo name="ITU-T" value="X.501" />
+      </reference>
+
+      <reference anchor="malware-tls"
+                 target="https://dl.acm.org/citation.cfm?id=3355601">
+        <front>
+          <title>TLS Beyond the Browser: Combining End Host and Network Data
+          to Understand Application Behavior</title>
+
+          <author fullname="Blake Anderson" initials="B." surname="Anderson">
+            <organization>Cisco</organization>
+          </author>
+
+          <author fullname="David McGrew" initials="D." surname="McGrew">
+            <organization>Cisco</organization>
+          </author>
+
+          <date month="October" year="2019" />
+        </front>
+      </reference>
+
+      <reference anchor="cryto-vulnerability"
+                 target="https://media.defense.gov/2020/Jan/14/2002234275/-1/-1/0/CSA-WINDOWS-10-CRYPT-LIB-20190114.PDF">
+        <front>
+          <title>Exploiting the Windows CryptoAPI Vulnerability</title>
+
+          <author fullname="Ben Perez" initials="B." surname="Perez">
+            <organization>Cisco</organization>
+          </author>
+
+          <date month="January" year="2020" />
+        </front>
+      </reference>
+
+      <reference anchor="malware-doh"
+                 target="https://www.zdnet.com/article/first-ever-malware-strain-spotted-abusing-new-doh-dns-over-https-protocol/">
+        <front>
+          <title>First-ever malware strain spotted abusing new DoH (DNS over
+          HTTPS) protocol</title>
+
+          <author fullname="Catalin Cimpanu" initials="C." surname="Cimpanu">
+            <organization>Cisco</organization>
+          </author>
+
+          <date month="July" year="2019" />
+        </front>
+      </reference>
+    </references>
+  </back>
+</rfc>
