@@ -409,7 +409,11 @@
       <t>Note: The TLS and DTLS IANA registries are available from <eref
       target="https://www.iana.org/assignments/tls-parameters/tls-parameters.txt"></eref>
       and <eref
-      target="https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.txt"></eref>.</t>
+      target="https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.txt"></eref>.
+      The values for all the parameters in the YANG module excluding the
+      supported_versions parameter are defined in the TLS and DTLS IANA
+      registries. The TLS and DTLS IANA registry does not maintain the (D)TLS
+      version numbers.</t>
 
       <section title="Tree Structure">
         <t>This document augments the "ietf-mud" MUD YANG module defined in
@@ -422,9 +426,10 @@
             <artwork><![CDATA[module: reddy-opsawg-mud-tls-profile
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
     +--rw client-profile
-       +--rw tls-profiles* [profile-name]
+       +--rw tls-dtls-profiles* [profile-name]
           +--rw profile-name                   string
-          +--rw supported_versions*            uint16
+          +--rw supported_tls_versions*        tls-version
+          +--rw supported_dtls_versions*       dtls-version
           +--rw encryption-algorithms*         encryption-algorithm
           +--rw compression-methods*           compression-method
           +--rw extension-types*               extension-type
@@ -558,11 +563,55 @@
      description "Distinguished Name of Certificate authority";
    }
 
+   typedef tls-version {
+       type enumeration {
+         enum tls-1.2 {
+           value 1;
+           description
+               "TLS Protocol Version 1.2.";
+           reference
+              "RFC 5246: The Transport Layer Security (TLS) Protocol
+                                   Version 1.2";
+         }
+         enum tls-1.3 {
+           value 12;
+           description
+               "TLS Protocol Version 1.3.";
+           reference
+              "RFC 8446: The Transport Layer Security (TLS) Protocol
+                                   Version 1.3";
+         }
+      }
+      description
+           "Indicates the TLS version.";
+   }
+
+   typedef dtls-version {
+     type enumeration {
+         enum dtls-1.2 {
+           value 1;
+           description
+               "DTLS Protocol Version 1.2.";
+           reference
+              "RFC 6346: Datagram Transport Layer Security 1.2";
+         }
+         enum dtls-1.3 {
+           value 2;
+           description
+               "DTLS Protocol Version 1.3.";
+           reference
+               "draft-ietf-tls-dtls13: Datagram Transport Layer Security 1.3";
+         }
+     }
+     description
+       "Indicates the DTLS version.";
+   }
+
    grouping client-profile {
      description
        "A grouping for (D)TLS profiles."; 
      container client-profile {
-       list tls-profiles {
+       list tls-dtls-profiles {
          key "profile-name";
          description
           "A list of (D)TLS version profiles supported by the client.";
@@ -707,9 +756,9 @@
                      }
                    },
                    "reddy-opsawg-mud-tls-profile:client-profile" : {
-                     "tls-profiles" : [
+                     "tls-dtls-profiles" : [
                         {
-                           "supported-versions" : [771],
+                           "supported-tls-versions" : [1],
                            "encryption-algorithms" : 
                               [31354, 4865, 4866, 4867],  
                            "extension-types" : [10],  
@@ -762,12 +811,33 @@
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
+      <t>Each normative YANG module MUST be registered in both the "IETF XML
+      Registry" <xref target="RFC3688"></xref>[IANA-XML] and the "YANG Module
+      Names" registry <xref target="RFC3688"></xref> [IANA-MOD-NAMES]. </t>
+
       <t>This document requests IANA to register the following URIs in the
       "ns" subregistry within the "IETF XML Registry" <xref
       target="RFC3688"></xref>: <figure>
           <artwork><![CDATA[      URI: urn:ietf:params:xml:ns:yang:reddy-opsawg-mud-tls-profile
       Registrant Contact: The IESG.
       XML: N/A; the requested URI is an XML namespace.
+]]></artwork>
+        </figure></t>
+
+      <t>This document requests IANA to register the following YANG modules in
+      the "YANG Module Names" subregistry [RFC6020] within the "YANG
+      Parameters" registry. IANA is requested to create an IANA-maintained
+      YANG Module called "reddy-opsawg-mud-tls-profile", based on the contents
+      of Section 5, which will allow for new (D)TLS parameters and (D)TLS
+      versions. The registration procedure will be Expert Review, as defined
+      by [RFC5226].</t>
+
+      <t><figure>
+          <artwork><![CDATA[      name: reddy-opsawg-mud-tls-profile
+      namespace: urn:ietf:params:xml:ns:yang:reddy-opsawg-mud-tls-profile
+      maintained by IANA: Y
+      prefix: mud-tls-profile
+      reference: RFC XXXX
 ]]></artwork>
         </figure></t>
     </section>
@@ -799,8 +869,6 @@
       <?rfc include="reference.I-D.ietf-netconf-crypto-types"  ?>
 
       <?rfc include="reference.I-D.ietf-tls-certificate-compression"?>
-
-      <?rfc include='reference.RFC.8701'?>
 
       <reference anchor="X690">
         <front>
