@@ -273,7 +273,7 @@
         target="RFC8446"></xref> to act as a compliant (D)TLS 1.3 proxy.</t>
 
         <t>The mechanism to configure the IoT device with the middle-box's CA
-        certificate is out of scope. </t>
+        certificate is out of scope.</t>
       </section>
 
       <section title="Encrypted SNI">
@@ -328,7 +328,7 @@
       the following:<list style="symbols">
           <t>Profile name</t>
 
-          <t>(D)TLS versions supported by the IoT device. </t>
+          <t>(D)TLS versions supported by the IoT device.</t>
 
           <t>List of supported symmetric encryption algorithms. As a reminder,
           TLS 1.3 defines five cipher suites (Appendix B.4 of <xref
@@ -398,13 +398,22 @@
       <t>The (D)TLS profile parameters MUST NOT include the GREASE values for
       extension types, named groups, signature algorithms, (D)TLS versions,
       pre-shared key exchange modes, cipher suites and for any other TLS
-      parameters defined in future RFCs. </t>
+      parameters defined in future RFCs.</t>
 
-      <t>If the (D)TLS profile parameters are not observed in a (D)TLS session
-      from the IoT device but known to the firewall, the default behaviour is
-      to block the (D)TLS session. If the (D)TLS profile parameters are not
-      observed in a (D)TLS session from the IoT device but unknown to the
-      firewall, the behaviour is not to block the (D)TLS session.</t>
+      <t>If the (D)TLS profile parameters and associated values specified in
+      the MUD (D)TLS profile are not observed in a (D)TLS session from the IoT
+      device but the (D)TLS parameters and associated values are known to the
+      firewall, it can identify unexpected (D)TLS usage, which can indicate
+      the presence of unauthorized software or malware on an endpoint. The
+      firewall can take several actions like block the (D)TLS session or raise
+      an alter to quarantine and remediate the compromised device. If the
+      (D)TLS profile parameters and associated values specified in the MUD
+      (D)TLS profile are not observed in a (D)TLS session from the IoT device
+      but unknown to the firewall, the correct behaviour is not to block the
+      (D)TLS session. At the same time, deployments update at different rates,
+      so a updated MUD (D)TLS profile may support newer parameters and
+      associated values, a firewall must be readily updateble, so that when
+      ossification problems are discovered, they can be addressed quickly.</t>
 
       <t>Note: The TLS and DTLS IANA registries are available from <eref
       target="https://www.iana.org/assignments/tls-parameters/tls-parameters.txt"></eref>
@@ -412,7 +421,7 @@
       target="https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.txt"></eref>.
       The values for all the parameters in the YANG module excluding the
       supported_versions parameter are defined in the TLS and DTLS IANA
-      registries. The TLS and DTLS IANA registry does not maintain the (D)TLS
+      registries. The TLS and DTLS IANA registry does not maintain (D)TLS
       version numbers.</t>
 
       <section title="Tree Structure">
@@ -812,8 +821,8 @@
 
     <section anchor="IANA" title="IANA Considerations">
       <t>Each normative YANG module MUST be registered in both the "IETF XML
-      Registry" <xref target="RFC3688"></xref>[IANA-XML] and the "YANG Module
-      Names" registry <xref target="RFC3688"></xref> [IANA-MOD-NAMES]. </t>
+      Registry" <xref target="RFC3688"></xref> and the "YANG Module Names"
+      registry <xref target="RFC6020"></xref>.</t>
 
       <t>This document requests IANA to register the following URIs in the
       "ns" subregistry within the "IETF XML Registry" <xref
@@ -829,8 +838,9 @@
       Parameters" registry. IANA is requested to create an IANA-maintained
       YANG Module called "reddy-opsawg-mud-tls-profile", based on the contents
       of Section 5, which will allow for new (D)TLS parameters and (D)TLS
-      versions. The registration procedure will be Expert Review, as defined
-      by [RFC5226].</t>
+      versions. The registration procedure will be Expert Review or
+      Specification Required, as defined by <xref
+      target="RFC8126"></xref>.</t>
 
       <t><figure>
           <artwork><![CDATA[      name: reddy-opsawg-mud-tls-profile
@@ -863,6 +873,8 @@
       <?rfc include="reference.RFC.8519"?>
 
       <?rfc include='reference.RFC.3688'?>
+
+      <?rfc include='reference.RFC.8126'?>
 
       <?rfc include="reference.I-D.ietf-tls-dtls13" ?>
 
@@ -899,6 +911,8 @@
       <?rfc include="reference.RFC.8484"?>
 
       <?rfc include="reference.RFC.7858"?>
+
+      <?rfc include="reference.RFC.6020"?>
 
       <?rfc include="reference.I-D.ietf-tls-sni-encryption" 
 ?>
