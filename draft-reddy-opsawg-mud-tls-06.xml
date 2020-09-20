@@ -410,10 +410,12 @@
       (D)TLS profile parameters and associated values specified in the MUD
       (D)TLS profile are not observed in a (D)TLS session from the IoT device
       but unknown to the firewall, the correct behaviour is not to block the
-      (D)TLS session. At the same time, deployments update at different rates,
-      so a updated MUD (D)TLS profile may support newer parameters and
-      associated values, a firewall must be readily updateble, so that when
-      ossification problems are discovered, they can be addressed quickly.</t>
+      (D)TLS session. Deployments update at different rates, so a updated MUD
+      (D)TLS profile may support newer parameters and associated values, a
+      firewall must be readily updateble, so that when ossification problems
+      are discovered, they can be addressed quickly. Most importantly, If the
+      firewall is not readily updatatable, its efficacy to identify emerging
+      malware will decrease with time.</t>
 
       <t>Note: The TLS and DTLS IANA registries are available from <eref
       target="https://www.iana.org/assignments/tls-parameters/tls-parameters.txt"></eref>

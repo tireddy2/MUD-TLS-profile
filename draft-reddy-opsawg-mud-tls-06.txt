@@ -457,11 +457,13 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
    compromised device.  If the (D)TLS profile parameters and associated
    values specified in the MUD (D)TLS profile are not observed in a
    (D)TLS session from the IoT device but unknown to the firewall, the
-   correct behaviour is not to block the (D)TLS session.  At the same
-   time, deployments update at different rates, so a updated MUD (D)TLS
-   profile may support newer parameters and associated values, a
-   firewall must be readily updateble, so that when ossification
-   problems are discovered, they can be addressed quickly.
+   correct behaviour is not to block the (D)TLS session.  Deployments
+   update at different rates, so a updated MUD (D)TLS profile may
+   support newer parameters and associated values, a firewall must be
+   readily updateble, so that when ossification problems are discovered,
+   they can be addressed quickly.  Most importantly, If the firewall is
+   not readily updatatable, its efficacy to identify emerging malware
+   will decrease with time.
 
    Note: The TLS and DTLS IANA registries are available from
    <https://www.iana.org/assignments/tls-parameters/tls-parameters.txt>
@@ -477,8 +479,6 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
    [RFC8520] for signaling the IoT device (D)TLS profile.  This document
    defines the YANG module "reddy-opsawg-mud-tls-profile", which has the
    following tree structure:
-
-
 
 
 
