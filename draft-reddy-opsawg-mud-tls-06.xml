@@ -271,9 +271,6 @@
         network owning and managing the IoT devices. The middle-box would have
         to follow the behaviour explained in Section 9.3 of <xref
         target="RFC8446"></xref> to act as a compliant (D)TLS 1.3 proxy.</t>
-
-        <t>The mechanism to configure the IoT device with the middle-box's CA
-        certificate is out of scope.</t>
       </section>
 
       <section title="Encrypted SNI">
@@ -399,23 +396,6 @@
       extension types, named groups, signature algorithms, (D)TLS versions,
       pre-shared key exchange modes, cipher suites and for any other TLS
       parameters defined in future RFCs.</t>
-
-      <t>If the (D)TLS profile parameters and associated values specified in
-      the MUD (D)TLS profile are not observed in a (D)TLS session from the IoT
-      device but the (D)TLS parameters and associated values are known to the
-      firewall, it can identify unexpected (D)TLS usage, which can indicate
-      the presence of unauthorized software or malware on an endpoint. The
-      firewall can take several actions like block the (D)TLS session or raise
-      an alter to quarantine and remediate the compromised device. If the
-      (D)TLS profile parameters and associated values specified in the MUD
-      (D)TLS profile are not observed in a (D)TLS session from the IoT device
-      but unknown to the firewall, the correct behaviour is not to block the
-      (D)TLS session. Deployments update at different rates, so a updated MUD
-      (D)TLS profile may support newer parameters and associated values, a
-      firewall must be readily updateble, so that when ossification problems
-      are discovered, they can be addressed quickly. Most importantly, If the
-      firewall is not readily updatatable, its efficacy to identify emerging
-      malware will decrease with time.</t>
 
       <t>Note: The TLS and DTLS IANA registries are available from <eref
       target="https://www.iana.org/assignments/tls-parameters/tls-parameters.txt"></eref>
@@ -722,6 +702,37 @@
       </section>
     </section>
 
+    <section anchor="processing" title="Processing of the MUD (D)TLS Profile">
+      <t>The following text outlines the rules to follow to process the MUD
+      (D)TLS Profile: </t>
+
+      <t><list style="symbols">
+          <t>If the (D)TLS profile parameters and associated values specified
+          in the MUD (D)TLS profile are not observed in a (D)TLS session from
+          the IoT device but the (D)TLS parameters and associated values are
+          known to the firewall, it can identify unexpected (D)TLS usage,
+          which can indicate the presence of unauthorized software or malware
+          on an endpoint. The firewall can take several actions like block the
+          (D)TLS session or raise an alter to quarantine and remediate the
+          compromised device. </t>
+
+          <t>If the (D)TLS profile parameters and associated values specified
+          in the MUD (D)TLS profile are not observed in a (D)TLS session from
+          the IoT device but unknown to the firewall, the correct behaviour is
+          not to block the (D)TLS session.</t>
+
+          <t> Deployments update at different rates, so a updated MUD (D)TLS
+          profile may support newer parameters and associated values. If the
+          firewall does not support the newer parameters and associated
+          values, an alert should be triggered to the firewall vendor and the
+          IoT device owner or administrator. A firewall must be readily
+          updateble, so that when ossification problems are discovered, they
+          can be addressed quickly. Most importantly, If the firewall is not
+          readily updatatable, its efficacy to identify emerging malware will
+          decrease with time.</t>
+        </list></t>
+    </section>
+
     <section anchor="Example" title="MUD File Example">
       <t>This example below contains (D)TLS profile parameters for a IoT
       device used to reach servers listening on port 443 using TCP transport.
@@ -811,14 +822,21 @@
     </section>
 
     <section anchor="Privacy" title="Privacy Considerations">
-      <t>The middle-box acting as a (D)TLS proxy must immediately delete the
-      decrypted data upon completing any necessary inspection functions. TLS
-      proxy potentially has access to a user's PII (Personally identifiable
-      information) and PHI (Protected Health Information). The TLS proxy must
-      not store, process or modify PII data. For example, IT administrator can
-      configure firewall to bypass payload inspection for a connection
-      destined to a specific service due to privacy compliance
-      requirements.</t>
+      <t>Privacy considerations discussed in Section 16 of <xref
+      target="RFC8520"></xref> to not reveal the MUD URL to an atacker need to
+      be taken into consideration. The middle-box acting as a (D)TLS proxy
+      must immediately delete the decrypted data upon completing any necessary
+      inspection functions. TLS proxy potentially has access to a user's PII
+      (Personally identifiable information) and PHI (Protected Health
+      Information). The TLS proxy must not store, process or modify PII data.
+      For example, IT administrator can configure firewall to bypass payload
+      inspection for a connection destined to a specific service due to
+      privacy compliance requirements. In addition, mechanisms based on object
+      security can be used by IoT devices to enable end-to-end security and
+      the middle-box will not have any access to the packet data. For example,
+      Object Security for Constrained RESTful Environments (OSCORE) <xref
+      target="RFC8613"></xref> is a proposal that protects CoAP messages by
+      wrapping them in the COSE format <xref target="RFC8152"></xref>. </t>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -876,8 +894,6 @@
 
       <?rfc include='reference.RFC.3688'?>
 
-      <?rfc include='reference.RFC.8126'?>
-
       <?rfc include="reference.I-D.ietf-tls-dtls13" ?>
 
       <?rfc include="reference.I-D.ietf-netconf-crypto-types"  ?>
@@ -915,6 +931,13 @@
       <?rfc include="reference.RFC.7858"?>
 
       <?rfc include="reference.RFC.6020"?>
+
+      <?rfc include="reference.RFC.8152"
+?>
+
+      <?rfc include='reference.RFC.8126'?>
+
+      <?rfc include='reference.RFC.8613'?>
 
       <?rfc include="reference.I-D.ietf-tls-sni-encryption" 
 ?>
