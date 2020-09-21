@@ -414,7 +414,8 @@
         structure:</t>
 
         <t><figure>
-            <artwork><![CDATA[module: reddy-opsawg-mud-tls-profile
+            <artwork><![CDATA[
+module: reddy-opsawg-mud-tls-profile
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
     +--rw client-profile
        +--rw tls-dtls-profiles* [profile-name]
@@ -429,11 +430,12 @@
           +--rw SPKI-hash-algorithm?           iha:hash-algorithm-type
           +--rw psk-key-exchange-modes*        psk-key-exchange-mode
           +--rw supported-groups*              supported-group
-          +--rw signature-algorithms-cert*     signature-algorithm
+          +--rw signature-algorithms-cert*     signature-algorithm {tls-1_3 or dtls-1_3}?
           +--rw signature-algorithms*          signature-algorithm
           +--rw application-protocols*         application-protocol
           +--rw cert-compression-algorithms*   cert-compression-algorithm
           +--rw certificate_authorities*       certificate_authority
+
 
 ]]></artwork>
           </figure></t>
@@ -598,6 +600,36 @@
        "Indicates the DTLS version.";
    }
 
+   feature tls-1_2 {
+     description
+       "TLS Protocol Version 1.2 is supported.";
+       reference
+         "RFC 5246: The Transport Layer Security (TLS) Protocol
+                    Version 1.2";
+   }
+
+   feature tls-1_3 {
+     description
+       "TLS Protocol Version 1.3 is supported.";
+       reference
+         "RFC 8446: The Transport Layer Security (TLS) Protocol
+                    Version 1.3";
+   }
+
+   feature dtls-1_2 {
+       description
+          "DTLS Protocol Version 1.2 is supported.";
+       reference
+          "RFC 6346: Datagram Transport Layer Security Version 1.2";
+   }
+
+   feature dtls-1_3 {
+       description
+         "DTLS Protocol Version 1.3 is supported.";
+       reference
+         "draft-ietf-tls-dtls13: Datagram Transport Layer Security 1.3";
+   }
+
    grouping client-profile {
      description
        "A grouping for (D)TLS profiles."; 
@@ -718,7 +750,7 @@
 
           <t>If the (D)TLS profile parameters and associated values specified
           in the MUD (D)TLS profile are not observed in a (D)TLS session from
-          the IoT device but unknown to the firewall, the correct behaviour is
+          the IoT device but unknown to the firewall, the correct behavior is
           not to block the (D)TLS session.</t>
 
           <t> Deployments update at different rates, so a updated MUD (D)TLS
@@ -726,9 +758,9 @@
           firewall does not support the newer parameters and associated
           values, an alert should be triggered to the firewall vendor and the
           IoT device owner or administrator. A firewall must be readily
-          updateble, so that when ossification problems are discovered, they
-          can be addressed quickly. Most importantly, If the firewall is not
-          readily updatatable, its efficacy to identify emerging malware will
+          updatable, so that when ossification problems are discovered, they
+          can be addressed quickly. Most importantly, if the firewall is not
+          readily updateable, its efficacy to identify emerging malware will
           decrease with time.</t>
         </list></t>
     </section>

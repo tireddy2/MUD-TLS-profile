@@ -5,10 +5,10 @@
 OPSWG WG                                                        T. Reddy
 Internet-Draft                                                    McAfee
 Intended status: Standards Track                                 D. Wing
-Expires: March 24, 2021                                           Citrix
+Expires: March 25, 2021                                           Citrix
                                                              B. Anderson
                                                                    Cisco
-                                                      September 20, 2020
+                                                      September 21, 2020
 
 
                   MUD (D)TLS profiles for IoT devices
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on March 24, 2021.
+   This Internet-Draft will expire on March 25, 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Reddy, et al.            Expires March 24, 2021                 [Page 1]
+Reddy, et al.            Expires March 25, 2021                 [Page 1]
 
 Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
@@ -73,15 +73,15 @@ Table of Contents
      5.1.  Tree Structure  . . . . . . . . . . . . . . . . . . . . .   9
      5.2.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .   9
    6.  Processing of the MUD (D)TLS Profile  . . . . . . . . . . . .  15
-   7.  MUD File Example  . . . . . . . . . . . . . . . . . . . . . .  15
+   7.  MUD File Example  . . . . . . . . . . . . . . . . . . . . . .  16
    8.  Security Considerations . . . . . . . . . . . . . . . . . . .  17
-   9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  17
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  17
-   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  18
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  18
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  18
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  19
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  21
+   9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  18
+   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  18
+   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  19
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  19
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  20
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  22
 
 1.  Introduction
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Reddy, et al.            Expires March 24, 2021                 [Page 2]
+Reddy, et al.            Expires March 25, 2021                 [Page 2]
 
 Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
@@ -165,7 +165,7 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
 
 
-Reddy, et al.            Expires March 24, 2021                 [Page 3]
+Reddy, et al.            Expires March 25, 2021                 [Page 3]
 
 Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
@@ -221,7 +221,7 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
 
 
-Reddy, et al.            Expires March 24, 2021                 [Page 4]
+Reddy, et al.            Expires March 25, 2021                 [Page 4]
 
 Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
@@ -277,7 +277,7 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
 
 
-Reddy, et al.            Expires March 24, 2021                 [Page 5]
+Reddy, et al.            Expires March 25, 2021                 [Page 5]
 
 Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
@@ -333,7 +333,7 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
 
 
-Reddy, et al.            Expires March 24, 2021                 [Page 6]
+Reddy, et al.            Expires March 25, 2021                 [Page 6]
 
 Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
@@ -389,7 +389,7 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
 
 
-Reddy, et al.            Expires March 24, 2021                 [Page 7]
+Reddy, et al.            Expires March 25, 2021                 [Page 7]
 
 Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
@@ -445,7 +445,7 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
 
 
-Reddy, et al.            Expires March 24, 2021                 [Page 8]
+Reddy, et al.            Expires March 25, 2021                 [Page 8]
 
 Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
@@ -475,11 +475,12 @@ module: reddy-opsawg-mud-tls-profile
           +--rw SPKI-hash-algorithm?           iha:hash-algorithm-type
           +--rw psk-key-exchange-modes*        psk-key-exchange-mode
           +--rw supported-groups*              supported-group
-          +--rw signature-algorithms-cert*     signature-algorithm
+          +--rw signature-algorithms-cert*     signature-algorithm {tls-1_3 or dtls-1_3}?
           +--rw signature-algorithms*          signature-algorithm
           +--rw application-protocols*         application-protocol
           +--rw cert-compression-algorithms*   cert-compression-algorithm
           +--rw certificate_authorities*       certificate_authority
+
 
 
 5.2.  YANG Module
@@ -497,15 +498,15 @@ module reddy-opsawg-mud-tls-profile {
    }
 
    import iana-hash-algs {
-     prefix iha;
 
 
 
-Reddy, et al.            Expires March 24, 2021                 [Page 9]
+Reddy, et al.            Expires March 25, 2021                 [Page 9]
 
 Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
 
+     prefix iha;
      reference
           "RFC XXXX: Common YANG Data Types for Hash algorithms";
    }
@@ -553,14 +554,15 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
    typedef extension-type {
      type uint16;
      description "Extension type";
-   }
 
 
 
-Reddy, et al.            Expires March 24, 2021                [Page 10]
+Reddy, et al.            Expires March 25, 2021                [Page 10]
 
 Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
+
+   }
 
    typedef encryption-algorithm {
      type uint16;
@@ -608,16 +610,16 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
    }
 
    typedef certificate_authority {
-     type binary;
-     description "Distinguished Name of Certificate authority";
 
 
 
-Reddy, et al.            Expires March 24, 2021                [Page 11]
+Reddy, et al.            Expires March 25, 2021                [Page 11]
 
 Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
 
+     type binary;
+     description "Distinguished Name of Certificate authority";
    }
 
    typedef tls-version {
@@ -664,16 +666,46 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
        "Indicates the DTLS version.";
    }
 
-   grouping client-profile {
-     description
 
 
 
-Reddy, et al.            Expires March 24, 2021                [Page 12]
+Reddy, et al.            Expires March 25, 2021                [Page 12]
 
 Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
 
+   feature tls-1_2 {
+     description
+       "TLS Protocol Version 1.2 is supported.";
+       reference
+         "RFC 5246: The Transport Layer Security (TLS) Protocol
+                    Version 1.2";
+   }
+
+   feature tls-1_3 {
+     description
+       "TLS Protocol Version 1.3 is supported.";
+       reference
+         "RFC 8446: The Transport Layer Security (TLS) Protocol
+                    Version 1.3";
+   }
+
+   feature dtls-1_2 {
+       description
+          "DTLS Protocol Version 1.2 is supported.";
+       reference
+          "RFC 6346: Datagram Transport Layer Security Version 1.2";
+   }
+
+   feature dtls-1_3 {
+       description
+         "DTLS Protocol Version 1.3 is supported.";
+       reference
+         "draft-ietf-tls-dtls13: Datagram Transport Layer Security 1.3";
+   }
+
+   grouping client-profile {
+     description
        "A grouping for (D)TLS profiles.";
      container client-profile {
        list tls-dtls-profiles {
@@ -690,6 +722,14 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
          }
          leaf-list supported_versions {
            type uint16;
+
+
+
+Reddy, et al.            Expires March 25, 2021                [Page 13]
+
+Internet-Draft       MUD TLS profile for IoT devices      September 2020
+
+
            description
              "(D)TLS versions supported by the client";
          }
@@ -722,14 +762,6 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
            description
              "cryptographic hash algorithm used to generate the
               SPKI pinset.";
-
-
-
-Reddy, et al.            Expires March 24, 2021                [Page 13]
-
-Internet-Draft       MUD TLS profile for IoT devices      September 2020
-
-
          }
          leaf-list psk-key-exchange-modes {
            type psk-key-exchange-mode;
@@ -746,6 +778,14 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
             description
              "A list signature algorithms the client can validate
               in X.509 certificates.";
+
+
+
+Reddy, et al.            Expires March 25, 2021                [Page 14]
+
+Internet-Draft       MUD TLS profile for IoT devices      September 2020
+
+
          }
          leaf-list signature-algorithms {
             type signature-algorithm;
@@ -778,14 +818,6 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
      "MUD (D)TLS specific matches.";
    uses client-profile;
  }
-
-
-
-Reddy, et al.            Expires March 24, 2021                [Page 14]
-
-Internet-Draft       MUD TLS profile for IoT devices      September 2020
-
-
 }
 
 6.  Processing of the MUD (D)TLS Profile
@@ -802,19 +834,27 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
       actions like block the (D)TLS session or raise an alter to
       quarantine and remediate the compromised device.
 
+
+
+
+Reddy, et al.            Expires March 25, 2021                [Page 15]
+
+Internet-Draft       MUD TLS profile for IoT devices      September 2020
+
+
    o  If the (D)TLS profile parameters and associated values specified
       in the MUD (D)TLS profile are not observed in a (D)TLS session
       from the IoT device but unknown to the firewall, the correct
-      behaviour is not to block the (D)TLS session.
+      behavior is not to block the (D)TLS session.
 
    o  Deployments update at different rates, so a updated MUD (D)TLS
       profile may support newer parameters and associated values.  If
       the firewall does not support the newer parameters and associated
       values, an alert should be triggered to the firewall vendor and
       the IoT device owner or administrator.  A firewall must be readily
-      updateble, so that when ossification problems are discovered, they
-      can be addressed quickly.  Most importantly, If the firewall is
-      not readily updatatable, its efficacy to identify emerging malware
+      updatable, so that when ossification problems are discovered, they
+      can be addressed quickly.  Most importantly, if the firewall is
+      not readily updateable, its efficacy to identify emerging malware
       will decrease with time.
 
 7.  MUD File Example
@@ -834,14 +874,6 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
          "systeminfo": "IoT device name",
          "from-device-policy": {
             "access-lists": {
-
-
-
-Reddy, et al.            Expires March 24, 2021                [Page 15]
-
-Internet-Draft       MUD TLS profile for IoT devices      September 2020
-
-
               "access-list": [
                 {
                   "name": "mud-7500-profile"
@@ -858,6 +890,14 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
                 "ace": [
                   {
                     "name": "cl0-frdev",
+
+
+
+Reddy, et al.            Expires March 25, 2021                [Page 16]
+
+Internet-Draft       MUD TLS profile for IoT devices      September 2020
+
+
                     "matches": {
                       "ipv6": {
                         "protocol": 6
@@ -890,14 +930,6 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
            }
           ]
         }
-
-
-
-Reddy, et al.            Expires March 24, 2021                [Page 16]
-
-Internet-Draft       MUD TLS profile for IoT devices      September 2020
-
-
       }
    }
 
@@ -914,6 +946,14 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
    techniques on network data) can be used to detect malicious agents
    using the same (D)TLS profile parameters as legitimate agent on the
    IoT device.  In anomaly detection, the main idea is to maintain
+
+
+
+Reddy, et al.            Expires March 25, 2021                [Page 17]
+
+Internet-Draft       MUD TLS profile for IoT devices      September 2020
+
+
    rigorous learning of "normal" behavior and where an "anomaly" (or an
    attack) is identified and categorized based on the knowledge about
    the normal behavior and a deviation from this normal behavior.
@@ -944,16 +984,6 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
    This document requests IANA to register the following URIs in the
    "ns" subregistry within the "IETF XML Registry" [RFC3688]:
 
-
-
-
-
-
-Reddy, et al.            Expires March 24, 2021                [Page 17]
-
-Internet-Draft       MUD TLS profile for IoT devices      September 2020
-
-
          URI: urn:ietf:params:xml:ns:yang:reddy-opsawg-mud-tls-profile
          Registrant Contact: The IESG.
          XML: N/A; the requested URI is an XML namespace.
@@ -971,6 +1001,14 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
       maintained by IANA: Y
       prefix: mud-tls-profile
       reference: RFC XXXX
+
+
+
+
+Reddy, et al.            Expires March 25, 2021                [Page 18]
+
+Internet-Draft       MUD TLS profile for IoT devices      September 2020
+
 
 11.  Acknowledgments
 
@@ -1002,14 +1040,6 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
-
-
-
-Reddy, et al.            Expires March 24, 2021                [Page 18]
-
-Internet-Draft       MUD TLS profile for IoT devices      September 2020
-
-
    [RFC3688]  Mealling, M., "The IETF XML Registry", BCP 81, RFC 3688,
               DOI 10.17487/RFC3688, January 2004,
               <https://www.rfc-editor.org/info/rfc3688>.
@@ -1025,6 +1055,16 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+
+
+
+
+
+Reddy, et al.            Expires March 25, 2021                [Page 19]
+
+Internet-Draft       MUD TLS profile for IoT devices      September 2020
+
 
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
@@ -1059,13 +1099,6 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
               SNI Encryption in TLS", draft-ietf-tls-sni-encryption-09
               (work in progress), October 2019.
 
-
-
-Reddy, et al.            Expires March 24, 2021                [Page 19]
-
-Internet-Draft       MUD TLS profile for IoT devices      September 2020
-
-
    [I-D.reddy-add-enterprise]
               Reddy.K, T. and D. Wing, "DNS-over-HTTPS and DNS-over-TLS
               Server Deployment Considerations for Enterprise Networks",
@@ -1081,6 +1114,13 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
               new DoH (DNS over HTTPS) protocol", July 2019,
               <https://www.zdnet.com/article/first-ever-malware-strain-
               spotted-abusing-new-doh-dns-over-https-protocol/>.
+
+
+
+Reddy, et al.            Expires March 25, 2021                [Page 20]
+
+Internet-Draft       MUD TLS profile for IoT devices      September 2020
+
 
    [malware-tls]
               Anderson, B. and D. McGrew, "TLS Beyond the Browser:
@@ -1115,13 +1155,6 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
               RFC 8152, DOI 10.17487/RFC8152, July 2017,
               <https://www.rfc-editor.org/info/rfc8152>.
 
-
-
-Reddy, et al.            Expires March 24, 2021                [Page 20]
-
-Internet-Draft       MUD TLS profile for IoT devices      September 2020
-
-
    [RFC8484]  Hoffman, P. and P. McManus, "DNS Queries over HTTPS
               (DoH)", RFC 8484, DOI 10.17487/RFC8484, October 2018,
               <https://www.rfc-editor.org/info/rfc8484>.
@@ -1135,6 +1168,15 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
               Things (IoT) Security: State of the Art and Challenges",
               RFC 8576, DOI 10.17487/RFC8576, April 2019,
               <https://www.rfc-editor.org/info/rfc8576>.
+
+
+
+
+
+Reddy, et al.            Expires March 25, 2021                [Page 21]
+
+Internet-Draft       MUD TLS profile for IoT devices      September 2020
+
 
    [RFC8613]  Selander, G., Mattsson, J., Palombini, F., and L. Seitz,
               "Object Security for Constrained RESTful Environments
@@ -1164,20 +1206,6 @@ Authors' Addresses
    Email: danwing@gmail.com
 
 
-
-
-
-
-
-
-
-
-
-Reddy, et al.            Expires March 24, 2021                [Page 21]
-
-Internet-Draft       MUD TLS profile for IoT devices      September 2020
-
-
    Blake Anderson
    Cisco Systems, Inc.
    170 West Tasman Dr
@@ -1201,32 +1229,4 @@ Internet-Draft       MUD TLS profile for IoT devices      September 2020
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Reddy, et al.            Expires March 24, 2021                [Page 22]
+Reddy, et al.            Expires March 25, 2021                [Page 22]
