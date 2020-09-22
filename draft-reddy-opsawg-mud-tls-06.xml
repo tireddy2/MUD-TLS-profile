@@ -271,10 +271,8 @@
         network owning and managing the IoT devices. The middle-box would have
         to follow the behaviour explained in Section 9.3 of <xref
         target="RFC8446"></xref> to act as a compliant (D)TLS 1.3 proxy.</t>
-      </section>
 
-      <section title="Encrypted SNI">
-        <t>To increase privacy, encrypted SNI (ESNI, <xref
+        <t>To further increase privacy, encrypted client hello (ECHO, <xref
         target="I-D.ietf-tls-sni-encryption"></xref>) prevents passive
         observation of the TLS Server Name Indication extension. To
         effectively provide that privacy protection, SNI encryption needs to
@@ -282,19 +280,13 @@
         <xref target="RFC7858"></xref> or DNS-over-HTTPS (DoH) <xref
         target="RFC8484"></xref>). A middle-box (e.g., firewall) passively
         inspecting an encrypted SNI (D)TLS handshake cannot observe the
-        encrypted SNI nor observe the encrypted DNS traffic. If an IoT device
-        is pre-configured to use public DoH/DoT servers, that middle-box needs
-        to act as a DoH/DoT proxy and replace the ECH configuration in the
-        "echconfig" SvcParamKey (Section 6.3 of <xref
-        target="I-D.ietf-dnsop-svcb-https"></xref>) with the middle
-        box&rsquo;s ECH configuration. Instead of an unappealing DoH/DoT
-        proxy, the IoT device can be bootstrapped to discover and authenticate
-        DoH/DoT servers provided by a local network by making use of one of
-        the mechanisms described in Section 4 of <xref
-        target="I-D.reddy-add-enterprise"></xref>. The local DoH/DoT server
-        replaces the ECH configuration in the "echconfig" SvcParamKey with the
-        middle box&rsquo;s ECH configuration.</t>
+        encrypted SNI nor observe the encrypted DNS traffic.</t>
 
+      </section>
+
+
+<section title="Encrypted DNS">
+	
         <t>A common usage pattern for certain type of IoT devices (e.g., light
         bulb) is for it to "call home" to a service that resides on the public
         Internet, where that service is referenced through a domain name (A or
@@ -308,7 +300,10 @@
         is not accessible for inspection, it becomes quite difficult for the
         infrastructure to suspect anything. Thus the use of a public DoH/DoT
         server is incompatible with MUD in general. A local DoH/DoT server is
-        necessary to allow MUD policy enforcement on the local network.</t>
+        necessary to allow MUD policy enforcement on the local network<xref
+        target="I-D.reddy-add-enterprise"></xref>.</t>
+
+
       </section>
     </section>
 
@@ -392,7 +387,9 @@
           <xref target="RFC8446"></xref>)</t>
         </list></t>
 
-      <t>The (D)TLS profile parameters MUST NOT include the GREASE values for
+	<t><xref target="RFC8701">GREASE</xref> sends random values on TLS parameters to ensure
+	future extensibility of TLS extensions.  Such GREASE values might be extended to other TLS parameters.  Thus,
+	the (D)TLS profile parameters defined in Yang by this document MUST NOT include the GREASE values for
       extension types, named groups, signature algorithms, (D)TLS versions,
       pre-shared key exchange modes, cipher suites and for any other TLS
       parameters defined in future RFCs.</t>
@@ -925,6 +922,7 @@ module: reddy-opsawg-mud-tls-profile
       <?rfc include="reference.RFC.8519"?>
 
       <?rfc include='reference.RFC.3688'?>
+            <?rfc include='reference.RFC.8701'?>
 
       <?rfc include="reference.I-D.ietf-tls-dtls13" ?>
 
@@ -976,7 +974,7 @@ module: reddy-opsawg-mud-tls-profile
 
       <?rfc include='reference.I-D.reddy-add-enterprise'?>
 
-      <?rfc include='reference.I-D.ietf-dnsop-svcb-https' ?>
+<!--      <?rfc include='reference.I-D.ietf-dnsop-svcb-https' ?> -->
 
       <reference anchor="malware" target="https://arxiv.org/abs/1607.01639">
         <front>
