@@ -77,7 +77,7 @@
 
     <date />
 
-    <workgroup>OPSWG WG</workgroup>
+    <workgroup>OPSAWG WG</workgroup>
 
     <abstract>
       <t>This memo extends Manufacturer Usage Description (MUD) to incorporate
@@ -380,6 +380,9 @@
           acceptable certificate authorities, represented in DER-encoded
           format <xref target="X690"> </xref> (defined in Section 4.2.4 of
           <xref target="RFC8446"></xref>)</t>
+
+          <t>List of client key exchange algorithms and the client public key
+          lengths in (D)TLS 1.2</t>
         </list></t>
 
       <t><xref target="RFC8701">GREASE</xref> sends random values on TLS
@@ -427,7 +430,9 @@ module: reddy-opsawg-mud-tls-profile
           +--rw signature-algorithms*          signature-algorithm
           +--rw application-protocols*         application-protocol
           +--rw cert-compression-algorithms*   cert-compression-algorithm
-          +--rw certificate_authorities*       certificate_authority
+          +--rw client-public-keys {tls-1_2 or dtls-1_2}?
+             +--rw key-exchange-algorithms*     key-exchange-algorithm
+             +--rw client-public-key-lengths*   client-public-key-length
 
 
 ]]></artwork>
@@ -713,6 +718,19 @@ module: reddy-opsawg-mud-tls-profile
              "A list of the distinguished names of certificate authorities 
               acceptable to the client";
          }
+         container client-public-keys {
+           if-feature "tls-1_2 or dtls-1_2"; 
+           leaf-list key-exchange-algorithms {
+             type key-exchange-algorithm; 
+             description
+             "Key exchange algorithms supported by the client";
+           }
+           leaf-list client-public-key-lengths {
+             type client-public-key-length; 
+             description
+             "client public key lengths";
+           }
+         }
    }
   }   
  }
@@ -739,7 +757,7 @@ module: reddy-opsawg-mud-tls-profile
           which can indicate the presence of unauthorized software or malware
           on an endpoint. The firewall can take several actions like block the
           (D)TLS session or raise an alert to quarantine and remediate the
-          compromised device.</t>
+          compromised device. </t>
 
           <t>If the (D)TLS profile parameters and associated values observed
           in a (D)TLS session from the IoT device are either specified or not
@@ -756,7 +774,7 @@ module: reddy-opsawg-mud-tls-profile
           updatable, so that when ossification problems are discovered, they
           can be addressed quickly. Most importantly, if the firewall is not
           readily updatable, its efficacy to identify emerging malware will
-          decrease with time.</t>
+          decrease with time. </t>
         </list></t>
     </section>
 
