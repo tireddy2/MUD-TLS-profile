@@ -957,7 +957,9 @@ module: iana-opsawg-mud-tls-profile
 
     <section anchor="acknowledgments" title="Acknowledgments">
       <t>Thanks to Flemming Andreasen, Shashank Jain, Michael Richardson,
-      Piyush Joshi and Harsha Joshi for the discussion and comments.</t>
+      Piyush Joshi, Eliot Lear, Harsha Joshi, Qin Wu, Mohamed Boucadair, Ben
+      Schwartz, Eric Rescorla, Panwei William, Nick Lamb and Nick Harper for
+      the discussion and comments.</t>
     </section>
   </middle>
 

@@ -1075,7 +1075,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 11.  Acknowledgments
 
    Thanks to Flemming Andreasen, Shashank Jain, Michael Richardson,
-   Piyush Joshi and Harsha Joshi for the discussion and comments.
+   Piyush Joshi, Eliot Lear, Harsha Joshi, Qin Wu, Mohamed Boucadair,
+   Ben Schwartz, Eric Rescorla, Panwei William, Nick Lamb and Nick
+   Harper for the discussion and comments.
 
 12.  References
 
@@ -1110,9 +1112,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
               Security Version 1.2", RFC 6347, DOI 10.17487/RFC6347,
               January 2012, <https://www.rfc-editor.org/info/rfc6347>.
 
-   [RFC6991]  Schoenwaelder, J., Ed., "Common YANG Data Types",
-              RFC 6991, DOI 10.17487/RFC6991, July 2013,
-              <https://www.rfc-editor.org/info/rfc6991>.
+
 
 
 
@@ -1121,6 +1121,10 @@ Reddy, et al.            Expires March 29, 2021                [Page 20]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
+
+   [RFC6991]  Schoenwaelder, J., Ed., "Common YANG Data Types",
+              RFC 6991, DOI 10.17487/RFC6991, July 2013,
+              <https://www.rfc-editor.org/info/rfc6991>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -1163,11 +1167,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
               the Internet of Things", draft-ietf-uta-tls13-iot-
               profile-00 (work in progress), June 2020.
 
-   [I-D.reddy-add-enterprise]
-              Reddy.K, T. and D. Wing, "DNS-over-HTTPS and DNS-over-TLS
-              Server Deployment Considerations for Enterprise Networks",
-              draft-reddy-add-enterprise-00 (work in progress), June
-              2020.
+
 
 
 
@@ -1177,6 +1177,12 @@ Reddy, et al.            Expires March 29, 2021                [Page 21]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
+
+   [I-D.reddy-add-enterprise]
+              Reddy.K, T. and D. Wing, "DNS-over-HTTPS and DNS-over-TLS
+              Server Deployment Considerations for Enterprise Networks",
+              draft-reddy-add-enterprise-00 (work in progress), June
+              2020.
 
    [malware]  Anderson, B., Paul, S., and D. McGrew, "Deciphering
               Malware's use of TLS (without Decryption)", July 2016,
@@ -1218,6 +1224,16 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
               RFC 7951, DOI 10.17487/RFC7951, August 2016,
               <https://www.rfc-editor.org/info/rfc7951>.
 
+
+
+
+
+
+Reddy, et al.            Expires March 29, 2021                [Page 22]
+
+Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
+
+
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
               RFC 8126, DOI 10.17487/RFC8126, June 2017,
@@ -1226,13 +1242,6 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
    [RFC8152]  Schaad, J., "CBOR Object Signing and Encryption (COSE)",
               RFC 8152, DOI 10.17487/RFC8152, July 2017,
               <https://www.rfc-editor.org/info/rfc8152>.
-
-
-
-Reddy, et al.            Expires March 29, 2021                [Page 22]
-
-Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
-
 
    [RFC8472]  Popov, A., Ed., Nystroem, M., and D. Balfanz, "Transport
               Layer Security (TLS) Extension for Token Binding Protocol
@@ -1272,15 +1281,6 @@ Authors' Addresses
    Email: kondtir@gmail.com
 
 
-   Dan Wing
-   Citrix Systems, Inc.
-   4988 Great America Pkwy
-   Santa Clara, CA  95054
-   USA
-
-   Email: danwing@gmail.com
-
-
 
 
 
@@ -1290,6 +1290,15 @@ Reddy, et al.            Expires March 29, 2021                [Page 23]
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
+   Dan Wing
+   Citrix Systems, Inc.
+   4988 Great America Pkwy
+   Santa Clara, CA  95054
+   USA
+
+   Email: danwing@gmail.com
+
+
    Blake Anderson
    Cisco Systems, Inc.
    170 West Tasman Dr
@@ -1297,15 +1306,6 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
    USA
 
    Email: blake.anderson@cisco.com
-
-
-
-
-
-
-
-
-
 
 
 
