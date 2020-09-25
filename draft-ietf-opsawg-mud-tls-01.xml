@@ -772,14 +772,15 @@ module: iana-opsawg-mud-tls-profile
           actions like block the (D)TLS session or raise an alert to
           quarantine and remediate the compromised device. </t>
 
-          <t>If the (D)TLS profile parameter and/or its corresponding value
-          observed in a (D)TLS session is not specified in the MUD (D)TLS
-          profile, and if the (D)TLS parameter and/or its corresponding value
-          is not recognized by the firewall, it can ignore unrecognized
-          parameter and/or its corresponding value and the correct behavior is
-          not to block the (D)TLS session. The behaviour is functionally
-          equivalent to the description in Section 9.3 of <xref
-          target="RFC8446"></xref>.</t>
+          <t>If the (D)TLS parameter and/or its corresponding value observed
+          in a (D)TLS session is not specified in the MUD (D)TLS profile, and
+          if the (D)TLS parameter and/or its corresponding value is not
+          recognized by the firewall, it can ignore unrecognized parameter
+          and/or its corresponding value and the correct behavior is not to
+          block the (D)TLS session. The behaviour is functionally equivalent
+          to the description in Section 9.3 of <xref target="RFC8446"></xref>
+          to ignore all unrecognized cipher suites, extensions, and other
+          parameters. </t>
 
           <t>Deployments update at different rates, so an updated MUD (D)TLS
           profile may support newer parameters and corresponding values. If
@@ -863,20 +864,22 @@ module: iana-opsawg-mud-tls-profile
 ]]></artwork>
         </figure></t>
 
-      <t><list style="symbols">
+      <t>The following illustrates the example sceanios for processing the
+      above profile:<list style="symbols">
           <t>If the extension type observed in a TLS session includes
-          extension type (encrypt_then_mac(22)) in the ClientHello message and
-          the extension type encrypt_then_mac is recognized by the firewall,
-          it can identify unexpected TLS usage.</t>
+          "encrypt_then_mac" (code point 22) <xref target="RFC7366"></xref> in
+          the ClientHello message, and if the extension encrypt_then_mac is
+          recognized by the firewall, it can identify unexpected TLS
+          usage.</t>
 
-          <t>If the extension type observed in a TLS session from the IoT
-          device includes extension type (token_binding(24)) in the
-          ClientHello message and the extension type token_binding is not
+          <t>If the extension type observed in a TLS session includes
+          "token_binding" (code point 24) <xref target="RFC8472"></xref> in
+          the ClientHello message, and if the extension token_binding is not
           recognized by the firewall, it can ignore the unrecognized
           extension. Because the extension type token_binding is specified in
-          the YANG module, an alert will be triggered to the firewall vendor
-          and the IoT device owner or administrator to notify the firewall is
-          not up to date.</t>
+          the profile, an alert will be triggered to the firewall vendor and
+          the IoT device owner or administrator to notify the firewall is not
+          up to date.</t>
         </list></t>
     </section>
 
@@ -1020,6 +1023,10 @@ module: iana-opsawg-mud-tls-profile
       <?rfc include='reference.RFC.8613'?>
 
       <?rfc include='reference.RFC.7925'?>
+
+      <?rfc include='reference.RFC.7366'?>
+
+      <?rfc include='reference.RFC.8472'?>
 
       <?rfc include="reference.I-D.ietf-tls-esni" ?>
 
