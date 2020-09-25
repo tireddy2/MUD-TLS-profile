@@ -763,14 +763,14 @@ module: iana-opsawg-mud-tls-profile
       (e.g., firewall) to follow to process the MUD (D)TLS Profile:</t>
 
       <t><list style="symbols">
-          <t>If the (D)TLS profile parameter observed in a (D)TLS session is
-          specified in the MUD (D)TLS profile but its corresponding value is
-          not specified in the MUD (D)TLS profile, and if the (D)TLS parameter
-          value is recognized by the firewall, it can identify unexpected
-          (D)TLS usage, which can indicate the presence of unauthorized
-          software or malware on an endpoint. The firewall can take several
-          actions like block the (D)TLS session or raise an alert to
-          quarantine and remediate the compromised device. </t>
+          <t>If the (D)TLS parameter observed in a (D)TLS session is specified
+          in the MUD (D)TLS profile but its corresponding value is not
+          specified in the MUD (D)TLS profile, and if the value is recognized
+          by the firewall, it can identify unexpected (D)TLS usage, which can
+          indicate the presence of unauthorized software or malware on an
+          endpoint. The firewall can take several actions like block the
+          (D)TLS session or raise an alert to quarantine and remediate the
+          compromised device. </t>
 
           <t>If the (D)TLS parameter and/or its corresponding value observed
           in a (D)TLS session is not specified in the MUD (D)TLS profile, and
@@ -784,13 +784,13 @@ module: iana-opsawg-mud-tls-profile
 
           <t>Deployments update at different rates, so an updated MUD (D)TLS
           profile may support newer parameters and corresponding values. If
-          the firewall does not recognize the newer parameters and associated
-          values, an alert should be triggered to the firewall vendor and the
-          IoT device owner or administrator. A firewall must be readily
-          updatable, so that when ossification problems are discovered, they
-          can be addressed quickly. Most importantly, if the firewall is not
-          readily updatable, its efficacy to identify emerging malware will
-          decrease with time. </t>
+          the firewall does not recognize the newer parameters and
+          corresponding values, an alert should be triggered to the firewall
+          vendor and the IoT device owner or administrator. A firewall must be
+          readily updatable, so that when ossification problems are
+          discovered, they can be addressed quickly. Most importantly, if the
+          firewall is not readily updatable, its efficacy to identify emerging
+          malware will decrease with time. </t>
         </list></t>
     </section>
 
