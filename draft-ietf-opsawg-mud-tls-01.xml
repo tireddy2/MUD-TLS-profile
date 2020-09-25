@@ -213,39 +213,39 @@
       <t>In Enterprise networks, protection and detection are typically done
       both on end hosts and in the network. Host security agents have deep
       visibility on the devices where they are installed, whereas the network
-      has broader visibility. Installing host agents may not be a viable
-      option on IoT devices, and network-based security is an efficient means
-      to protect such IoT devices. If the IoT device supports MUD (D)TLS
+      has broader visibility. Installing host security agents may not be a
+      viable option on IoT devices, and network-based security is an efficient
+      means to protect such IoT devices. If the IoT device supports MUD (D)TLS
       profile, the (D)TLS profile parameters of the IoT device can be used by
-      middleboxes to detect and block malware communication, while at the same
-      time preserving the privacy of legitimate uses of encryption.
-      Middleboxes need not proxy (D)TLS but can passively observe the
-      parameters of (D)TLS handshakes from IoT devices and gain good
-      visibility into TLS 1.2 parameters and partial visibility into TLS 1.3
-      parameters. Malicious agents can try to use the (D)TLS profile
-      parameters of legitimate agents to evade detection, but it becomes a
-      challenge to mimic the behavior of various IoT device types and IoT
-      device models from several manufacturers. In other words, malware
-      developers will have to develop malicious agents per IoT device type,
-      manufacturer and model, infect the device with the tailored malware
-      agent and will have keep up with updates to the device's (D)TLS profile
-      parameters over time. Further, the malware's command and control server
-      certificates need to be signed by the same certifying authorities
-      trusted by the IoT devices. Typically, IoT devices have an
-      infrastructure that supports a rapid deployment of updates, and malware
-      agents will have a near-impossible task of similarly deploying updates
-      and continuing to mimic the TLS behavior of the IoT device it has
-      infected. However, if the IoT device has reached end-of-life and the IoT
-      manufcaturer will not issue a firmware or software update to the Thing
-      or will not update the MUD file, the "is-supported" attribute defined in
-      Section 3.6 of <xref target="RFC8520"></xref> can be used by the MUD
-      manager to identify the IoT manufcaturer no longer supports the device.
-      The end-of-life of a device does not necessarily mean that it is
-      defective; rather, it denotes a need to replace and upgrade the network
-      to next-generation devices for additional functionality. The network
-      security service will have to rely on other techniques discussed in
-      <xref target="Security"></xref> to identify malicious flows until the
-      device is replaced.</t>
+      middlebox to detect and block malware communication, while at the same
+      time preserving the privacy of legitimate uses of encryption. Middlebox
+      need not proxy (D)TLS but can passively observe the parameters of (D)TLS
+      handshakes from IoT devices and gain good visibility into TLS 1.2
+      parameters and partial visibility into TLS 1.3 parameters. Malicious
+      agents can try to use the (D)TLS profile parameters of legitimate agents
+      to evade detection, but it becomes a challenge to mimic the behavior of
+      various IoT device types and IoT device models from several
+      manufacturers. In other words, malware developers will have to develop
+      malicious agents per IoT device type, manufacturer and model, infect the
+      device with the tailored malware agent and will have keep up with
+      updates to the device's (D)TLS profile parameters over time. Further,
+      the malware's command and control server certificates need to be signed
+      by the same certifying authorities trusted by the IoT devices.
+      Typically, IoT devices have an infrastructure that supports a rapid
+      deployment of updates, and malware agents will have a near-impossible
+      task of similarly deploying updates and continuing to mimic the TLS
+      behavior of the IoT device it has infected. However, if the IoT device
+      has reached end-of-life and the IoT manufcaturer will not issue a
+      firmware or software update to the Thing or will not update the MUD
+      file, the "is-supported" attribute defined in Section 3.6 of <xref
+      target="RFC8520"></xref> can be used by the MUD manager to identify the
+      IoT manufcaturer no longer supports the device. The end-of-life of a
+      device does not necessarily mean that it is defective; rather, it
+      denotes a need to replace and upgrade the network to next-generation
+      devices for additional functionality. The network security service will
+      have to rely on other techniques discussed in <xref
+      target="Security"></xref> to identify malicious flows until the device
+      is replaced.</t>
 
       <t>Compromised IoT devices are typically used for launching DDoS attacks
       (Section 3 of <xref target="RFC8576"></xref>). For example, DDoS attacks
@@ -330,14 +330,10 @@
 
           <t>(D)TLS versions supported by the IoT device.</t>
 
-          <t>List of supported symmetric encryption algorithms. As a reminder,
-          TLS 1.3 defines five cipher suites (Appendix B.4 of <xref
-          target="RFC8446"></xref>), but most clients are continuing to offer
-          TLS 1.2 compatible cipher suites for backwards compatibility.</t>
-
-          <t>List of supported compression methods for data compression. In
-          TLS 1.3, only the "null" compression method is allowed (Section
-          4.1.2 of <xref target="RFC8446"></xref>).</t>
+          <t>List of supported cipher suites. As a reminder, TLS 1.3 defines
+          five cipher suites (Appendix B.4 of <xref target="RFC8446"></xref>),
+          but most clients are continuing to offer TLS 1.2 compatible cipher
+          suites for backwards compatibility.</t>
 
           <t>List of supported extension types</t>
 
@@ -406,6 +402,12 @@
       algorithms, (D)TLS versions, pre-shared key exchange modes, cipher
       suites and for any other TLS parameters defined in future RFCs.</t>
 
+      <t>The (D)TLS profile does not include parameters like compression
+      methods for data compression, <xref target="RFC7525"></xref> recommends
+      disabling TLS-level compression to prevent compression-related attacks.
+      In TLS 1.3, only the "null" compression method is allowed (Section 4.1.2
+      of <xref target="RFC8446"></xref>).</t>
+
       <t>Note: The TLS and DTLS IANA registries are available from <eref
       target="https://www.iana.org/assignments/tls-parameters/tls-parameters.txt"></eref>
       and <eref
@@ -431,8 +433,9 @@ module: iana-opsawg-mud-tls-profile
           +--rw profile-name                   string
           +--rw supported_tls_versions*        tls-version
           +--rw supported_dtls_versions*       dtls-version
-          +--rw encryption-algorithms*         encryption-algorithm
-          +--rw compression-methods*           compression-method
+          +--rw cipher-suites* [cipher aead]
+          |  +--rw cipher    cipher-algorithm
+          |  +--rw aead      aead-algorithm
           +--rw extension-types*               extension-type
           +--rw acceptlist-ta-certs*           ct:trust-anchor-cert-cms
           +--rw SPKI-pin-sets*                 SPKI-pin-set
@@ -454,7 +457,9 @@ module: iana-opsawg-mud-tls-profile
 
       <section title="YANG Module">
         <t><figure>
-            <artwork><![CDATA[module iana-opsawg-mud-tls-profile {
+            <artwork><![CDATA[
+<CODE BEGINS> file "iana-opsawg-mud-tls-profile@2020-09-25.yang"
+module iana-opsawg-mud-tls-profile {
    yang-version 1.1;
    namespace "urn:ietf:params:xml:ns:yang:iana-opsawg-mud-tls-profile";
    prefix mud-tls-profile;
@@ -507,22 +512,12 @@ module: iana-opsawg-mud-tls-profile
        "Initial revision";
    }
 
-   typedef compression-method {
-     type uint8;
-     description "Compression method";
-   }
-
    typedef extension-type {
      type uint16;
      description "Extension type";
    }
 
-   typedef encryption-algorithm {
-     type uint16;
-     description "Encryption algorithm";
-   }
-
-   typedef supported-group {
+    typedef supported-group {
      type uint16;
      description "Named group (DHE or ECDHE)";
    }
@@ -558,13 +553,23 @@ module: iana-opsawg-mud-tls-profile
    }
 
    typedef cert-compression-algorithm {
-     type uint8;
+     type uint16;
      description "certificate compression algorithm";
    }
 
    typedef certificate_authority {
      type binary;
      description "Distinguished Name of Certificate authority";
+   }
+
+   typedef cipher-algorithm {
+     type uint8;
+     description "Cipher Algorithm";
+   }
+
+   typedef aead-algorithm {
+     type uint8;
+     description "AEAD Algorithm";
    }
 
    typedef tls-version {
@@ -662,9 +667,17 @@ module: iana-opsawg-mud-tls-profile
            description 
              "(D)TLS versions supported by the client";
          }  
-         leaf-list encryption-algorithms {
-           type encryption-algorithm;   
-           description "Encryption algorithms";
+         list cipher-suites {
+            key "cipher aead";
+            leaf cipher {
+               type cipher-algorithm;
+               description "Cipher";
+            }
+            leaf aead {
+               type aead-algorithm;
+               description "AEAD";
+           }
+          description "Cipher Suites";
          }
          leaf-list compression-methods {
            type compression-method;
@@ -841,9 +854,17 @@ module: iana-opsawg-mud-tls-profile
                    "iana-opsawg-mud-tls-profile:client-profile" : {
                      "tls-dtls-profiles" : [
                         {
-                           "supported-tls-versions" : [1],
-                           "encryption-algorithms" : 
-                              [31354, 4865, 4866, 4867],  
+                           "supported-tls-versions" : [2],
+                           "cipher-suites" : [
+                             {
+                               "cipher": 19,
+                               "aead":  1
+                              },
+                              {
+                               "cipher": 19,
+                               "aead":  2
+                              }
+                            ],  
                            "extension-types" : [10,11,13,16,24],  
                            "supported-groups" : [29]
                         } 
@@ -937,11 +958,11 @@ module: iana-opsawg-mud-tls-profile
         </figure></t>
 
       <t>This document requests IANA to register the following YANG modules in
-      the "YANG Module Names" subregistry [RFC6020] within the "YANG
-      Parameters" registry. IANA is requested to create an IANA-maintained
-      YANG Module called "iana-opsawg-mud-tls-profile", based on the contents
-      of Section 5, which will allow for new (D)TLS parameters and (D)TLS
-      versions. The registration procedure will be Expert Review or
+      the "YANG Module Names" subregistry <xref target="RFC6020"></xref>
+      within the "YANG Parameters" registry. IANA is requested to create an
+      IANA-maintained YANG Module called "iana-opsawg-mud-tls-profile", based
+      on the contents of Section 5, which will allow for new (D)TLS parameters
+      and (D)TLS versions. The registration procedure will be Expert Review or
       Specification Required, as defined by <xref
       target="RFC8126"></xref>.</t>
 
@@ -1029,6 +1050,8 @@ module: iana-opsawg-mud-tls-profile
       <?rfc include='reference.RFC.7366'?>
 
       <?rfc include='reference.RFC.8472'?>
+
+      <?rfc include='reference.RFC.7525'?>
 
       <?rfc include="reference.I-D.ietf-tls-esni" ?>
 
