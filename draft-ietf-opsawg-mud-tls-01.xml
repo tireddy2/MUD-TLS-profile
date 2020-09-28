@@ -345,7 +345,8 @@
           certificate (e.g., the private trust anchor can be preloaded at
           manufacturing time on the IoT device and the IoT device fetches the
           firmware image from the Firmware server whose certificate is signed
-          by the private CA).</t>
+          by the private CA). This empowers the middlebox to reject TLS
+          sessions to servers that the IoT device does not trust.</t>
 
           <t>List of SPKI pin set pre-configured on the client to validate
           self-signed server certificates or raw public keys. A SPKI pin set
