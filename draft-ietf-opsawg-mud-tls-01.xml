@@ -128,8 +128,8 @@
           <t>Lower diversity in TLS client advertised TLS extensions compared
           to legitimate clients.</t>
 
-          <t>Malware using privacy enhancing technologies like Tor, Psiphon
-          and Ultrasurf (see <xref target="malware-tls"></xref>) and, evasion
+          <t>Malware using privacy enhancing technologies like Tor, Psiphon,
+          Ultrasurf (see <xref target="malware-tls"></xref>), and evasion
           techniques such as ClientHello randomization to evade detection in
           order to continue exploiting the end user.</t>
 
@@ -185,13 +185,12 @@
       secure versions of TLS, no use of self-signed certificates, deny-list or
       accept-list of Certificate Authorities, valid certificate expiration
       time, etc. These policies can be enforced by observing the (D)TLS
-      profile parameters. Enterprise network security services can use the IoT
-      device's (D)TLS profile parameters to identify legitimate flows by
-      observing (D)TLS sessions, and can make inferences to permit legitimate
-      flows and to block malicious or insecure flows. The proposed technique
-      is also suitable in deployments where decryption techniques are not
-      ideal due to privacy concerns, non-cooperating end-points, and
-      expense.</t>
+      profile parameters. Network security services can use the IoT device's
+      (D)TLS profile parameters to identify legitimate flows by observing
+      (D)TLS sessions, and can make inferences to permit legitimate flows and
+      to block malicious or insecure flows. The proposed technique is also
+      suitable in deployments where decryption techniques are not ideal due to
+      privacy concerns, non-cooperating end-points, and expense.</t>
     </section>
 
     <section anchor="notation" title="Terminology">
@@ -264,7 +263,7 @@
       view the server certificate. However, the ClientHello and ServerHello
       still have some fields visible, such as the list of supported versions,
       named groups, cipher suites, signature algorithms and extensions in
-      ClientHello and, chosen cipher in the ServerHello. For instance, if the
+      ClientHello, and chosen cipher in the ServerHello. For instance, if the
       malware uses evasion techniques like ClientHello randomization, the
       observable list of cipher suites and extensions offered by the malware
       agent in the ClientHello message will not match the list of cipher
@@ -322,7 +321,7 @@
       target="I-D.ietf-netconf-crypto-types"></xref>. See <xref
       target="RFC7925"></xref> for (D)TLS 1.2 and <xref
       target="I-D.ietf-uta-tls13-iot-profile"></xref> for DTLS 1.3
-      recommendations related to IoT devices and, <xref
+      recommendations related to IoT devices, and <xref
       target="RFC7525"></xref> for additional (D)TLS 1.2 recommendations.</t>
 
       <t>The (D)TLS parameters in each (D)TLS profile include the
@@ -708,7 +707,8 @@ module iana-opsawg-mud-tls-profile {
             description 
              "A list of named groups supported by the client.";
          }
-         leaf-list signature-algorithms-cert { 
+         leaf-list signature-algorithms-cert {
+            if-feature "tls-1_3 or dtls-1_3";    
             type signature-algorithm;
             description 
              "A list signature algorithms the client can validate 
@@ -758,34 +758,41 @@ module iana-opsawg-mud-tls-profile {
       (e.g., firewall) to follow to process the MUD (D)TLS Profile:</t>
 
       <t><list style="symbols">
-          <t>If the (D)TLS parameter observed in a (D)TLS session is specified
-          in the MUD (D)TLS profile but its corresponding value is not
-          specified in the MUD (D)TLS profile, and if the value is recognized
+          <t>If the (D)TLS parameter observed in a (D)TLS session is not
+          specified in the MUD (D)TLS profile and the parameter is recognized
           by the firewall, it can identify unexpected (D)TLS usage, which can
           indicate the presence of unauthorized software or malware on an
           endpoint. The firewall can take several actions like block the
           (D)TLS session or raise an alert to quarantine and remediate the
-          compromised device. </t>
+          compromised device. For example, if the cipher suite
+          TLS_RSA_WITH_AES_128_CBC_SHA in the ClientHello message is not
+          specified in the MUD (D)TLS profile and the cipher suite is
+          recognized by the firewall, it can identify the presence of
+          malware.</t>
 
-          <t>If the (D)TLS parameter and/or its corresponding value observed
-          in a (D)TLS session is not specified in the MUD (D)TLS profile, and
-          if the (D)TLS parameter and/or its corresponding value is not
-          recognized by the firewall, it can ignore unrecognized parameter
-          and/or its corresponding value and the correct behavior is not to
-          block the (D)TLS session. The behaviour is functionally equivalent
-          to the description in Section 9.3 of <xref target="RFC8446"></xref>
-          to ignore all unrecognized cipher suites, extensions, and other
-          parameters. </t>
+          <t>If the (D)TLS parameter observed in a (D)TLS session is not
+          specified in the MUD (D)TLS profile and the (D)TLS parameter is not
+          recognized by the firewall, it can ignore the unrecognized parameter
+          and the correct behavior is not to block the (D)TLS session. The
+          behaviour is functionally equivalent to the description in Section
+          9.3 of <xref target="RFC8446"></xref> to ignore all unrecognized
+          cipher suites, extensions, and other parameters. For example, if the
+          cipher suite TLS_CHACHA20_POLY1305_SHA256 in the ClientHello message
+          is not specified in the MUD (D)TLS profile and the cipher suite is
+          not recognized by the firewall, it can ignore the unrecognized
+          cipher suite.</t>
 
           <t>Deployments update at different rates, so an updated MUD (D)TLS
-          profile may support newer parameters and corresponding values. If
-          the firewall does not recognize the newer parameters and
-          corresponding values, an alert should be triggered to the firewall
-          vendor and the IoT device owner or administrator. A firewall must be
-          readily updatable, so that when ossification problems are
-          discovered, they can be addressed quickly. Most importantly, if the
-          firewall is not readily updatable, its efficacy to identify emerging
-          malware will decrease with time. </t>
+          profile may support newer parameters. If the firewall does not
+          recognize the newer parameters, an alert should be triggered to the
+          firewall vendor and the IoT device owner or administrator. A
+          firewall must be readily updatable, so that when ossification
+          problems are discovered, they can be addressed quickly. Most
+          importantly, if the firewall is not readily updatable, its efficacy
+          to identify emerging malware will decrease with time. For example,
+          if the cipher suite TLS_AES_128_CCM_8_SHA256 in the ClientHello
+          message is specified in the MUD (D)TLS profile and the cipher suite
+          is recognized by the firewall, an alert will be triggered.</t>
         </list></t>
     </section>
 
@@ -869,15 +876,12 @@ module iana-opsawg-mud-tls-profile {
 
       <t>The following illustrates the example sceanios for processing the
       above profile:<list style="symbols">
-          <t>If the extension type observed in a TLS session includes
-          "encrypt_then_mac" (code point 22) <xref target="RFC7366"></xref> in
-          the ClientHello message, and if the extension encrypt_then_mac is
-          recognized by the firewall, it can identify unexpected TLS
-          usage.</t>
+          <t>If the extension type "encrypt_then_mac" (code point 22) <xref
+          target="RFC7366"></xref> in the ClientHello message is recognized by
+          the firewall, it can identify unexpected TLS usage.</t>
 
-          <t>If the extension type observed in a TLS session includes
-          "token_binding" (code point 24) <xref target="RFC8472"></xref> in
-          the ClientHello message, and if the extension token_binding is not
+          <t>If the extension type "token_binding" (code point 24) <xref
+          target="RFC8472"></xref> in the ClientHello message is not
           recognized by the firewall, it can ignore the unrecognized
           extension. Because the extension type token_binding is specified in
           the profile, an alert will be triggered to the firewall vendor and

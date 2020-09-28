@@ -5,10 +5,10 @@
 OPSAWG WG                                                       T. Reddy
 Internet-Draft                                                    McAfee
 Intended status: Standards Track                                 D. Wing
-Expires: March 29, 2021                                           Citrix
+Expires: April 1, 2021                                            Citrix
                                                              B. Anderson
                                                                    Cisco
-                                                      September 25, 2020
+                                                      September 28, 2020
 
 
   Manufacturer Usage Description (MUD) (D)TLS Profiles for IoT Devices
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on March 29, 2021.
+   This Internet-Draft will expire on April 1, 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Reddy, et al.            Expires March 29, 2021                 [Page 1]
+Reddy, et al.             Expires April 1, 2021                 [Page 1]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -74,7 +74,7 @@ Table of Contents
      5.1.  Tree Structure  . . . . . . . . . . . . . . . . . . . . .   9
      5.2.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .   9
    6.  Processing of the MUD (D)TLS Profile  . . . . . . . . . . . .  16
-   7.  MUD File Example  . . . . . . . . . . . . . . . . . . . . . .  16
+   7.  MUD File Example  . . . . . . . . . . . . . . . . . . . . . .  17
    8.  Security Considerations . . . . . . . . . . . . . . . . . . .  18
    9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  19
    10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  19
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Reddy, et al.            Expires March 29, 2021                 [Page 2]
+Reddy, et al.             Expires April 1, 2021                 [Page 2]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -133,8 +133,8 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
    o  Lower diversity in TLS client advertised TLS extensions compared
       to legitimate clients.
 
-   o  Malware using privacy enhancing technologies like Tor, Psiphon and
-      Ultrasurf (see [malware-tls]) and, evasion techniques such as
+   o  Malware using privacy enhancing technologies like Tor, Psiphon,
+      Ultrasurf (see [malware-tls]), and evasion techniques such as
       ClientHello randomization to evade detection in order to continue
       exploiting the end user.
 
@@ -165,7 +165,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                 [Page 3]
+Reddy, et al.             Expires April 1, 2021                 [Page 3]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -195,9 +195,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
    versions of TLS, no use of self-signed certificates, deny-list or
    accept-list of Certificate Authorities, valid certificate expiration
    time, etc.  These policies can be enforced by observing the (D)TLS
-   profile parameters.  Enterprise network security services can use the
-   IoT device's (D)TLS profile parameters to identify legitimate flows
-   by observing (D)TLS sessions, and can make inferences to permit
+   profile parameters.  Network security services can use the IoT
+   device's (D)TLS profile parameters to identify legitimate flows by
+   observing (D)TLS sessions, and can make inferences to permit
    legitimate flows and to block malicious or insecure flows.  The
    proposed technique is also suitable in deployments where decryption
    techniques are not ideal due to privacy concerns, non-cooperating
@@ -221,7 +221,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                 [Page 4]
+Reddy, et al.             Expires April 1, 2021                 [Page 4]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -277,7 +277,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                 [Page 5]
+Reddy, et al.             Expires April 1, 2021                 [Page 5]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -293,7 +293,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
    thus cannot view the server certificate.  However, the ClientHello
    and ServerHello still have some fields visible, such as the list of
    supported versions, named groups, cipher suites, signature algorithms
-   and extensions in ClientHello and, chosen cipher in the ServerHello.
+   and extensions in ClientHello, and chosen cipher in the ServerHello.
    For instance, if the malware uses evasion techniques like ClientHello
    randomization, the observable list of cipher suites and extensions
    offered by the malware agent in the ClientHello message will not
@@ -333,7 +333,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                 [Page 6]
+Reddy, et al.             Expires April 1, 2021                 [Page 6]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -357,7 +357,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
    [RFC6991], the rules defined in [RFC8519], and the cryptographic
    types defined in [I-D.ietf-netconf-crypto-types].  See [RFC7925] for
    (D)TLS 1.2 and [I-D.ietf-uta-tls13-iot-profile] for DTLS 1.3
-   recommendations related to IoT devices and, [RFC7525] for additional
+   recommendations related to IoT devices, and [RFC7525] for additional
    (D)TLS 1.2 recommendations.
 
    The (D)TLS parameters in each (D)TLS profile include the following:
@@ -389,7 +389,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                 [Page 7]
+Reddy, et al.             Expires April 1, 2021                 [Page 7]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -445,7 +445,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                 [Page 8]
+Reddy, et al.             Expires April 1, 2021                 [Page 8]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -501,7 +501,7 @@ module iana-opsawg-mud-tls-profile {
 
 
 
-Reddy, et al.            Expires March 29, 2021                 [Page 9]
+Reddy, et al.             Expires April 1, 2021                 [Page 9]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -557,7 +557,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                [Page 10]
+Reddy, et al.             Expires April 1, 2021                [Page 10]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -613,7 +613,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                [Page 11]
+Reddy, et al.             Expires April 1, 2021                [Page 11]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -669,7 +669,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                [Page 12]
+Reddy, et al.             Expires April 1, 2021                [Page 12]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -725,7 +725,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                [Page 13]
+Reddy, et al.             Expires April 1, 2021                [Page 13]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -781,7 +781,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                [Page 14]
+Reddy, et al.             Expires April 1, 2021                [Page 14]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -798,6 +798,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
              "A list of named groups supported by the client.";
          }
          leaf-list signature-algorithms-cert {
+            if-feature "tls-1_3 or dtls-1_3";
             type signature-algorithm;
             description
              "A list signature algorithms the client can validate
@@ -833,15 +834,15 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
  }
  augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
    description
-     "MUD (D)TLS specific matches.";
 
 
 
-Reddy, et al.            Expires March 29, 2021                [Page 15]
+Reddy, et al.             Expires April 1, 2021                [Page 15]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
+     "MUD (D)TLS specific matches.";
    uses client-profile;
  }
 }
@@ -851,34 +852,51 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
    The following text outlines the rules for a network security service
    (e.g., firewall) to follow to process the MUD (D)TLS Profile:
 
-   o  If the (D)TLS parameter observed in a (D)TLS session is specified
-      in the MUD (D)TLS profile but its corresponding value is not
-      specified in the MUD (D)TLS profile, and if the value is
+   o  If the (D)TLS parameter observed in a (D)TLS session is not
+      specified in the MUD (D)TLS profile and the parameter is
       recognized by the firewall, it can identify unexpected (D)TLS
       usage, which can indicate the presence of unauthorized software or
       malware on an endpoint.  The firewall can take several actions
       like block the (D)TLS session or raise an alert to quarantine and
-      remediate the compromised device.
+      remediate the compromised device.  For example, if the cipher
+      suite TLS_RSA_WITH_AES_128_CBC_SHA in the ClientHello message is
+      not specified in the MUD (D)TLS profile and the cipher suite is
+      recognized by the firewall, it can identify the presence of
+      malware.
 
-   o  If the (D)TLS parameter and/or its corresponding value observed in
-      a (D)TLS session is not specified in the MUD (D)TLS profile, and
-      if the (D)TLS parameter and/or its corresponding value is not
-      recognized by the firewall, it can ignore unrecognized parameter
-      and/or its corresponding value and the correct behavior is not to
-      block the (D)TLS session.  The behaviour is functionally
-      equivalent to the description in Section 9.3 of [RFC8446] to
-      ignore all unrecognized cipher suites, extensions, and other
-      parameters.
+   o  If the (D)TLS parameter observed in a (D)TLS session is not
+      specified in the MUD (D)TLS profile and the (D)TLS parameter is
+      not recognized by the firewall, it can ignore the unrecognized
+      parameter and the correct behavior is not to block the (D)TLS
+      session.  The behaviour is functionally equivalent to the
+      description in Section 9.3 of [RFC8446] to ignore all unrecognized
+      cipher suites, extensions, and other parameters.  For example, if
+      the cipher suite TLS_CHACHA20_POLY1305_SHA256 in the ClientHello
+      message is not specified in the MUD (D)TLS profile and the cipher
+      suite is not recognized by the firewall, it can ignore the
+      unrecognized cipher suite.
 
    o  Deployments update at different rates, so an updated MUD (D)TLS
-      profile may support newer parameters and corresponding values.  If
-      the firewall does not recognize the newer parameters and
-      corresponding values, an alert should be triggered to the firewall
-      vendor and the IoT device owner or administrator.  A firewall must
-      be readily updatable, so that when ossification problems are
-      discovered, they can be addressed quickly.  Most importantly, if
-      the firewall is not readily updatable, its efficacy to identify
-      emerging malware will decrease with time.
+      profile may support newer parameters.  If the firewall does not
+      recognize the newer parameters, an alert should be triggered to
+      the firewall vendor and the IoT device owner or administrator.  A
+      firewall must be readily updatable, so that when ossification
+      problems are discovered, they can be addressed quickly.  Most
+      importantly, if the firewall is not readily updatable, its
+      efficacy to identify emerging malware will decrease with time.
+      For example, if the cipher suite TLS_AES_128_CCM_8_SHA256 in the
+      ClientHello message is specified in the MUD (D)TLS profile and the
+      cipher suite is recognized by the firewall, an alert will be
+      triggered.
+
+
+
+
+
+Reddy, et al.             Expires April 1, 2021                [Page 16]
+
+Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
+
 
 7.  MUD File Example
 
@@ -890,14 +908,6 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
    {
       "ietf-mud:mud": {
         "mud-version": 1,
-
-
-
-Reddy, et al.            Expires March 29, 2021                [Page 16]
-
-Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
-
-
          "mud-url": "https://example.com/IoTDevice",
          "last-update": "2019-18-06T03:56:40.105+10:00",
          "cache-validity": 100,
@@ -936,6 +946,14 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
                         "tls-dtls-profiles" : [
                            {
                               "supported-tls-versions" : [2],
+
+
+
+Reddy, et al.             Expires April 1, 2021                [Page 17]
+
+Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
+
+
                               "cipher-suites" : [
                                 {
                                   "cipher": 19,
@@ -946,14 +964,6 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
                                   "aead":  2
                                  }
                                ],
-
-
-
-Reddy, et al.            Expires March 29, 2021                [Page 17]
-
-Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
-
-
                               "extension-types" : [10,11,13,16,24],
                               "supported-groups" : [29]
                            }
@@ -975,18 +985,16 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
    The following illustrates the example sceanios for processing the
    above profile:
 
-   o  If the extension type observed in a TLS session includes
-      "encrypt_then_mac" (code point 22) [RFC7366] in the ClientHello
-      message, and if the extension encrypt_then_mac is recognized by
-      the firewall, it can identify unexpected TLS usage.
+   o  If the extension type "encrypt_then_mac" (code point 22) [RFC7366]
+      in the ClientHello message is recognized by the firewall, it can
+      identify unexpected TLS usage.
 
-   o  If the extension type observed in a TLS session includes
-      "token_binding" (code point 24) [RFC8472] in the ClientHello
-      message, and if the extension token_binding is not recognized by
-      the firewall, it can ignore the unrecognized extension.  Because
-      the extension type token_binding is specified in the profile, an
-      alert will be triggered to the firewall vendor and the IoT device
-      owner or administrator to notify the firewall is not up to date.
+   o  If the extension type "token_binding" (code point 24) [RFC8472] in
+      the ClientHello message is not recognized by the firewall, it can
+      ignore the unrecognized extension.  Because the extension type
+      token_binding is specified in the profile, an alert will be
+      triggered to the firewall vendor and the IoT device owner or
+      administrator to notify the firewall is not up to date.
 
 8.  Security Considerations
 
@@ -994,6 +1002,14 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
    consideration.  Although it is challenging for a malware to mimic the
    TLS behavior of various IoT device types and IoT device models from
    several manufacturers, malicious agents have a very low probability
+
+
+
+Reddy, et al.             Expires April 1, 2021                [Page 18]
+
+Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
+
+
    of using the same (D)TLS profile parameters as legitimate agents on
    the IoT device to evade detection.  Network security services should
    also rely on contextual network data to detect false negatives.  In
@@ -1002,14 +1018,6 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
    agents using the same (D)TLS profile parameters as legitimate agent
    on the IoT device.  In anomaly detection, the main idea is to
    maintain rigorous learning of "normal" behavior and where an
-
-
-
-Reddy, et al.            Expires March 29, 2021                [Page 18]
-
-Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
-
-
    "anomaly" (or an attack) is identified and categorized based on the
    knowledge about the normal behavior and a deviation from this normal
    behavior.
@@ -1050,21 +1058,19 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
    This document requests IANA to register the following YANG modules in
    the "YANG Module Names" subregistry [RFC6020] within the "YANG
+
+
+
+Reddy, et al.             Expires April 1, 2021                [Page 19]
+
+Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
+
+
    Parameters" registry.  IANA is requested to create an IANA-maintained
    YANG Module called "iana-opsawg-mud-tls-profile", based on the
    contents of Section 5, which will allow for new (D)TLS parameters and
    (D)TLS versions.  The registration procedure will be Expert Review or
    Specification Required, as defined by [RFC8126].
-
-
-
-
-
-
-Reddy, et al.            Expires March 29, 2021                [Page 19]
-
-Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
-
 
       name: iana-opsawg-mud-tls-profile
       namespace: urn:ietf:params:xml:ns:yang:iana-opsawg-mud-tls-profile
@@ -1108,19 +1114,17 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
               DOI 10.17487/RFC3688, January 2004,
               <https://www.rfc-editor.org/info/rfc3688>.
 
-   [RFC6347]  Rescorla, E. and N. Modadugu, "Datagram Transport Layer
-              Security Version 1.2", RFC 6347, DOI 10.17487/RFC6347,
-              January 2012, <https://www.rfc-editor.org/info/rfc6347>.
 
 
 
-
-
-
-Reddy, et al.            Expires March 29, 2021                [Page 20]
+Reddy, et al.             Expires April 1, 2021                [Page 20]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
+
+   [RFC6347]  Rescorla, E. and N. Modadugu, "Datagram Transport Layer
+              Security Version 1.2", RFC 6347, DOI 10.17487/RFC6347,
+              January 2012, <https://www.rfc-editor.org/info/rfc6347>.
 
    [RFC6991]  Schoenwaelder, J., Ed., "Common YANG Data Types",
               RFC 6991, DOI 10.17487/RFC6991, July 2013,
@@ -1169,11 +1173,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-
-
-
-
-Reddy, et al.            Expires March 29, 2021                [Page 21]
+Reddy, et al.             Expires April 1, 2021                [Page 21]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                [Page 22]
+Reddy, et al.             Expires April 1, 2021                [Page 22]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -1285,7 +1285,7 @@ Authors' Addresses
 
 
 
-Reddy, et al.            Expires March 29, 2021                [Page 23]
+Reddy, et al.             Expires April 1, 2021                [Page 23]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
@@ -1341,4 +1341,4 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices     September 2020
 
 
 
-Reddy, et al.            Expires March 29, 2021                [Page 24]
+Reddy, et al.             Expires April 1, 2021                [Page 24]
