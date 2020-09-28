@@ -767,8 +767,8 @@ module iana-opsawg-mud-tls-profile {
           compromised device. For example, if the cipher suite
           TLS_RSA_WITH_AES_128_CBC_SHA in the ClientHello message is not
           specified in the MUD (D)TLS profile and the cipher suite is
-          recognized by the firewall, it can identify the presence of
-          malware.</t>
+          recognized by the firewall, it can identify unexpected TLS
+          usage.</t>
 
           <t>If the (D)TLS parameter observed in a (D)TLS session is not
           specified in the MUD (D)TLS profile and the (D)TLS parameter is not
@@ -792,7 +792,7 @@ module iana-opsawg-mud-tls-profile {
           to identify emerging malware will decrease with time. For example,
           if the cipher suite TLS_AES_128_CCM_8_SHA256 in the ClientHello
           message is specified in the MUD (D)TLS profile and the cipher suite
-          is recognized by the firewall, an alert will be triggered.</t>
+          is not recognized by the firewall, an alert will be triggered.</t>
         </list></t>
     </section>
 
