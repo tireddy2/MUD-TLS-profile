@@ -392,7 +392,7 @@
         </list></t>
 
       <t><xref target="RFC8701">GREASE</xref> sends random values on TLS
-      parameters to ensure future extensibility of TLS extensions. Such GREASE
+      parameters to ensure future extensibility of TLS extensions. Similar random
       values might be extended to other TLS parameters. Thus, the (D)TLS
       profile parameters defined in the YANG module by this document MUST NOT
       include the GREASE values for extension types, named groups, signature
@@ -875,7 +875,7 @@ module iana-opsawg-mud-tls-profile {
 ]]></artwork>
         </figure></t>
 
-      <t>The following illustrates the example sceanios for processing the
+      <t>The following illustrates the example scenarios for processing the
       above profile:<list style="symbols">
           <t>If the extension type "encrypt_then_mac" (code point 22) <xref
           target="RFC7366"></xref> in the ClientHello message is recognized by
@@ -912,8 +912,8 @@ module iana-opsawg-mud-tls-profile {
       <t>Privacy considerations discussed in Section 16 of <xref
       target="RFC8520"></xref> to not reveal the MUD URL to an atacker need to
       be taken into consideration. The MUD URL can be stored in Trusted
-      Execution Environment (TEE) for for secure operation, enhanced data
-      security and to prevent exposure to an unauthorized software. </t>
+      Execution Environment (TEE) for secure operation, enhanced data
+      security, and prevent exposure to unauthorized software. </t>
 
       <t>The middlebox acting as a (D)TLS proxy must immediately delete the
       decrypted data upon completing any necessary inspection functions. TLS
