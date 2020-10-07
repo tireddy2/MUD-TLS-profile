@@ -70,9 +70,9 @@ Table of Contents
    4.  (D)TLS 1.3 Handshake  . . . . . . . . . . . . . . . . . . . .   6
      4.1.  Full (D)TLS 1.3 Handshake Inspection  . . . . . . . . . .   6
      4.2.  Encrypted DNS . . . . . . . . . . . . . . . . . . . . . .   6
-   5.  (D)TLS Profile YANG Module  . . . . . . . . . . . . . . . . .   7
+   5.  (D)TLS Profile of a IoT device  . . . . . . . . . . . . . . .   7
      5.1.  Tree Structure  . . . . . . . . . . . . . . . . . . . . .   9
-     5.2.  The (D)TLS profile Extension to the ACL Model . . . . . .  10
+     5.2.  The (D)TLS profile Extension to the ACL YANG Model  . . .  10
      5.3.  IANA (D)TLS profile YANG Module . . . . . . . . . . . . .  11
    6.  Processing of the MUD (D)TLS Profile  . . . . . . . . . . . .  17
    7.  MUD File Example  . . . . . . . . . . . . . . . . . . . . . .  18
@@ -347,20 +347,22 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
    necessary to allow MUD policy enforcement on the local network
    [I-D.reddy-add-enterprise].
 
-5.  (D)TLS Profile YANG Module
+5.  (D)TLS Profile of a IoT device
 
    This document specifies a YANG module for representing (D)TLS
    profile.  The (D)TLS profile YANG module provides a method for
    network security services to observe the (D)TLS profile parameters in
    the (D)TLS handshake to permit intended use and to block malicious
-   behavior.  This module uses the common YANG types defined in
-   [RFC6991], the rules defined in [RFC8519], and the cryptographic
-   types defined in [I-D.ietf-netconf-crypto-types].  See [RFC7925] for
-   (D)TLS 1.2 and [I-D.ietf-uta-tls13-iot-profile] for DTLS 1.3
-   recommendations related to IoT devices, and [RFC7525] for additional
-   (D)TLS 1.2 recommendations.  A companion YANG module is defined to
-   include a collection of (D)TLS parameters and (D)TLS versions
-   maintained by IANA: "iana-tls-profile" (Section 5.3).
+   behavior.  See [RFC7925] for (D)TLS 1.2 and
+   [I-D.ietf-uta-tls13-iot-profile] for DTLS 1.3 recommendations related
+   to IoT devices, and [RFC7525] for additional (D)TLS 1.2
+   recommendations.
+
+   A companion YANG module is defined to include a collection of (D)TLS
+   parameters and (D)TLS versions maintained by IANA: "iana-tls-profile"
+   (Section 5.3).  This module uses the common YANG types defined in
+   [RFC6991] and the cryptographic types defined in
+   [I-D.ietf-netconf-crypto-types].
 
    The (D)TLS parameters in each (D)TLS profile include the following:
 
@@ -383,8 +385,6 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
       can be preloaded at manufacturing time on the IoT device and the
       IoT device fetches the firmware image from the Firmware server
       whose certificate is signed by the private CA).  This empowers the
-      middlebox to reject TLS sessions to servers that the IoT device
-      does not trust.
 
 
 
@@ -393,6 +393,9 @@ Reddy, et al.            Expires April 10, 2021                 [Page 7]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
+
+      middlebox to reject TLS sessions to servers that the IoT device
+      does not trust.
 
    o  List of SPKI pin set pre-configured on the client to validate
       self-signed server certificates or raw public keys.  A SPKI pin
@@ -439,9 +442,6 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
    be extended to other TLS parameters.  Thus, the (D)TLS profile
    parameters defined in the YANG module by this document MUST NOT
    include the GREASE values for extension types, named groups,
-   signature algorithms, (D)TLS versions, pre-shared key exchange modes,
-   cipher suites and for any other TLS parameters defined in future
-   RFCs.
 
 
 
@@ -449,6 +449,10 @@ Reddy, et al.            Expires April 10, 2021                 [Page 8]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
+
+   signature algorithms, (D)TLS versions, pre-shared key exchange modes,
+   cipher suites and for any other TLS parameters defined in future
+   RFCs.
 
    The (D)TLS profile does not include parameters like compression
    methods for data compression, [RFC7525] recommends disabling TLS-
@@ -497,16 +501,12 @@ module: ietf-acl-tls
 
 
 
-
-
-
-
 Reddy, et al.            Expires April 10, 2021                 [Page 9]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
-5.2.  The (D)TLS profile Extension to the ACL Model
+5.2.  The (D)TLS profile Extension to the ACL YANG Model
 
 <CODE BEGINS> file "ietf-acl-tls@2020-10-07.yang"
 module ietf-acl-tls {

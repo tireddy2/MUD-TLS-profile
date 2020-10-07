@@ -309,22 +309,22 @@
       </section>
     </section>
 
-    <section anchor="YANG" title="(D)TLS Profile YANG Module">
+    <section anchor="YANG" title="(D)TLS Profile of a IoT device">
       <t>This document specifies a YANG module for representing (D)TLS
       profile. The (D)TLS profile YANG module provides a method for network
       security services to observe the (D)TLS profile parameters in the (D)TLS
-      handshake to permit intended use and to block malicious behavior. This
-      module uses the common YANG types defined in <xref
-      target="RFC6991"></xref>, the rules defined in <xref
-      target="RFC8519"></xref>, and the cryptographic types defined in <xref
-      target="I-D.ietf-netconf-crypto-types"></xref>. See <xref
-      target="RFC7925"></xref> for (D)TLS 1.2 and <xref
+      handshake to permit intended use and to block malicious behavior. See
+      <xref target="RFC7925"></xref> for (D)TLS 1.2 and <xref
       target="I-D.ietf-uta-tls13-iot-profile"></xref> for DTLS 1.3
       recommendations related to IoT devices, and <xref
-      target="RFC7525"></xref> for additional (D)TLS 1.2 recommendations. A
-      companion YANG module is defined to include a collection of (D)TLS
+      target="RFC7525"></xref> for additional (D)TLS 1.2 recommendations. </t>
+
+      <t>A companion YANG module is defined to include a collection of (D)TLS
       parameters and (D)TLS versions maintained by IANA: "iana-tls-profile"
-      (<xref target="yang-iana"></xref>).</t>
+      (<xref target="yang-iana"></xref>). This module uses the common YANG
+      types defined in <xref target="RFC6991"></xref> and the cryptographic
+      types defined in <xref
+      target="I-D.ietf-netconf-crypto-types"></xref>.</t>
 
       <t>The (D)TLS parameters in each (D)TLS profile include the
       following:<list style="symbols">
@@ -452,7 +452,7 @@ module: ietf-acl-tls
           </figure></t>
       </section>
 
-      <section title="The (D)TLS profile Extension to the ACL Model">
+      <section title="The (D)TLS profile Extension to the ACL YANG Model">
         <t><figure>
             <artwork><![CDATA[
 <CODE BEGINS> file "ietf-acl-tls@2020-10-07.yang"
