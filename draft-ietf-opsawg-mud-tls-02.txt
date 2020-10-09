@@ -1315,9 +1315,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
    +----------------------------+-------------+--------+---------------------------------------------+
    | aead-algorithm             | uint8       | Number | AEAD Algorithm                              |
    +----------------------------+-------------+--------+---------------------------------------------+
-   | tls-version                | enumeration | String | Indicates the TLS version                   |
+   | tls-version                | enumeration | String | TLS version                                 |
    +----------------------------+-------------+--------+---------------------------------------------+
-   | dtls-version               | enumeration | String | Indicates the DTLS version                  |
+   | dtls-version               | enumeration | String | DTLS version                                |
    +----------------------------+-------------+--------+---------------------------------------------+
 
 

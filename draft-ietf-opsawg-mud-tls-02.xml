@@ -1183,9 +1183,9 @@ module iana-tls-profile {
    +----------------------------+-------------+--------+---------------------------------------------+
    | aead-algorithm             | uint8       | Number | AEAD Algorithm                              |
    +----------------------------+-------------+--------+---------------------------------------------+
-   | tls-version                | enumeration | String | Indicates the TLS version                   |
+   | tls-version                | enumeration | String | TLS version                                 |
    +----------------------------+-------------+--------+---------------------------------------------+
-   | dtls-version               | enumeration | String | Indicates the DTLS version                  |
+   | dtls-version               | enumeration | String | DTLS version                                |
    +----------------------------+-------------+--------+---------------------------------------------+
 
 ]]></artwork>
