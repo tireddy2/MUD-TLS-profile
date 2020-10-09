@@ -313,18 +313,17 @@
       <t>This document specifies a YANG module for representing (D)TLS
       profile. The (D)TLS profile YANG module provides a method for network
       security services to observe the (D)TLS profile parameters in the (D)TLS
-      handshake to permit intended use and to block malicious behavior. See
-      <xref target="RFC7925"></xref> for (D)TLS 1.2 and <xref
+      handshake to permit intended use and to block malicious behavior. This
+      module uses the cryptographic types defined in <xref
+      target="I-D.ietf-netconf-crypto-types"></xref>. See <xref
+      target="RFC7925"></xref> for (D)TLS 1.2 and <xref
       target="I-D.ietf-uta-tls13-iot-profile"></xref> for DTLS 1.3
       recommendations related to IoT devices, and <xref
       target="RFC7525"></xref> for additional (D)TLS 1.2 recommendations. </t>
 
       <t>A companion YANG module is defined to include a collection of (D)TLS
       parameters and (D)TLS versions maintained by IANA: "iana-tls-profile"
-      (<xref target="yang-iana"></xref>). This module uses the common YANG
-      types defined in <xref target="RFC6991"></xref> and the cryptographic
-      types defined in <xref
-      target="I-D.ietf-netconf-crypto-types"></xref>.</t>
+      (<xref target="yang-iana"></xref>). </t>
 
       <t>The (D)TLS parameters in each (D)TLS profile include the
       following:<list style="symbols">
@@ -412,10 +411,10 @@
       target="https://www.iana.org/assignments/tls-parameters/tls-parameters.txt"></eref>
       and <eref
       target="https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.txt"></eref>.
-      The values for all the parameters in the YANG module excluding the
-      supported_versions parameter are defined in the TLS and DTLS IANA
-      registries. The TLS and DTLS IANA registry does not maintain (D)TLS
-      version numbers.</t>
+      The values for all the parameters in the YANG module excluding the are
+      defined in the TLS and DTLS IANA registries excluding the
+      supported_tls_versions and supported_dtls_versions parameters. The TLS
+      and DTLS IANA registry does not maintain (D)TLS version numbers.</t>
 
       <section title="Tree Structure">
         <t>This document augments the "ietf-acl" ACL YANG module defined in
@@ -454,8 +453,7 @@ module: ietf-acl-tls
 
       <section title="The (D)TLS profile Extension to the ACL YANG Model">
         <t><figure>
-            <artwork><![CDATA[
-<CODE BEGINS> file "ietf-acl-tls@2020-10-07.yang"
+            <artwork><![CDATA[<CODE BEGINS> file "ietf-acl-tls@2020-10-07.yang"
 module ietf-acl-tls {
    yang-version 1.1;
    namespace "urn:ietf:params:xml:ns:yang:ietf-acl-tls";
@@ -466,6 +464,20 @@ module ietf-acl-tls {
      reference "RFC XXXX:
           Manufacturer Usage Description (MUD) (D)TLS Profiles for IoT Devices";
    }
+
+   import ietf-crypto-types {
+     prefix ct;
+     reference "draft-ietf-netconf-crypto-types-13: 
+                Common YANG Data Types for Cryptography";
+   }
+
+   import iana-hash-algs {
+     prefix iha;
+     reference
+          "draft-ietf-netconf-crypto-types-13: Common YANG Data Types for 
+           Hash algorithms";
+   }
+
 
    import ietf-access-control-list {
      prefix acl;
@@ -507,10 +519,150 @@ module ietf-acl-tls {
        "Initial revision";
    }
 
+   feature tls-1_2 {
+     description
+       "TLS Protocol Version 1.2 is supported.";
+       reference
+         "RFC 5246: The Transport Layer Security (TLS) Protocol
+                    Version 1.2";
+   }
+
+   feature tls-1_3 {
+     description
+       "TLS Protocol Version 1.3 is supported.";
+       reference
+         "RFC 8446: The Transport Layer Security (TLS) Protocol
+                    Version 1.3";
+   }
+
+   feature dtls-1_2 {
+       description
+          "DTLS Protocol Version 1.2 is supported.";
+       reference
+          "RFC 6346: Datagram Transport Layer Security Version 1.2";
+   }
+
+   feature dtls-1_3 {
+       description
+         "DTLS Protocol Version 1.3 is supported.";
+       reference
+         "draft-ietf-tls-dtls13: Datagram Transport Layer Security 1.3";
+   }
+
+   grouping client-profile {
+     description
+       "A grouping for (D)TLS profiles."; 
+     container client-profile {
+       list tls-dtls-profiles {
+         key "profile-name";
+         description
+          "A list of (D)TLS version profiles supported by the client.";
+        leaf profile-name {
+          type string {
+            length "1..64";
+          }
+          description
+            "The name of (D)TLS profile; space and special
+            characters are not allowed.";
+         }
+         leaf-list supported_tls_versions {
+           type ianatp:tls-version;
+           description 
+             "TLS versions supported by the client";
+         }  
+         leaf-list supported_dtls_versions {
+           type ianatp:dtls-version;
+           description 
+             "DTLS versions supported by the client";
+         }  
+         list cipher-suites {
+            key "cipher aead";
+            leaf cipher {
+               type ianatp:cipher-algorithm;
+               description "Cipher";
+            }
+            leaf aead {
+               type ianatp:aead-algorithm;
+               description "AEAD";
+           }
+          description "Cipher Suites";
+         }
+         leaf-list extension-types {
+           type ianatp:extension-type;
+           description "Extension Types";
+         }
+         leaf-list acceptlist-ta-certs { 
+           type ct:trust-anchor-cert-cms;
+           description 
+             "A list of trust anchor certificates used by the client.";
+         }
+         container SPKI {
+            leaf-list SPKI-pin-sets { 
+                type ianatp:SPKI-pin-set;
+                description 
+                  "A list of SPKI pin sets pre-configured on the client 
+                  to validate self-signed server certificate or 
+                  raw public key.";
+            }
+            leaf SPKI-hash-algorithm {
+               type iha:hash-algorithm-type;
+              description 
+                "cryptographic hash algorithm used to generate the 
+                SPKI pinset.";
+            }
+         }
+         leaf-list psk-key-exchange-modes {
+           if-feature "tls-1_3 or dtls-1_3"; 
+           type ianatp:psk-key-exchange-mode;
+           description 
+             "pre-shared key exchange modes";
+         }
+         leaf-list supported-groups { 
+            type ianatp:supported-group;
+            description 
+             "A list of named groups supported by the client.";
+         }
+         leaf-list signature-algorithms-cert {
+            if-feature "tls-1_3 or dtls-1_3";    
+            type ianatp:signature-algorithm;
+            description 
+             "A list signature algorithms the client can validate 
+              in X.509 certificates.";
+         }
+         leaf-list signature-algorithms { 
+            type ianatp:signature-algorithm;
+            description 
+             "A list signature algorithms the client can validate 
+              in the CertificateVerify message.";
+         }
+         leaf-list application-protocols { 
+            type ianatp:application-protocol;
+            description 
+             "A list application protocols supported by the client";
+         }
+         leaf-list cert-compression-algorithms { 
+            if-feature "tls-1_3 or dtls-1_3";    
+            type ianatp:cert-compression-algorithm;
+            description 
+             "A list certificate compression algorithms 
+              supported by the client";
+         }
+         leaf-list certificate_authorities { 
+            if-feature "tls-1_3 or dtls-1_3";  
+            type ianatp:certificate_authority;
+            description 
+             "A list of the distinguished names of certificate authorities 
+              acceptable to the client";
+         }
+   }
+  }   
+ }
+
+
  augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
    description
      "(D)TLS specific matches.";
-    uses ianatp:client-profile;
+    uses client-profile;
  }
 }
 ]]></artwork>
@@ -526,17 +678,6 @@ module iana-tls-profile {
    namespace "urn:ietf:params:xml:ns:yang:iana-tls-profile";
    prefix ianatp;
 
-   import ietf-crypto-types {
-     prefix ct;
-     reference "draft-ietf-netconf-crypto-types-01: 
-                Common YANG Data Types for Cryptography";
-   }
-
-   import iana-hash-algs {
-     prefix iha;
-     reference
-          "RFC XXXX: Common YANG Data Types for Hash algorithms";
-   }
 
   organization "IANA";
      contact
@@ -573,7 +714,6 @@ module iana-tls-profile {
      description
        "Initial revision";
    }
-
    typedef extension-type {
      type uint16;
      description "Extension type";
@@ -599,11 +739,6 @@ module iana-tls-profile {
      description "pre-shared key exchange mode";
    }
 
-   typedef client-public-key-length {
-     type uint8;
-     description "client public key length";
-   }
-
    typedef application-protocol {
      type string;
      description "application protocol";
@@ -615,7 +750,7 @@ module iana-tls-profile {
    }
 
    typedef certificate_authority {
-     type binary;
+     type string;
      description "Distinguished Name of Certificate authority";
    }
 
@@ -672,146 +807,9 @@ module iana-tls-profile {
      description
        "Indicates the DTLS version.";
    }
-
-   feature tls-1_2 {
-     description
-       "TLS Protocol Version 1.2 is supported.";
-       reference
-         "RFC 5246: The Transport Layer Security (TLS) Protocol
-                    Version 1.2";
-   }
-
-   feature tls-1_3 {
-     description
-       "TLS Protocol Version 1.3 is supported.";
-       reference
-         "RFC 8446: The Transport Layer Security (TLS) Protocol
-                    Version 1.3";
-   }
-
-   feature dtls-1_2 {
-       description
-          "DTLS Protocol Version 1.2 is supported.";
-       reference
-          "RFC 6346: Datagram Transport Layer Security Version 1.2";
-   }
-
-   feature dtls-1_3 {
-       description
-         "DTLS Protocol Version 1.3 is supported.";
-       reference
-         "draft-ietf-tls-dtls13: Datagram Transport Layer Security 1.3";
-   }
-
-   grouping client-profile {
-     description
-       "A grouping for (D)TLS profiles."; 
-     container client-profile {
-       list tls-dtls-profiles {
-         key "profile-name";
-         description
-          "A list of (D)TLS version profiles supported by the client.";
-        leaf profile-name {
-          type string {
-            length "1..64";
-          }
-          description
-            "The name of (D)TLS profile; space and special
-            characters are not allowed.";
-         }
-         leaf-list supported_tls_versions {
-           type tls-version;
-           description 
-             "TLS versions supported by the client";
-         }  
-         leaf-list supported_dtls_versions {
-           type dtls-version;
-           description 
-             "DTLS versions supported by the client";
-         }    
-         list cipher-suites {
-            key "cipher aead";
-            leaf cipher {
-               type cipher-algorithm;
-               description "Cipher";
-            }
-            leaf aead {
-               type aead-algorithm;
-               description "AEAD";
-           }
-          description "Cipher Suites";
-         }
-         leaf-list extension-types {
-           type extension-type;
-           description "Extension Types";
-         }
-         leaf-list acceptlist-ta-certs { 
-           type ct:trust-anchor-cert-cms;
-           description 
-             "A list of trust anchor certificates used by the client.";
-         }
-         container SPKI {
-            leaf-list SPKI-pin-sets { 
-                type SPKI-pin-set;
-                description 
-                  "A list of SPKI pin sets pre-configured on the client 
-                  to validate self-signed server certificate or 
-                  raw public key.";
-            }
-            leaf SPKI-hash-algorithm {
-               type iha:hash-algorithm-type;
-              description 
-                "cryptographic hash algorithm used to generate the 
-                SPKI pinset.";
-            }
-         }
-         leaf-list psk-key-exchange-modes {
-           if-feature "tls-1_3 or dtls-1_3"; 
-           type psk-key-exchange-mode;
-           description 
-             "pre-shared key exchange modes";
-         }
-         leaf-list supported-groups { 
-            type supported-group;
-            description 
-             "A list of named groups supported by the client.";
-         }
-         leaf-list signature-algorithms-cert {
-            if-feature "tls-1_3 or dtls-1_3";    
-            type signature-algorithm;
-            description 
-             "A list signature algorithms the client can validate 
-              in X.509 certificates.";
-         }
-         leaf-list signature-algorithms { 
-            type signature-algorithm;
-            description 
-             "A list signature algorithms the client can validate 
-              in the CertificateVerify message.";
-         }
-         leaf-list application-protocols { 
-            type application-protocol;
-            description 
-             "A list application protocols supported by the client";
-         }
-         leaf-list cert-compression-algorithms { 
-            if-feature "tls-1_3 or dtls-1_3";    
-            type cert-compression-algorithm;
-            description 
-             "A list certificate compression algorithms 
-              supported by the client";
-         }
-         leaf-list certificate_authorities { 
-            if-feature "tls-1_3 or dtls-1_3";  
-            type certificate_authority;
-            description 
-             "A list of the distinguished names of certificate authorities 
-              acceptable to the client";
-         }
-   }
-  }   
- }
 }
+
+
 ]]></artwork>
           </figure></t>
       </section>
@@ -907,7 +905,7 @@ module iana-tls-profile {
                    "ietf-acl-tls:client-profile" : {
                      "tls-dtls-profiles" : [
                         {
-                           "supported-tls-versions" : [2],
+                           "supported-tls-versions" : ["tls-1.3"],
                            "cipher-suites" : [
                              {
                                "cipher": 19,
@@ -994,50 +992,205 @@ module iana-tls-profile {
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>Each normative YANG module MUST be registered in both the "IETF XML
-      Registry" <xref target="RFC3688"></xref> and the "YANG Module Names"
-      registry <xref target="RFC6020"></xref>.</t>
+      <section title="(D)TLS Profile YANG Modules">
+        <t>Each normative YANG module MUST be registered in both the "IETF XML
+        Registry" <xref target="RFC3688"></xref> and the "YANG Module Names"
+        registry <xref target="RFC6020"></xref>.</t>
 
-      <t>This document requests IANA to register the following URIs in the
-      "ns" subregistry within the "IETF XML Registry" <xref
-      target="RFC3688"></xref>: <figure>
-          <artwork><![CDATA[      URI: urn:ietf:params:xml:ns:yang:iana-tls-profile
+        <t>This document requests IANA to register the following URIs in the
+        "ns" subregistry within the "IETF XML Registry" <xref
+        target="RFC3688"></xref>: <figure>
+            <artwork><![CDATA[      URI: urn:ietf:params:xml:ns:yang:iana-tls-profile
       Registrant Contact: The IESG.
       XML: N/A; the requested URI is an XML namespace.
 ]]></artwork>
-        </figure><figure>
-          <artwork><![CDATA[      URI: urn:ietf:params:xml:ns:yang:ietf-acl-tls
+          </figure><figure>
+            <artwork><![CDATA[      URI: urn:ietf:params:xml:ns:yang:ietf-acl-tls
       Registrant Contact: The IESG.
       XML: N/A; the requested URI is an XML namespace.
 ]]></artwork>
-        </figure></t>
+          </figure></t>
 
-      <t>IANA is requested to create an IANA-maintained YANG Module called
-      "iana-tls-profile", based on the contents of <xref
-      target="yang-iana"></xref>, which will allow for new (D)TLS parameters
-      and (D)TLS versions to be added to "client-profile". The registration
-      procedure will be Expert Review, as defined by <xref
-      target="RFC8126"></xref>.</t>
+        <t>IANA is requested to create an IANA-maintained YANG Module called
+        "iana-tls-profile", based on the contents of <xref
+        target="yang-iana"></xref>, which will allow for new (D)TLS parameters
+        and (D)TLS versions to be added to "client-profile". The registration
+        procedure will be Expert Review, as defined by <xref
+        target="RFC8126"></xref>.</t>
 
-      <t>This document requests IANA to register the following YANG modules in
-      the "YANG Module Names" subregistry <xref target="RFC6020"></xref>
-      within the "YANG Parameters" registry.</t>
+        <t>This document requests IANA to register the following YANG modules
+        in the "YANG Module Names" subregistry <xref target="RFC6020"></xref>
+        within the "YANG Parameters" registry.</t>
 
-      <t><figure>
-          <artwork><![CDATA[      name: iana-tls-profile
+        <t><figure>
+            <artwork><![CDATA[      name: iana-tls-profile
       namespace: urn:ietf:params:xml:ns:yang:iana-tls-profile
       maintained by IANA: Y
       prefix: mud-tls-profile
       reference: RFC XXXX
 ]]></artwork>
-        </figure><figure>
-          <artwork><![CDATA[      name: ietf-acl-tls
+          </figure><figure>
+            <artwork><![CDATA[      name: ietf-acl-tls
       namespace: urn:ietf:params:xml:ns:yang:ietf-acl-tls
       maintained by IANA: Y
       prefix: mud-tls-profile
-      reference: RFC XXXX
+      reference: RFC XXXX]]></artwork>
+          </figure></t>
+
+        <t>IANA is requested to create an the initial version of the
+        IANA-maintained YANG Module called "iana-tls-profile", based on the
+        contents of <xref target="yang-iana"></xref>, which will allow for new
+        (D)TLS parameters and (D)TLS versions to be added. IANA is requested
+        to add this note:</t>
+
+        <t><list style="symbols">
+            <t>tls-version and dtls-version values must not be directly added
+            to the iana-tls-profile YANG module. They must instead be
+            respectively added to the "TLS Version Codes", and "DTLS Version
+            Codes" registries.</t>
+
+            <t>(D)TLS parameters must not be directly added to the
+            iana-tls-profile YANG module. They must instead be added to the
+            "(D)TLS Parameters" registry.</t>
+          </list></t>
+
+        <t>When a 'tls-version' or 'dtls-version' value is respectively added
+        to the "TLS Version Codes" or "DTLS Version Codes" registry, a new
+        "enum" statement must be added to the iana-tls-profile YANG module.
+        The following "enum" statement, and substatements thereof, should be
+        defined:<list hangIndent="15" style="hanging">
+            <t hangText="&quot;enum&quot;:">Replicates the label from the
+            registry.</t>
+
+            <t hangText="&quot;value&quot;:">Contains the IANA-assigned value
+            corresponding to the 'tls-version' or 'dtls-version'.</t>
+
+            <t hangText="&quot;description&quot;:">Replicates the description
+            from the registry.</t>
+
+            <t hangText="&quot;reference&quot;:">Replicates the reference from
+            the registry and adds the title of the document.</t>
+          </list></t>
+
+        <t>When a (D)TLS parameter is added to "(D)TLS Parameters" registry, a
+        new "type" statement must be added to the iana-tls-profile YANG
+        module. The following "type" statement, and substatements thereof,
+        should be defined:<list hangIndent="15" style="hanging">
+            <t hangText="&quot;derived type&quot;:">Replicates the parameter
+            name from the registry.</t>
+
+            <t hangText="&quot;built-in type&quot;:">Contains the built-in
+            YANG type.</t>
+
+            <t hangText="&quot;description&quot;:">Replicates the description
+            from the registry.</t>
+          </list></t>
+
+        <t>When the iana-tls-profile YANG module is updated, a new "revision"
+        statement must be added in front of the existing revision
+        statements.</t>
+
+        <t>IANA is requested to add this note to "TLS Version Codes", "DTLS
+        Version Codes", and "(D)TLS Parameters" registries:</t>
+
+        <t><list style="empty">
+            <t>When this registry is modified, the YANG module
+            iana-tls-profile must be updated as defined in [RFCXXXX].</t>
+          </list></t>
+
+        <t>The registration procedure for "ietf-acl-tls" YANG module will be
+        Specification Required, as defined by <xref
+        target="RFC8126"></xref>.</t>
+      </section>
+
+      <section title="TLS Version registry">
+        <t>IANA is requested to create a new subregistry titled "TLS Version
+        Codes". Codes in this registry are used as valid values of
+        'tls-version' parameter. Further assignments are to be made through
+        Expert Review <xref target="RFC8126"></xref>. </t>
+
+        <t><figure>
+            <artwork><![CDATA[   +-----------+-------------+--------------------------+-----------+
+   | Value     | Label       | Description              | Reference | 
+   |           |             |                          |           |   
+   |           |             |                          |           |
+   +-----------+-------------+--------------------------+-----------+
+   | 1         | tls-1.2     | TLS Protocol Version 1.2 | [RFC5246] |
+   +----------------------------------------------------+-----------+
+   | 2         | tls-1.3     | TLS Protocol Version 1.3 | [RFC8446] |
+   +----------------------------+-----------------------+-----------+      
 ]]></artwork>
-        </figure></t>
+          </figure></t>
+      </section>
+
+      <section title="DTLS version registry">
+        <t>IANA is requested to create a new subregistry titled "DTLS Version
+        Codes". Codes in this registry are used as valid values of
+        'dtls-version' parameter. Further assignments are to be made through
+        Expert Review <xref target="RFC8126"></xref>. </t>
+
+        <t><figure>
+            <artwork><![CDATA[
+   +-----------+-------------+---------------------------+-------------------------+
+   | Value     | Label       | Description               | Reference               | 
+   |           |             |                           |                         |   
+   |           |             |                           |                         |
+   +-----------+-------------+---------------------------+-------------------------+
+   | 1         | dtls-1.2    | DTLS Protocol Version 1.2 | [RFC6346]               |
+   +-----------------------------------------------------+-------------------------+
+   | 2         | dtls-1.3    | DTLS Protocol Version 1.3 | [draft-ietf-tls-dtls13] |
+   +----------------------------+------------------------+-------------------------+           
+
+]]></artwork>
+          </figure></t>
+      </section>
+
+      <section title="(D)TLS Parameters registry">
+        <t>IANA is requested to create a new subregistry titled "(D)TLS
+        parameters". The values for all the (D)TLS parameters in the registry
+        are defined in the TLS and DTLS IANA registries (<eref
+        target="https://www.iana.org/assignments/tls-parameters/tls-parameters.txt"></eref>
+        and <eref
+        target="https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.txt"></eref>)
+        excluding the supported_tls_versions and supported_dtls_versions
+        parameters. Further assignments are to be made through Expert Review
+        <xref target="RFC8126"></xref>. The registry is initially populated
+        with the following values:</t>
+
+        <t><figure>
+            <artwork><![CDATA[   +----------------------------+-------------+--------+---------------------------------------------+
+   | Parameter Name             | YANG        | JSON   |                                             | 
+   |                            | Type        | Type   | Description                                 |
+   |                            |             |        |                                             |
+   +----------------------------+-------------+--------+---------------------------------------------+
+   | extension-type             | uint16      | Number |  Extension type                             |
+   +----------------------------+-------------+--------+---------------------------------------------+
+   | supported-group            | uint16      | Number |  Named group (DHE or ECDHE)                 |
+   +----------------------------+-------------+--------+---------------------------------------------+
+   | SPKI-pin-set               | binary      | String | Subject Public Key Info pin set             |
+   +----------------------------+-------------+--------+---------------------------------------------+
+   | signature-algorithm        | uint16      | Number | Signature algorithm                         |  
+   +----------------------------+-------------+--------+---------------------------------------------+
+   | psk-key-exchange-mode      | uint8       | Number | pre-shared key exchange mode                | 
+   +----------------------------+-------------+--------+---------------------------------------------+
+   | application-protocol       | string      | String | application protocol                        |
+   +----------------------------+-------------+--------+---------------------------------------------+
+   | cert-compression-algorithm | uint16      | Number | certificate compression algorithm           |   
+   +----------------------------+-------------+--------+---------------------------------------------+
+   | certificate_authority      | string      | String | Distinguished Name of Certificate authority | 
+   +----------------------------+-------------+--------+---------------------------------------------+
+   | cipher-algorithm           | uint8       | Number | Cipher Algorithm                            |
+   +----------------------------+-------------+--------+---------------------------------------------+
+   | aead-algorithm             | uint8       | Number | AEAD Algorithm                              |
+   +----------------------------+-------------+--------+---------------------------------------------+
+   | tls-version                | enumeration | String | Indicates the TLS version                   |
+   +----------------------------+-------------+--------+---------------------------------------------+
+   | dtls-version               | enumeration | String | Indicates the DTLS version                  |
+   +----------------------------+-------------+--------+---------------------------------------------+
+
+]]></artwork>
+          </figure></t>
+      </section>
     </section>
 
     <section anchor="acknowledgments" title="Acknowledgments">
@@ -1123,8 +1276,6 @@ module iana-tls-profile {
 ?>
 
       <?rfc include='reference.I-D.reddy-add-enterprise'?>
-
-      <!--      <?rfc include='reference.I-D.ietf-dnsop-svcb-https' ?> -->
 
       <reference anchor="malware" target="https://arxiv.org/abs/1607.01639">
         <front>
