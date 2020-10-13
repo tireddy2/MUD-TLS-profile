@@ -93,12 +93,12 @@
       <t>Encryption is necessary to enhance the privacy of end users using IoT
       devices. TLS <xref target="RFC8446"></xref> and DTLS <xref
       target="I-D.ietf-tls-dtls13"></xref> are the dominant protocols
-      (counting all versions and not only 1.3) providing encryption for IoT
-      device traffic. Unfortunately, in conjunction with IoT applications'
-      rise of encryption, malware authors are also using encryption which
-      thwarts network-based analysis such as deep packet inspection (DPI).
-      Other mechanisms are thus needed to help detecting malware running on an
-      IoT device.</t>
+      (counting all (D)TLS versions) providing encryption for IoT device
+      traffic. Unfortunately, in conjunction with IoT applications' rise of
+      encryption, malware authors are also using encryption which thwarts
+      network-based analysis such as deep packet inspection (DPI). Other
+      mechanisms are thus needed to help detecting malware running on an IoT
+      device.</t>
 
       <t>Malware frequently uses proprietary libraries for its activities, and
       those libraries are reused much like any other software engineering
@@ -168,9 +168,10 @@
           communicates with other devices located in the local network and
           Internet. There would be an inaccurate policy if an IoT device
           rapidly changes the IP addresses and domain names it communicates
-          with while the MUD ACLs were slower to update. In such a case,
-          observable (D)TLS profile parameters can be used to permit intended
-          use and to block malicious behavior from the IoT device.</t>
+          with while the MUD ACLs were slower to update (see <xref
+          target="mud"></xref>). In such a case, observable (D)TLS profile
+          parameters can be used to permit intended use and to block malicious
+          behavior from the IoT device.</t>
         </list></t>
 
       <t>This document extends MUD <xref target="RFC8520"></xref> to model
@@ -221,8 +222,8 @@
       the same time preserving the privacy of legitimate uses of encryption.
       The middlebox need not proxy (D)TLS but can passively observe the
       parameters of (D)TLS handshakes from IoT devices and gain visibility
-      into TLS 1.2 parameters and partial visibility into TLS 1.3 parameters.
-      </t>
+      into TLS 1.2 parameters and partial visibility into TLS 1.3
+      parameters.</t>
 
       <t>Malicious agents can try to use the (D)TLS profile parameters of
       legitimate agents to evade detection, but it becomes a challenge to
@@ -241,7 +242,7 @@
       issue a firmware or software update to the Thing or will not update the
       MUD file, the "is-supported" attribute defined in Section 3.6 of <xref
       target="RFC8520"></xref> can be used by the MUD manager to identify the
-      IoT manufcaturer no longer supports the device. </t>
+      IoT manufcaturer no longer supports the device.</t>
 
       <t>The end-of-life of a device does not necessarily mean that it is
       defective; rather, it denotes a need to replace and upgrade the network
@@ -428,7 +429,8 @@
         has the following tree structure:</t>
 
         <t><figure>
-            <artwork><![CDATA[  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
+            <artwork><![CDATA[module: ietf-acl-tls
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
     +--rw client-profile
        +--rw client-profile
           +--rw tls-dtls-profiles* [profile-name]
@@ -438,18 +440,32 @@
              +--rw cipher-suites* [cipher aead]
              |  +--rw cipher    ianatp:cipher-algorithm
              |  +--rw aead      ianatp:aead-algorithm
-             +--rw extension-types*               ianatp:extension-type
-             +--rw acceptlist-ta-certs*           ct:trust-anchor-cert-cms
+             +--rw extension-types*
+             |       ianatp:extension-type
+             +--rw acceptlist-ta-certs*
+             |       ct:trust-anchor-cert-cms
              +--rw SPKI
              |  +--rw SPKI-pin-sets*         ianatp:SPKI-pin-set
              |  +--rw SPKI-hash-algorithm?   iha:hash-algorithm-type
-             +--rw psk-key-exchange-modes*        ianatp:psk-key-exchange-mode {tls-1-3 or dtls-1-3}?
-             +--rw supported-groups*              ianatp:supported-group
-             +--rw signature-algorithms-cert*     ianatp:signature-algorithm {tls-1-3 or dtls-1-3}?
-             +--rw signature-algorithms*          ianatp:signature-algorithm
-             +--rw application-protocols*         ianatp:application-protocol
-             +--rw cert-compression-algorithms*   ianatp:cert-compression-algorithm {tls-1-3 or dtls-1-3}?
-             +--rw certificate_authorities*       ianatp:certificate_authority {tls-1-3 or dtls-1-3}?
+             +--rw psk-key-exchange-modes*
+             |       ianatp:psk-key-exchange-mode
+             |       {tls-1-3 or dtls-1-3}?
+             +--rw supported-groups*
+             |       ianatp:supported-group
+             +--rw signature-algorithms-cert*
+             |       ianatp:signature-algorithm
+             |       {tls-1-3 or dtls-1-3}?
+             +--rw signature-algorithms*
+             |       ianatp:signature-algorithm
+             +--rw application-protocols*
+             |       ianatp:application-protocol
+             +--rw cert-compression-algorithms*
+             |       ianatp:cert-compression-algorithm
+             |       {tls-1-3 or dtls-1-3}?
+             +--rw certificate_authorities*
+                     ianatp:certificate_authority
+                     {tls-1-3 or dtls-1-3}?
+
 ]]></artwork>
           </figure></t>
       </section>
@@ -1330,6 +1346,19 @@ module iana-tls-profile {
         </front>
 
         <seriesInfo name="ITU-T" value="X.501" />
+      </reference>
+
+      <reference anchor="mud" target="https://arxiv.org/pdf/1804.04358.pdf">
+        <front>
+          <title>Clear as MUD: Generating, Validating and Applying IoT
+          Behaviorial Profiles</title>
+
+          <author>
+            <organization></organization>
+          </author>
+
+          <date month="October" year="2019" />
+        </front>
       </reference>
 
       <reference anchor="malware-tls"

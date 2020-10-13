@@ -5,10 +5,10 @@
 OPSAWG WG                                                       T. Reddy
 Internet-Draft                                                    McAfee
 Intended status: Standards Track                                 D. Wing
-Expires: April 12, 2021                                           Citrix
+Expires: April 16, 2021                                           Citrix
                                                              B. Anderson
                                                                    Cisco
-                                                         October 9, 2020
+                                                        October 13, 2020
 
 
   Manufacturer Usage Description (MUD) (D)TLS Profiles for IoT Devices
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on April 12, 2021.
+   This Internet-Draft will expire on April 16, 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Reddy, et al.            Expires April 12, 2021                 [Page 1]
+Reddy, et al.            Expires April 16, 2021                 [Page 1]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -73,34 +73,35 @@ Table of Contents
    5.  (D)TLS Profile of a IoT device  . . . . . . . . . . . . . . .   7
      5.1.  Tree Structure  . . . . . . . . . . . . . . . . . . . . .   9
      5.2.  The (D)TLS profile Extension to the ACL YANG Model  . . .  10
-     5.3.  IANA (D)TLS profile YANG Module . . . . . . . . . . . . .  14
-   6.  Processing of the MUD (D)TLS Profile  . . . . . . . . . . . .  17
-   7.  MUD File Example  . . . . . . . . . . . . . . . . . . . . . .  18
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  20
-   9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  20
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  21
-     10.1.  (D)TLS Profile YANG Modules  . . . . . . . . . . . . . .  21
-     10.2.  TLS Version registry . . . . . . . . . . . . . . . . . .  23
-     10.3.  DTLS version registry  . . . . . . . . . . . . . . . . .  23
-     10.4.  (D)TLS Parameters registry . . . . . . . . . . . . . . .  23
-   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  24
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  24
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  24
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  26
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  28
+     5.3.  IANA (D)TLS profile YANG Module . . . . . . . . . . . . .  15
+   6.  Processing of the MUD (D)TLS Profile  . . . . . . . . . . . .  18
+   7.  MUD File Example  . . . . . . . . . . . . . . . . . . . . . .  19
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  21
+   9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  21
+   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  22
+     10.1.  (D)TLS Profile YANG Modules  . . . . . . . . . . . . . .  22
+     10.2.  TLS Version registry . . . . . . . . . . . . . . . . . .  24
+     10.3.  DTLS version registry  . . . . . . . . . . . . . . . . .  24
+     10.4.  (D)TLS Parameters registry . . . . . . . . . . . . . . .  24
+   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  25
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  25
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  25
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  27
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  29
 
 1.  Introduction
 
    Encryption is necessary to enhance the privacy of end users using IoT
    devices.  TLS [RFC8446] and DTLS [I-D.ietf-tls-dtls13] are the
-   dominant protocols providing encryption for IoT device traffic.
-   Unfortunately, in conjunction with IoT applications' rise of
-   encryption, malware is also using encryption which thwarts network-
-   based analysis such as deep packet inspection (DPI).  Other
-   mechanisms are needed to detect malware running on an IoT device.
+   dominant protocols (counting all (D)TLS versions) providing
+   encryption for IoT device traffic.  Unfortunately, in conjunction
+   with IoT applications' rise of encryption, malware authors are also
+   using encryption which thwarts network-based analysis such as deep
+   packet inspection (DPI).  Other mechanisms are thus needed to help
+   detecting malware running on an IoT device.
 
-   Malware frequently uses its own libraries for its activities, and
-   those libraries are re-used much like any other software engineering
+   Malware frequently uses proprietary libraries for its activities, and
+   those libraries are reused much like any other software engineering
    project. [malware] indicates that there are observable differences in
    how malware uses encryption compared with how non-malware uses
    encryption.  There are several interesting findings specific to
@@ -108,8 +109,7 @@ Table of Contents
 
 
 
-
-Reddy, et al.            Expires April 12, 2021                 [Page 2]
+Reddy, et al.            Expires April 16, 2021                 [Page 2]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -117,9 +117,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
    o  Older and weaker cryptographic parameters (e.g.,
       TLS_RSA_WITH_RC4_128_SHA).
 
-   o  TLS server name indication (SNI) extension and server certificates
-      are composed of subjects with characteristics of a domain
-      generation algorithm (DGA) (e.g., www.33mhwt2j.net).
+   o  TLS server name indication (SNI) extension [RFC6066] and server
+      certificates are composed of subjects with characteristics of a
+      domain generation algorithm (DGA) (e.g., 'www.33mhwt2j.net').
 
    o  Higher use of self-signed certificates compared with typical
       legitimate software.
@@ -165,7 +165,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 12, 2021                 [Page 3]
+Reddy, et al.            Expires April 16, 2021                 [Page 3]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -179,10 +179,10 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
       device communicates with other devices located in the local
       network and Internet.  There would be an inaccurate policy if an
       IoT device rapidly changes the IP addresses and domain names it
-      communicates with while the MUD ACLs were slower to update.  In
-      such a case, observable (D)TLS profile parameters can be used to
-      permit intended use and to block malicious behavior from the IoT
-      device.
+      communicates with while the MUD ACLs were slower to update (see
+      [mud]).  In such a case, observable (D)TLS profile parameters can
+      be used to permit intended use and to block malicious behavior
+      from the IoT device.
 
    This document extends MUD [RFC8520] to model observable (D)TLS
    profile parameters.  Using these (D)TLS profile parameters, an active
@@ -221,7 +221,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 12, 2021                 [Page 4]
+Reddy, et al.            Expires April 16, 2021                 [Page 4]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -240,26 +240,29 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
    legitimate uses of encryption.  The middlebox need not proxy (D)TLS
    but can passively observe the parameters of (D)TLS handshakes from
    IoT devices and gain visibility into TLS 1.2 parameters and partial
-   visibility into TLS 1.3 parameters.  Malicious agents can try to use
-   the (D)TLS profile parameters of legitimate agents to evade
-   detection, but it becomes a challenge to mimic the behavior of
-   various IoT device types and IoT device models from several
-   manufacturers.  In other words, malware developers will have to
-   develop malicious agents per IoT device type, manufacturer and model,
-   infect the device with the tailored malware agent and will have keep
-   up with updates to the device's (D)TLS profile parameters over time.
-   Furthermore, the malware's command and control server certificates
-   need to be signed by the same certifying authorities trusted by the
-   IoT devices.  Typically, IoT devices have an infrastructure that
-   supports a rapid deployment of updates, and malware agents will have
-   a near-impossible task of similarly deploying updates and continuing
-   to mimic the TLS behavior of the IoT device it has infected.
-   However, if the IoT device has reached end-of-life and the IoT
-   manufcaturer will not issue a firmware or software update to the
-   Thing or will not update the MUD file, the "is-supported" attribute
-   defined in Section 3.6 of [RFC8520] can be used by the MUD manager to
-   identify the IoT manufcaturer no longer supports the device.  The
-   end-of-life of a device does not necessarily mean that it is
+   visibility into TLS 1.3 parameters.
+
+   Malicious agents can try to use the (D)TLS profile parameters of
+   legitimate agents to evade detection, but it becomes a challenge to
+   mimic the behavior of various IoT device types and IoT device models
+   from several manufacturers.  In other words, malware developers will
+   have to develop malicious agents per IoT device type, manufacturer
+   and model, infect the device with the tailored malware agent and will
+   have keep up with updates to the device's (D)TLS profile parameters
+   over time.  Furthermore, the malware's command and control server
+   certificates need to be signed by the same certifying authorities
+   trusted by the IoT devices.  Typically, IoT devices have an
+   infrastructure that supports a rapid deployment of updates, and
+   malware agents will have a near-impossible task of similarly
+   deploying updates and continuing to mimic the TLS behavior of the IoT
+   device it has infected.  However, if the IoT device has reached end-
+   of-life and the IoT manufcaturer will not issue a firmware or
+   software update to the Thing or will not update the MUD file, the
+   "is-supported" attribute defined in Section 3.6 of [RFC8520] can be
+   used by the MUD manager to identify the IoT manufcaturer no longer
+   supports the device.
+
+   The end-of-life of a device does not necessarily mean that it is
    defective; rather, it denotes a need to replace and upgrade the
    network to next-generation devices for additional functionality.  The
    network security service will have to rely on other techniques
@@ -274,10 +277,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-
-
-
-Reddy, et al.            Expires April 12, 2021                 [Page 5]
+Reddy, et al.            Expires April 16, 2021                 [Page 5]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -333,7 +333,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 12, 2021                 [Page 6]
+Reddy, et al.            Expires April 16, 2021                 [Page 6]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -389,7 +389,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 12, 2021                 [Page 7]
+Reddy, et al.            Expires April 16, 2021                 [Page 7]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -445,7 +445,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 12, 2021                 [Page 8]
+Reddy, et al.            Expires April 16, 2021                 [Page 8]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -472,28 +472,6 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
    defines the YANG module "ietf-acl-tls", which has the following tree
    structure:
 
-module: ietf-acl-tls
-  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
-    +--rw client-profile
-       +--rw tls-dtls-profiles* [profile-name]
-          +--rw profile-name                   string
-          +--rw supported_tls_versions*        tls-version
-          +--rw supported_dtls_versions*       dtls-version
-          +--rw cipher-suites* [cipher aead]
-          |  +--rw cipher    cipher-algorithm
-          |  +--rw aead      aead-algorithm
-          +--rw extension-types*               extension-type
-          +--rw acceptlist-ta-certs*           ct:trust-anchor-cert-cms
-          +--rw SPKI
-          |  +--rw SPKI-pin-sets*         SPKI-pin-set
-          |  +--rw SPKI-hash-algorithm?   iha:hash-algorithm-type
-          +--rw psk-key-exchange-modes*        psk-key-exchange-mode {tls-1_3 or dtls-1_3}?
-          +--rw supported-groups*              supported-group
-          +--rw signature-algorithms-cert*     signature-algorithm {tls-1_3 or dtls-1_3}?
-          +--rw signature-algorithms*          signature-algorithm
-          +--rw application-protocols*         application-protocol
-          +--rw cert-compression-algorithms*   cert-compression-algorithm {tls-1_3 or dtls-1_3}?
-          +--rw certificate_authorities*       certificate_authority {tls-1_3 or dtls-1_3}?
 
 
 
@@ -501,269 +479,341 @@ module: ietf-acl-tls
 
 
 
-Reddy, et al.            Expires April 12, 2021                 [Page 9]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reddy, et al.            Expires April 16, 2021                 [Page 9]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
+
+
+   module: ietf-acl-tls
+     augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
+       +--rw client-profile
+          +--rw client-profile
+             +--rw tls-dtls-profiles* [profile-name]
+                +--rw profile-name                   string
+                +--rw supported-tls-versions*        ianatp:tls-version
+                +--rw supported-dtls-versions*       ianatp:dtls-version
+                +--rw cipher-suites* [cipher aead]
+                |  +--rw cipher    ianatp:cipher-algorithm
+                |  +--rw aead      ianatp:aead-algorithm
+                +--rw extension-types*
+                |       ianatp:extension-type
+                +--rw acceptlist-ta-certs*
+                |       ct:trust-anchor-cert-cms
+                +--rw SPKI
+                |  +--rw SPKI-pin-sets*         ianatp:SPKI-pin-set
+                |  +--rw SPKI-hash-algorithm?   iha:hash-algorithm-type
+                +--rw psk-key-exchange-modes*
+                |       ianatp:psk-key-exchange-mode
+                |       {tls-1-3 or dtls-1-3}?
+                +--rw supported-groups*
+                |       ianatp:supported-group
+                +--rw signature-algorithms-cert*
+                |       ianatp:signature-algorithm
+                |       {tls-1-3 or dtls-1-3}?
+                +--rw signature-algorithms*
+                |       ianatp:signature-algorithm
+                +--rw application-protocols*
+                |       ianatp:application-protocol
+                +--rw cert-compression-algorithms*
+                |       ianatp:cert-compression-algorithm
+                |       {tls-1-3 or dtls-1-3}?
+                +--rw certificate_authorities*
+                        ianatp:certificate_authority
+                        {tls-1-3 or dtls-1-3}?
 
 
 5.2.  The (D)TLS profile Extension to the ACL YANG Model
 
 <CODE BEGINS> file "ietf-acl-tls@2020-10-07.yang"
 module ietf-acl-tls {
-   yang-version 1.1;
-   namespace "urn:ietf:params:xml:ns:yang:ietf-acl-tls";
-   prefix ietf-acl-tls;
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:ietf-acl-tls";
+  prefix ietf-acl-tls;
 
-   import iana-tls-profile {
-     prefix ianatp;
-     reference "RFC XXXX:
-          Manufacturer Usage Description (MUD) (D)TLS Profiles for IoT Devices";
-   }
-
-   import ietf-crypto-types {
-     prefix ct;
-     reference "draft-ietf-netconf-crypto-types-13:
-                Common YANG Data Types for Cryptography";
-   }
-
-   import iana-hash-algs {
-     prefix iha;
-     reference
-          "draft-ietf-netconf-crypto-types-13: Common YANG Data Types for
-           Hash algorithms";
-   }
-
-
-   import ietf-access-control-list {
-     prefix acl;
-     reference
-       "RFC 8519: YANG Data Model for Network Access
-                  Control Lists (ACLs)";
-   }
-
-     organization
-       "IETF OPSAWG (Operations and Management Area Working Group)";
-     contact
-       "WG Web: <https://datatracker.ietf.org/wg/opsawg/>
-        WG List: opsawg@ietf.org
-
-         Author: Konda, Tirumaleswar Reddy
-                      TirumaleswarReddy_Konda@McAfee.com
-      ";
-
-   description
-     "This YANG moudle defines a component that augments the
-       IETF description of an access list to allow (D)TLS profile
+  import iana-tls-profile {
+    prefix ianatp;
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 10]
+Reddy, et al.            Expires April 16, 2021                [Page 10]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
-       as matching criteria.
+    reference
+      "RFC XXXX: Manufacturer Usage Description (MUD) (D)TLS
+                 Profiles for IoT Devices";
+  }
+  import ietf-crypto-types {
+    prefix ct;
+    reference
+      "RFC CCCC: Common YANG Data Types for Cryptography";
+  }
+  import iana-hash-algs {
+    prefix iha;
+    reference
+      "RFC IIII: Common YANG Data Types for
+       Hash algorithms";
+  }
+  import ietf-access-control-list {
+    prefix acl;
+    reference
+      "RFC 8519: YANG Data Model for Network Access
+                 Control Lists (ACLs)";
+  }
 
-      Copyright (c) 2019 IETF Trust and the persons identified as
-      authors of the code.  All rights reserved.
+  organization
+    "IETF OPSAWG (Operations and Management Area Working Group)";
+  contact
+    "WG Web: <https://datatracker.ietf.org/wg/opsawg/>
+     WG List: opsawg@ietf.org
 
-      Redistribution and use in source and binary forms, with or
-      without modification, is permitted pursuant to, and subject
-      to the license terms contained in, the Simplified BSD License
-      set forth in Section 4.c of the IETF Trust's Legal Provisions
-      Relating to IETF Documents
-      (http://trustee.ietf.org/license-info).
+      Author: Konda, Tirumaleswar Reddy
+                   TirumaleswarReddy_Konda@McAfee.com
+    ";
+  description
+    "This YANG moudle defines a component that augments the
+      IETF description of an access list to allow (D)TLS profile
+      as matching criteria.
 
-      This version of this YANG module is part of RFC XXXX; see
-      the RFC itself for full legal notices.";
+     Copyright (c) 2020 IETF Trust and the persons identified as
+     authors of the code.  All rights reserved.
 
-   revision 2019-10-07 {
-     description
-       "Initial revision";
-   }
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject
+     to the license terms contained in, the Simplified BSD License
+     set forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (http://trustee.ietf.org/license-info).
 
-   feature tls-1_2 {
-     description
-       "TLS Protocol Version 1.2 is supported.";
-       reference
-         "RFC 5246: The Transport Layer Security (TLS) Protocol
-                    Version 1.2";
-   }
-
-   feature tls-1_3 {
-     description
-       "TLS Protocol Version 1.3 is supported.";
-       reference
-         "RFC 8446: The Transport Layer Security (TLS) Protocol
-                    Version 1.3";
-   }
-
-   feature dtls-1_2 {
-       description
-          "DTLS Protocol Version 1.2 is supported.";
-       reference
-          "RFC 6346: Datagram Transport Layer Security Version 1.2";
-   }
-
-   feature dtls-1_3 {
-       description
-         "DTLS Protocol Version 1.3 is supported.";
-       reference
-         "draft-ietf-tls-dtls13: Datagram Transport Layer Security 1.3";
+     This version of this YANG module is part of RFC XXXX; see
+     the RFC itself for full legal notices.";
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 11]
+Reddy, et al.            Expires April 16, 2021                [Page 11]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
-   }
+  revision 2020-10-07 {
+    description
+      "Initial revision";
+    reference
+      "RFC XXXX: Manufacturer Usage Description (MUD) (D)TLS
+                 Profiles for IoT Devices";
+  }
 
-   grouping client-profile {
-     description
-       "A grouping for (D)TLS profiles.";
-     container client-profile {
-       list tls-dtls-profiles {
-         key "profile-name";
-         description
-          "A list of (D)TLS version profiles supported by the client.";
-        leaf profile-name {
-          type string {
-            length "1..64";
-          }
+  feature tls-1-2 {
+    description
+      "TLS Protocol Version 1.2 is supported.";
+    reference
+      "RFC 5246: The Transport Layer Security (TLS) Protocol
+                 Version 1.2";
+  }
+
+  feature tls-1-3 {
+    description
+      "TLS Protocol Version 1.3 is supported.";
+    reference
+      "RFC 8446: The Transport Layer Security (TLS) Protocol
+                 Version 1.3";
+  }
+
+  feature dtls-1-2 {
+    description
+      "DTLS Protocol Version 1.2 is supported.";
+    reference
+      "RFC 6346: Datagram Transport Layer Security Version 1.2";
+  }
+
+  feature dtls-1-3 {
+    description
+      "DTLS Protocol Version 1.3 is supported.";
+    reference
+      "draft-ietf-tls-dtls13: Datagram Transport Layer Security 1.3";
+  }
+
+  augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
+    description
+      "(D)TLS specific matches.";
+    container client-profile {
+      description
+        "A grouping for (D)TLS profiles.";
+      container client-profile {
+        description
+          "A grouping for DTLS profiles.";
+        list tls-dtls-profiles {
+
+
+
+Reddy, et al.            Expires April 16, 2021                [Page 12]
+
+Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
+
+
+          key "profile-name";
           description
-            "The name of (D)TLS profile; space and special
-            characters are not allowed.";
-         }
-         leaf-list supported_tls_versions {
-           type ianatp:tls-version;
-           description
-             "TLS versions supported by the client";
-         }
-         leaf-list supported_dtls_versions {
-           type ianatp:dtls-version;
-           description
-             "DTLS versions supported by the client";
-         }
-         list cipher-suites {
+            "A list of (D)TLS version profiles supported by the client.";
+          leaf profile-name {
+            type string {
+              length "1..64";
+            }
+            description
+              "The name of (D)TLS profile; space and special
+               characters are not allowed.";
+          }
+          leaf-list supported-tls-versions {
+            type ianatp:tls-version;
+            description
+              "TLS versions supported by the client";
+          }
+          leaf-list supported-dtls-versions {
+            type ianatp:dtls-version;
+            description
+              "DTLS versions supported by the client";
+          }
+          list cipher-suites {
             key "cipher aead";
             leaf cipher {
-               type ianatp:cipher-algorithm;
-               description "Cipher";
+              type ianatp:cipher-algorithm;
+              description
+                "Cipher";
             }
             leaf aead {
-               type ianatp:aead-algorithm;
-               description "AEAD";
-           }
-          description "Cipher Suites";
-         }
-         leaf-list extension-types {
-           type ianatp:extension-type;
-           description "Extension Types";
-         }
-         leaf-list acceptlist-ta-certs {
-           type ct:trust-anchor-cert-cms;
-           description
-             "A list of trust anchor certificates used by the client.";
+              type ianatp:aead-algorithm;
+              description
+                "AEAD";
+            }
+            description
+              "Cipher Suites";
+          }
+          leaf-list extension-types {
+            type ianatp:extension-type;
+            description
+              "Extension Types";
+          }
+          leaf-list acceptlist-ta-certs {
+            type ct:trust-anchor-cert-cms;
+            description
+              "A list of trust anchor certificates used by the client.";
+          }
+          container SPKI {
+            description
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 12]
+Reddy, et al.            Expires April 16, 2021                [Page 13]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
-         }
-         container SPKI {
+              "A grouping for SPKI.";
             leaf-list SPKI-pin-sets {
-                type ianatp:SPKI-pin-set;
-                description
-                  "A list of SPKI pin sets pre-configured on the client
-                  to validate self-signed server certificate or
-                  raw public key.";
+              type ianatp:SPKI-pin-set;
+              description
+                "A list of SPKI pin sets pre-configured on the client
+                 to validate self-signed server certificate or
+                 raw public key.";
             }
             leaf SPKI-hash-algorithm {
-               type iha:hash-algorithm-type;
+              type iha:hash-algorithm-type;
               description
                 "cryptographic hash algorithm used to generate the
-                SPKI pinset.";
+                 SPKI pinset.";
             }
-         }
-         leaf-list psk-key-exchange-modes {
-           if-feature "tls-1_3 or dtls-1_3";
-           type ianatp:psk-key-exchange-mode;
-           description
-             "pre-shared key exchange modes";
-         }
-         leaf-list supported-groups {
+          }
+          leaf-list psk-key-exchange-modes {
+            if-feature "tls-1-3 or dtls-1-3";
+            type ianatp:psk-key-exchange-mode;
+            description
+              "pre-shared key exchange modes";
+          }
+          leaf-list supported-groups {
             type ianatp:supported-group;
             description
-             "A list of named groups supported by the client.";
-         }
-         leaf-list signature-algorithms-cert {
-            if-feature "tls-1_3 or dtls-1_3";
+              "A list of named groups supported by the client.";
+          }
+          leaf-list signature-algorithms-cert {
+            if-feature "tls-1-3 or dtls-1-3";
             type ianatp:signature-algorithm;
             description
-             "A list signature algorithms the client can validate
-              in X.509 certificates.";
-         }
-         leaf-list signature-algorithms {
+              "A list signature algorithms the client can validate
+               in X.509 certificates.";
+          }
+          leaf-list signature-algorithms {
             type ianatp:signature-algorithm;
             description
-             "A list signature algorithms the client can validate
-              in the CertificateVerify message.";
-         }
-         leaf-list application-protocols {
+              "A list signature algorithms the client can validate
+               in the CertificateVerify message.";
+          }
+          leaf-list application-protocols {
             type ianatp:application-protocol;
             description
-             "A list application protocols supported by the client";
-         }
-         leaf-list cert-compression-algorithms {
-            if-feature "tls-1_3 or dtls-1_3";
+              "A list application protocols supported by the client";
+          }
+          leaf-list cert-compression-algorithms {
+            if-feature "tls-1-3 or dtls-1-3";
             type ianatp:cert-compression-algorithm;
+            description
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 13]
+Reddy, et al.            Expires April 16, 2021                [Page 14]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
-            description
-             "A list certificate compression algorithms
-              supported by the client";
-         }
-         leaf-list certificate_authorities {
-            if-feature "tls-1_3 or dtls-1_3";
+              "A list certificate compression algorithms
+               supported by the client";
+          }
+          leaf-list certificate_authorities {
+            if-feature "tls-1-3 or dtls-1-3";
             type ianatp:certificate_authority;
             description
-             "A list of the distinguished names of certificate authorities
-              acceptable to the client";
-         }
-   }
+              "A list of the distinguished names of certificate authorities
+               acceptable to the client";
+          }
+        }
+      }
+    }
   }
- }
-
-
- augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
-   description
-     "(D)TLS specific matches.";
-    uses client-profile;
- }
 }
+<CODE ENDS>
 
 5.3.  IANA (D)TLS profile YANG Module
 
-<CODE BEGINS> file "iana-tls-profile@2020-10-07.yang"
+   <CODE BEGINS> file "iana-tls-profile@2020-10-07.yang"
 
-module iana-tls-profile {
-   yang-version 1.1;
-   namespace "urn:ietf:params:xml:ns:yang:iana-tls-profile";
-   prefix ianatp;
+   module iana-tls-profile {
+     yang-version 1.1;
+     namespace "urn:ietf:params:xml:ns:yang:iana-tls-profile";
+     prefix ianatp;
 
-
-  organization "IANA";
+     organization
+       "IANA";
      contact
        "        Internet Assigned Numbers Authority
 
@@ -774,150 +824,158 @@ module iana-tls-profile {
 
         Tel:    +1 310 301 5800
         E-Mail: iana@iana.org>";
-
      description
        "This module contains YANG definition for the (D)TLS profile.
 
-
-
-
-Reddy, et al.            Expires April 12, 2021                [Page 14]
-
-Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
-
-
-        The latest revision of this YANG module can be obtained from
-        the IANA web site.
-
-        Requests for new values should be made to IANA via
-        email (iana@iana.org).
-
-        Copyright (c) 2014 IETF Trust and the persons identified as
+        Copyright (c) 2020 IETF Trust and the persons identified as
         authors of the code.  All rights reserved.
 
         Redistribution and use in source and binary forms, with or
         without modification, is permitted pursuant to, and subject
         to the license terms contained in, the Simplified BSD License
         set forth in Section 4.c of the IETF Trust's Legal Provisions
-        Relating to IETF Documents
-        (http://trustee.ietf.org/license-info).";
-
-   revision 2019-10-07 {
-     description
-       "Initial revision";
-   }
-   typedef extension-type {
-     type uint16;
-     description "Extension type";
-   }
-
-    typedef supported-group {
-     type uint16;
-     description "Named group (DHE or ECDHE)";
-   }
-
-   typedef SPKI-pin-set {
-     type binary;
-     description "Subject Public Key Info pin set";
-   }
-
-   typedef signature-algorithm {
-     type uint16;
-     description "Signature algorithm";
-   }
-
-   typedef psk-key-exchange-mode {
-     type uint8;
-     description "pre-shared key exchange mode";
-   }
-
-   typedef application-protocol {
-     type string;
-     description "application protocol";
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 15]
+Reddy, et al.            Expires April 16, 2021                [Page 15]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
-   }
+        Relating to IETF Documents
+        (http://trustee.ietf.org/license-info).
 
-   typedef cert-compression-algorithm {
-     type uint16;
-     description "certificate compression algorithm";
-   }
+        This version of this YANG module is part of RFC XXXX; see
+        the RFC itself for full legal notices.";
 
-   typedef certificate_authority {
-     type string;
-     description "Distinguished Name of Certificate authority";
-   }
+     revision 2020-10-07 {
+       description
+         "Initial revision";
+       reference
+         "RFC XXXX: Manufacturer Usage Description (MUD) (D)TLS Profiles
+                    for IoT Devices";
+     }
 
-   typedef cipher-algorithm {
-     type uint8;
-     description "Cipher Algorithm";
-   }
+     typedef extension-type {
+       type uint16;
+       description
+         "Extension type";
+     }
 
-   typedef aead-algorithm {
-     type uint8;
-     description "AEAD Algorithm";
-   }
+     typedef supported-group {
+       type uint16;
+       description
+         "Named group (DHE or ECDHE)";
+     }
 
-   typedef tls-version {
+     typedef SPKI-pin-set {
+       type binary;
+       description
+         "Subject Public Key Info pin set";
+     }
+
+     typedef signature-algorithm {
+       type uint16;
+       description
+         "Signature algorithm";
+     }
+
+     typedef psk-key-exchange-mode {
+       type uint8;
+       description
+         "pre-shared key exchange mode";
+     }
+
+     typedef application-protocol {
+       type string;
+       description
+         "application protocol";
+
+
+
+Reddy, et al.            Expires April 16, 2021                [Page 16]
+
+Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
+
+
+     }
+
+     typedef cert-compression-algorithm {
+       type uint16;
+       description
+         "certificate compression algorithm";
+     }
+
+     typedef certificate_authority {
+       type string;
+       description
+         "Distinguished Name of Certificate authority";
+     }
+
+     typedef cipher-algorithm {
+       type uint8;
+       description
+         "Cipher Algorithm";
+     }
+
+     typedef aead-algorithm {
+       type uint8;
+       description
+         "AEAD Algorithm";
+     }
+
+     typedef tls-version {
        type enumeration {
          enum tls-1.2 {
            value 1;
            description
-               "TLS Protocol Version 1.2.";
+             "TLS Protocol Version 1.2.";
            reference
-              "RFC 5246: The Transport Layer Security (TLS) Protocol
-                                   Version 1.2";
+             "RFC 5246: The Transport Layer Security (TLS) Protocol
+                        Version 1.2";
          }
          enum tls-1.3 {
            value 2;
            description
-               "TLS Protocol Version 1.3.";
+             "TLS Protocol Version 1.3.";
            reference
-              "RFC 8446: The Transport Layer Security (TLS) Protocol
-                                   Version 1.3";
+             "RFC 8446: The Transport Layer Security (TLS) Protocol
+                        Version 1.3";
          }
-      }
-      description
-           "Indicates the TLS version.";
-   }
-
-   typedef dtls-version {
-     type enumeration {
-         enum dtls-1.2 {
+       }
+       description
+         "Indicates the TLS version.";
+     }
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 16]
+Reddy, et al.            Expires April 16, 2021                [Page 17]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
+     typedef dtls-version {
+       type enumeration {
+         enum dtls-1.2 {
            value 1;
            description
-               "DTLS Protocol Version 1.2.";
+             "DTLS Protocol Version 1.2.";
            reference
-              "RFC 6346: Datagram Transport Layer Security 1.2";
+             "RFC 6346: Datagram Transport Layer Security 1.2";
          }
          enum dtls-1.3 {
            value 2;
            description
-               "DTLS Protocol Version 1.3.";
+             "DTLS Protocol Version 1.3.";
            reference
-               "draft-ietf-tls-dtls13: Datagram Transport Layer Security 1.3";
+             "RFC DDDD: Datagram Transport Layer Security 1.3";
          }
+       }
+       description
+         "Indicates the DTLS version.";
      }
-     description
-       "Indicates the DTLS version.";
    }
-}
-
-
+   <CODE ENDS>
 
 6.  Processing of the MUD (D)TLS Profile
 
@@ -944,15 +1002,16 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
       cipher suites, extensions, and other parameters.  For example, if
       the cipher suite TLS_CHACHA20_POLY1305_SHA256 in the ClientHello
       message is not specified in the MUD (D)TLS profile and the cipher
-      suite is not recognized by the firewall, it can ignore the
-      unrecognized cipher suite.
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 17]
+Reddy, et al.            Expires April 16, 2021                [Page 18]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
+
+      suite is not recognized by the firewall, it can ignore the
+      unrecognized cipher suite.
 
    o  Deployments update at different rates, so an updated MUD (D)TLS
       profile may support newer parameters.  If the firewall does not
@@ -999,17 +1058,17 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
               "aces": {
                 "ace": [
                   {
-                    "name": "cl0-frdev",
-                    "matches": {
-                      "ipv6": {
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 18]
+Reddy, et al.            Expires April 16, 2021                [Page 19]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
+                    "name": "cl0-frdev",
+                    "matches": {
+                      "ipv6": {
                         "protocol": 6
                       },
                       "tcp": {
@@ -1054,17 +1113,18 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
    The following illustrates the example scenarios for processing the
    above profile:
 
-   o  If the extension type "encrypt_then_mac" (code point 22) [RFC7366]
-      in the ClientHello message is recognized by the firewall, it can
-      identify unexpected TLS usage.
 
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 19]
+Reddy, et al.            Expires April 16, 2021                [Page 20]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
+
+   o  If the extension type "encrypt_then_mac" (code point 22) [RFC7366]
+      in the ClientHello message is recognized by the firewall, it can
+      identify unexpected TLS usage.
 
    o  If the extension type "token_binding" (code point 24) [RFC8472] in
       the ClientHello message is not recognized by the firewall, it can
@@ -1110,17 +1170,16 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
    based on object security can be used by IoT devices to enable end-to-
    end security and the middlebox will not have any access to the packet
    data.  For example, Object Security for Constrained RESTful
-   Environments (OSCORE) [RFC8613] is a proposal that protects CoAP
-   messages by wrapping them in the COSE format [RFC8152].
 
 
 
-
-
-Reddy, et al.            Expires April 12, 2021                [Page 20]
+Reddy, et al.            Expires April 16, 2021                [Page 21]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
+
+   Environments (OSCORE) [RFC8613] is a proposal that protects CoAP
+   messages by wrapping them in the COSE format [RFC8152].
 
 10.  IANA Considerations
 
@@ -1167,17 +1226,16 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
    contents of Section 5.3, which will allow for new (D)TLS parameters
    and (D)TLS versions to be added.  IANA is requested to add this note:
 
-   o  tls-version and dtls-version values must not be directly added to
-      the iana-tls-profile YANG module.  They must instead be
 
 
 
-
-Reddy, et al.            Expires April 12, 2021                [Page 21]
+Reddy, et al.            Expires April 16, 2021                [Page 22]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
+   o  tls-version and dtls-version values must not be directly added to
+      the iana-tls-profile YANG module.  They must instead be
       respectively added to the "TLS Version Codes", and "DTLS Version
       Codes" registries.
 
@@ -1227,9 +1285,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-
-
-Reddy, et al.            Expires April 12, 2021                [Page 22]
+Reddy, et al.            Expires April 16, 2021                [Page 23]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1285,7 +1341,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 23]
+Reddy, et al.            Expires April 16, 2021                [Page 24]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1341,7 +1397,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 24]
+Reddy, et al.            Expires April 16, 2021                [Page 25]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1397,7 +1453,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 25]
+Reddy, et al.            Expires April 16, 2021                [Page 26]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1447,13 +1503,13 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
               Application Behavior", October 2019,
               <https://dl.acm.org/citation.cfm?id=3355601>.
 
+   [mud]      "Clear as MUD: Generating, Validating and Applying IoT
+              Behaviorial Profiles", October 2019,
+              <https://arxiv.org/pdf/1804.04358.pdf>.
 
 
 
-
-
-
-Reddy, et al.            Expires April 12, 2021                [Page 26]
+Reddy, et al.            Expires April 16, 2021                [Page 27]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1462,6 +1518,11 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
               the Network Configuration Protocol (NETCONF)", RFC 6020,
               DOI 10.17487/RFC6020, October 2010,
               <https://www.rfc-editor.org/info/rfc6020>.
+
+   [RFC6066]  Eastlake 3rd, D., "Transport Layer Security (TLS)
+              Extensions: Extension Definitions", RFC 6066,
+              DOI 10.17487/RFC6066, January 2011,
+              <https://www.rfc-editor.org/info/rfc6066>.
 
    [RFC7366]  Gutmann, P., "Encrypt-then-MAC for Transport Layer
               Security (TLS) and Datagram Transport Layer Security
@@ -1502,17 +1563,16 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
               Negotiation", RFC 8472, DOI 10.17487/RFC8472, October
               2018, <https://www.rfc-editor.org/info/rfc8472>.
 
-   [RFC8484]  Hoffman, P. and P. McManus, "DNS Queries over HTTPS
-              (DoH)", RFC 8484, DOI 10.17487/RFC8484, October 2018,
-              <https://www.rfc-editor.org/info/rfc8484>.
 
 
-
-
-Reddy, et al.            Expires April 12, 2021                [Page 27]
+Reddy, et al.            Expires April 16, 2021                [Page 28]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
+
+   [RFC8484]  Hoffman, P. and P. McManus, "DNS Queries over HTTPS
+              (DoH)", RFC 8484, DOI 10.17487/RFC8484, October 2018,
+              <https://www.rfc-editor.org/info/rfc8484>.
 
    [RFC8520]  Lear, E., Droms, R., and D. Romascanu, "Manufacturer Usage
               Description Specification", RFC 8520,
@@ -1552,6 +1612,20 @@ Authors' Addresses
    Email: danwing@gmail.com
 
 
+
+
+
+
+
+
+
+
+
+Reddy, et al.            Expires April 16, 2021                [Page 29]
+
+Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
+
+
    Blake Anderson
    Cisco Systems, Inc.
    170 West Tasman Dr
@@ -1565,4 +1639,42 @@ Authors' Addresses
 
 
 
-Reddy, et al.            Expires April 12, 2021                [Page 28]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reddy, et al.            Expires April 16, 2021                [Page 30]
