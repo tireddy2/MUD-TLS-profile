@@ -169,9 +169,9 @@
           Internet. There would be an inaccurate policy if an IoT device
           rapidly changes the IP addresses and domain names it communicates
           with while the MUD ACLs were slower to update (see <xref
-          target="mud"></xref>). In such a case, observable (D)TLS profile
-          parameters can be used to permit intended use and to block malicious
-          behavior from the IoT device.</t>
+          target="clear-as-mud"></xref>). In such a case, observable (D)TLS
+          profile parameters can be used to permit intended use and to block
+          malicious behavior from the IoT device.</t>
         </list></t>
 
       <t>This document extends MUD <xref target="RFC8520"></xref> to model
@@ -1348,7 +1348,8 @@ module iana-tls-profile {
         <seriesInfo name="ITU-T" value="X.501" />
       </reference>
 
-      <reference anchor="mud" target="https://arxiv.org/pdf/1804.04358.pdf">
+      <reference anchor="clear-as-mud"
+                 target="https://arxiv.org/pdf/1804.04358.pdf">
         <front>
           <title>Clear as MUD: Generating, Validating and Applying IoT
           Behaviorial Profiles</title>
