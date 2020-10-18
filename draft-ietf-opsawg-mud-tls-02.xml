@@ -174,14 +174,16 @@
           malicious behavior from the IoT device.</t>
         </list></t>
 
-      <t>This document extends MUD <xref target="RFC8520"></xref> to model
-      observable (D)TLS profile parameters. Using these (D)TLS profile
-      parameters, an active MUD-enforcing network security service (e.g.,
-      firewall) can identify MUD non-compliant (D)TLS behavior indicating
-      outdated cryptography or malware. This detection can prevent malware
-      downloads, block access to malicious domains, enforce use of strong
-      ciphers, stop data exfiltration, etc. In addition, organizations may
-      have policies around acceptable ciphers and certificates for the
+      <t>The YANG module specified in this document is an extension of YANG
+      Data Model for Network Access Control Lists (ACLs) <xref
+      target="RFC8519"></xref> to enhance MUD <xref target="RFC8520"></xref>
+      to model observable (D)TLS profile parameters. Using these (D)TLS
+      profile parameters, an active MUD-enforcing network security service
+      (e.g., firewall) can identify MUD non-compliant (D)TLS behavior
+      indicating outdated cryptography or malware. This detection can prevent
+      malware downloads, block access to malicious domains, enforce use of
+      strong ciphers, stop data exfiltration, etc. In addition, organizations
+      may have policies around acceptable ciphers and certificates for the
       websites the IoT devices connect to. Examples include no use of old and
       less secure versions of TLS, no use of self-signed certificates,
       deny-list or accept-list of Certificate Authorities, valid certificate
