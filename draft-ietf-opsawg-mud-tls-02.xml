@@ -289,13 +289,14 @@
         follow the behaviour detailed in Section 9.3 of <xref
         target="RFC8446"></xref> to act as a compliant (D)TLS 1.3 proxy.</t>
 
-        <t>To further increase privacy, encrypted client hello <xref
-        target="I-D.ietf-tls-esni"></xref> prevents passive observation of the
-        TLS Server Name Indication extension. To effectively provide that
-        privacy protection, SNI encryption needs to be used in conjunction
-        with DNS encryption (e.g., DoH). A middlebox (e.g., firewall)
-        passively inspecting an encrypted SNI (D)TLS handshake cannot observe
-        the encrypted SNI nor observe the encrypted DNS traffic.</t>
+        <t>To further increase privacy, Encrypted Client Hello (ECH) extension
+        <xref target="I-D.ietf-tls-esni"></xref> prevents passive observation
+        of the TLS Server Name Indication extension and other potentially
+        sensitive fields, such as the ALPN <xref target="RFC7301"></xref>. To
+        effectively provide that privacy protection, ECH extension needs to be
+        used in conjunction with DNS encryption (e.g., DoH). A middlebox
+        (e.g., firewall) passively inspecting ECH extension cannot observe the
+        encrypted SNI nor observe the encrypted DNS traffic. </t>
       </section>
 
       <section title="Encrypted DNS">
@@ -424,7 +425,7 @@
       supported_tls_versions and supported_dtls_versions parameters. The TLS
       and DTLS IANA registry does not maintain (D)TLS version numbers.</t>
 
-      <section title="Tree Structure">
+      <section title="Tree Structure of the (D)TLS profile Extension to the ACL YANG Model">
         <t>This document augments the "ietf-acl" ACL YANG module defined in
         <xref target="RFC8519"></xref> for signaling the IoT device (D)TLS
         profile. This document defines the YANG module "ietf-acl-tls", which
@@ -433,7 +434,7 @@
         <t><figure>
             <artwork><![CDATA[module: ietf-acl-tls
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
-    +--rw client-profile
+    +--rw client-profile {match-on-tls-dtls}?
        +--rw client-profile
           +--rw tls-dtls-profiles* [profile-name]
              +--rw profile-name                   string
@@ -569,7 +570,13 @@ module ietf-acl-tls {
       "draft-ietf-tls-dtls13: Datagram Transport Layer Security 1.3";
   }
 
+  feature match-on-tls-dtls {
+    description
+      "The device can support matching on (D)TLS parameters.";
+  }
+
   augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
+    if-feature "match-on-tls-dtls"; 
     description
       "(D)TLS specific matches.";
     container client-profile {
@@ -848,6 +855,82 @@ module iana-tls-profile {
 ]]></artwork>
           </figure></t>
       </section>
+
+      <section anchor="mud-dtls-extension"
+               title="MUD (D)TLS Profile Extension">
+        <t>This document augments the "ietf-mud" MUD YANG module to indicate
+        whether the device supports (D)TLS profile. If a device claims not to
+        support (D)TLS profile, but then later attempts to do so, a
+        notification or exception might be generated. If the "ietf-mud-tls"
+        extension is supported by the device, MUD file is assumed to implement
+        the "match-on-tls-dtls" ACL model feature defined in this
+        specification. Furthermore, only "accept" or "drop" actions SHOULD be
+        included with the (D)TLS profile similar to the actions allowed in
+        Section 2 of <xref target="RFC8520"></xref>. </t>
+
+        <t>This document defines the YANG module "ietf-mud-tls", which has the
+        following tree structure:</t>
+
+        <t><figure>
+            <artwork><![CDATA[module: ietf-mud-tls
+  augment /ietf-mud:mud:
+    +--rw is-tls-dtls-profile-supported?   boolean
+]]></artwork>
+          </figure></t>
+
+        <t>The model is defined as follows:</t>
+
+        <t><figure>
+            <artwork><![CDATA[<CODE BEGINS> file "iana-tls-mud@2020-10-20.yang"
+
+module ietf-mud-tls {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:ietf-mud-tls";
+  prefix ietf-mud-tls;
+
+  import ietf-mud {
+    prefix ietf-mud;
+  }
+
+  organization
+    "IETF OPSAWG (Operations and Management Area Working Group)";
+  contact
+    "WG Web: <https://datatracker.ietf.org/wg/opsawg/>
+     WG List: opsawg@ietf.org
+
+     Author: Konda, Tirumaleswar Reddy
+             TirumaleswarReddy_Konda@McAfee.com
+
+    ";
+   description
+     "Extension to a MUD module to indicate (D)TLS 
+      profile support.";
+
+   revision 2020-10-19 {
+     description
+       "Initial revision.";
+       reference
+         "RFC XXXX: Manufacturer Usage Description (MUD) (D)TLS
+          Profiles for IoT Devices";
+   }
+
+   augment "/ietf-mud:mud" {
+     description
+       "This adds a extension for a manufacturer
+        to indicate whether (D)TLS profile is
+        is supported by a device.";
+     leaf is-tls-dtls-profile-supported {
+       type boolean;
+         description
+           "This value will equal 'true' if a device supports
+            (D)TLS profile.";
+     }
+   } 
+}
+<CODE ENDS>
+]]></artwork>
+          </figure></t>
+      </section>
     </section>
 
     <section anchor="processing" title="Processing of the MUD (D)TLS Profile">
@@ -906,6 +989,10 @@ module iana-tls-profile {
       "mud-url": "https://example.com/IoTDevice",
       "last-update": "2019-18-06T03:56:40.105+10:00",
       "cache-validity": 100,
+      "extensions": [
+           "ietf-mud-tls"
+       ],
+      "ietf-mud-tls:is-tls-dtls-profile-supported": "true",
       "is-supported": true,
       "systeminfo": "IoT device name",
       "from-device-policy": {
@@ -1044,6 +1131,11 @@ module iana-tls-profile {
       Registrant Contact: The IESG.
       XML: N/A; the requested URI is an XML namespace.
 ]]></artwork>
+          </figure><figure>
+            <artwork><![CDATA[      URI: urn:ietf:params:xml:ns:yang:ietf-mud-tls
+      Registrant Contact: The IESG.
+      XML: N/A; the requested URI is an XML namespace.
+]]></artwork>
           </figure></t>
 
         <t>IANA is requested to create an IANA-maintained YANG Module called
@@ -1061,14 +1153,20 @@ module iana-tls-profile {
             <artwork><![CDATA[      name: iana-tls-profile
       namespace: urn:ietf:params:xml:ns:yang:iana-tls-profile
       maintained by IANA: Y
-      prefix: mud-tls-profile
+      prefix: ianatp
       reference: RFC XXXX
 ]]></artwork>
           </figure><figure>
             <artwork><![CDATA[      name: ietf-acl-tls
       namespace: urn:ietf:params:xml:ns:yang:ietf-acl-tls
-      maintained by IANA: Y
-      prefix: mud-tls-profile
+      maintained by IANA: N
+      prefix: ietf-acl-tls
+      reference: RFC XXXX]]></artwork>
+          </figure><figure>
+            <artwork><![CDATA[      name: ietf-mud-tls
+      namespace: urn:ietf:params:xml:ns:yang:ietf-mud-tls
+      maintained by IANA: N
+      prefix: ietf-mud-tls
       reference: RFC XXXX]]></artwork>
           </figure></t>
 
@@ -1226,6 +1324,12 @@ module iana-tls-profile {
 ]]></artwork>
           </figure></t>
       </section>
+
+      <section title="MUD Extensions registry">
+        <t>IANA is requested to create a new MUD Extension Name "ietf-mud-tls"
+        in the MUD Extensions IANA registry <eref
+        target="https://www.iana.org/assignments/mud/mud.xhtml"></eref>.</t>
+      </section>
     </section>
 
     <section anchor="acknowledgments" title="Acknowledgments">
@@ -1306,6 +1410,8 @@ module iana-tls-profile {
       <?rfc include='reference.RFC.8472'?>
 
       <?rfc include='reference.RFC.7525'?>
+
+      <?rfc include='reference.RFC.7301'?>
 
       <?rfc include="reference.I-D.ietf-tls-esni" ?>
 
