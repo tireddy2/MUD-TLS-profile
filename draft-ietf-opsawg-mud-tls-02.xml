@@ -174,27 +174,27 @@
           malicious behavior from the IoT device.</t>
         </list></t>
 
-      <t>The YANG module specified in this document is an extension of YANG
-      Data Model for Network Access Control Lists (ACLs) <xref
-      target="RFC8519"></xref> to enhance MUD <xref target="RFC8520"></xref>
-      to model observable (D)TLS profile parameters. Using these (D)TLS
-      profile parameters, an active MUD-enforcing network security service
-      (e.g., firewall) can identify MUD non-compliant (D)TLS behavior
-      indicating outdated cryptography or malware. This detection can prevent
-      malware downloads, block access to malicious domains, enforce use of
-      strong ciphers, stop data exfiltration, etc. In addition, organizations
-      may have policies around acceptable ciphers and certificates for the
-      websites the IoT devices connect to. Examples include no use of old and
-      less secure versions of TLS, no use of self-signed certificates,
-      deny-list or accept-list of Certificate Authorities, valid certificate
-      expiration time, etc. These policies can be enforced by observing the
-      (D)TLS profile parameters. Network security services can use the IoT
-      device's (D)TLS profile parameters to identify legitimate flows by
-      observing (D)TLS sessions, and can make inferences to permit legitimate
-      flows and to block malicious or insecure flows. The proposed technique
-      is also suitable in deployments where decryption techniques are not
-      ideal due to privacy concerns, non-cooperating end-points, and
-      expense.</t>
+      <t>The YANG module specified in <xref target="YANG"></xref> of this
+      document is an extension of YANG Data Model for Network Access Control
+      Lists (ACLs) <xref target="RFC8519"></xref> to enhance MUD <xref
+      target="RFC8520"></xref> to model observable (D)TLS profile parameters.
+      Using these (D)TLS profile parameters, an active MUD-enforcing network
+      security service (e.g., firewall) can identify MUD non-compliant (D)TLS
+      behavior indicating outdated cryptography or malware. This detection can
+      prevent malware downloads, block access to malicious domains, enforce
+      use of strong ciphers, stop data exfiltration, etc. In addition,
+      organizations may have policies around acceptable ciphers and
+      certificates for the websites the IoT devices connect to. Examples
+      include no use of old and less secure versions of TLS, no use of
+      self-signed certificates, deny-list or accept-list of Certificate
+      Authorities, valid certificate expiration time, etc. These policies can
+      be enforced by observing the (D)TLS profile parameters. Network security
+      services can use the IoT device's (D)TLS profile parameters to identify
+      legitimate flows by observing (D)TLS sessions, and can make inferences
+      to permit legitimate flows and to block malicious or insecure flows. The
+      proposed technique is also suitable in deployments where decryption
+      techniques are not ideal due to privacy concerns, non-cooperating
+      end-points, and expense.</t>
     </section>
 
     <section anchor="notation" title="Terminology">
@@ -296,7 +296,7 @@
         effectively provide that privacy protection, ECH extension needs to be
         used in conjunction with DNS encryption (e.g., DoH). A middlebox
         (e.g., firewall) passively inspecting ECH extension cannot observe the
-        encrypted SNI nor observe the encrypted DNS traffic. </t>
+        encrypted SNI nor observe the encrypted DNS traffic.</t>
       </section>
 
       <section title="Encrypted DNS">
@@ -572,7 +572,7 @@ module ietf-acl-tls {
 
   feature match-on-tls-dtls {
     description
-      "The device can support matching on (D)TLS parameters.";
+      "The networking device can support matching on (D)TLS parameters.";
   }
 
   augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
@@ -866,7 +866,7 @@ module iana-tls-profile {
         the "match-on-tls-dtls" ACL model feature defined in this
         specification. Furthermore, only "accept" or "drop" actions SHOULD be
         included with the (D)TLS profile similar to the actions allowed in
-        Section 2 of <xref target="RFC8520"></xref>. </t>
+        Section 2 of <xref target="RFC8520"></xref>.</t>
 
         <t>This document defines the YANG module "ietf-mud-tls", which has the
         following tree structure:</t>

@@ -188,12 +188,12 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
       parameters can be used to permit intended use and to block
       malicious behavior from the IoT device.
 
-   The YANG module specified in this document is an extension of YANG
-   Data Model for Network Access Control Lists (ACLs) [RFC8519] to
-   enhance MUD [RFC8520] to model observable (D)TLS profile parameters.
-   Using these (D)TLS profile parameters, an active MUD-enforcing
-   network security service (e.g., firewall) can identify MUD non-
-   compliant (D)TLS behavior indicating outdated cryptography or
+   The YANG module specified in Section 5 of this document is an
+   extension of YANG Data Model for Network Access Control Lists (ACLs)
+   [RFC8519] to enhance MUD [RFC8520] to model observable (D)TLS profile
+   parameters.  Using these (D)TLS profile parameters, an active MUD-
+   enforcing network security service (e.g., firewall) can identify MUD
+   non-compliant (D)TLS behavior indicating outdated cryptography or
    malware.  This detection can prevent malware downloads, block access
    to malicious domains, enforce use of strong ciphers, stop data
    exfiltration, etc.  In addition, organizations may have policies
@@ -658,7 +658,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
   feature match-on-tls-dtls {
     description
-      "The device can support matching on (D)TLS parameters.";
+      "The networking device can support matching on (D)TLS parameters.";
   }
 
   augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
