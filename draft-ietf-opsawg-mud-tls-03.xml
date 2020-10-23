@@ -416,8 +416,7 @@
       In TLS 1.3, only the "null" compression method is allowed (Section 4.1.2
       of <xref target="RFC8446"></xref>).</t>
 
-      <t></t>
-
+     
       <section title="Tree Structure of the (D)TLS profile Extension to the ACL YANG Model">
         <t>This document augments the "ietf-acl" ACL YANG module defined in
         <xref target="RFC8519"></xref> for signaling the IoT device (D)TLS
@@ -440,9 +439,9 @@
              |       ianatp:extension-type
              +--rw acceptlist-ta-certs*
              |       ct:trust-anchor-cert-cms
-             +--rw SPKI
-             |  +--rw SPKI-pin-sets*         ianatp:SPKI-pin-set
-             |  +--rw SPKI-hash-algorithm?   iha:hash-algorithm-type
+             +--rw spki
+             |  +--rw spki-pin-sets*         ianatp:spki-pin-set
+             |  +--rw spki-hash-algorithm?   iha:hash-algorithm-type
              +--rw psk-key-exchange-modes*
              |       ianatp:psk-key-exchange-mode
              |       {tls-1-3 or dtls-1-3}?
@@ -458,7 +457,7 @@
              +--rw cert-compression-algorithms*
              |       ianatp:cert-compression-algorithm
              |       {tls-1-3 or dtls-1-3}?
-             +--rw certificate_authorities*
+             +--rw certificate-authorities*
                      ianatp:certificate_authority
                      {tls-1-3 or dtls-1-3}?
 
@@ -553,19 +552,22 @@ module ietf-acl-tls {
     description
       "DTLS Protocol Version 1.2 is supported.";
     reference
-      "RFC 6346: Datagram Transport Layer Security Version 1.2";
+      "RFC 6346: Datagram Transport Layer Security 
+                 Version 1.2";
   }
 
   feature dtls-1-3 {
     description
       "DTLS Protocol Version 1.3 is supported.";
     reference
-      "draft-ietf-tls-dtls13: Datagram Transport Layer Security 1.3";
+      "draft-ietf-tls-dtls13: Datagram Transport Layer 
+                Security 1.3";
   }
 
   feature match-on-tls-dtls {
     description
-      "The networking device can support matching on (D)TLS parameters.";
+      "The networking device can support matching on 
+       (D)TLS parameters.";
   }
 
   augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
@@ -581,7 +583,8 @@ module ietf-acl-tls {
         list tls-dtls-profiles {
           key "profile-name";
           description
-            "A list of (D)TLS version profiles supported by the client.";
+            "A list of (D)TLS version profiles supported by 
+             the client.";
           leaf profile-name {
             type string {
               length "1..64";
@@ -593,24 +596,24 @@ module ietf-acl-tls {
           leaf-list supported-tls-versions {
             type ianatp:tls-version;
             description
-              "TLS versions supported by the client";
+              "TLS versions supported by the client.";
           }
           leaf-list supported-dtls-versions {
             type ianatp:dtls-version;
             description
-              "DTLS versions supported by the client";
+              "DTLS versions supported by the client.";
           }
           list cipher-suites {
             key "cipher aead";
             leaf cipher {
               type ianatp:cipher-algorithm;
               description
-                "Cipher";
+                "Cipher: to be completed.";
             }
             leaf aead {
               type ianatp:aead-algorithm;
               description
-                "AEAD";
+                "AEAD: to be completed.";
             }
             description
               "Cipher Suites";
@@ -618,24 +621,24 @@ module ietf-acl-tls {
           leaf-list extension-types {
             type ianatp:extension-type;
             description
-              "Extension Types";
+              "Extension Types: to be completed.";
           }
           leaf-list acceptlist-ta-certs {
             type ct:trust-anchor-cert-cms;
             description
               "A list of trust anchor certificates used by the client.";
           }
-          container SPKI {
+          container spki {
             description
-              "A grouping for SPKI.";
-            leaf-list SPKI-pin-sets {
-              type ianatp:SPKI-pin-set;
+              "A grouping for spki.";
+            leaf-list spki-pin-sets {
+              type ianatp:spki-pin-set;
               description
                 "A list of SPKI pin sets pre-configured on the client
                  to validate self-signed server certificate or
                  raw public key.";
             }
-            leaf SPKI-hash-algorithm {
+            leaf spki-hash-algorithm {
               type iha:hash-algorithm-type;
               description
                 "cryptographic hash algorithm used to generate the
@@ -646,7 +649,7 @@ module ietf-acl-tls {
             if-feature "tls-1-3 or dtls-1-3";
             type ianatp:psk-key-exchange-mode;
             description
-              "pre-shared key exchange modes";
+              "pre-shared key exchange modes.";
           }
           leaf-list supported-groups {
             type ianatp:supported-group;
@@ -669,21 +672,21 @@ module ietf-acl-tls {
           leaf-list application-protocols {
             type ianatp:application-protocol;
             description
-              "A list application protocols supported by the client";
+              "A list application protocols supported by the client.";
           }
           leaf-list cert-compression-algorithms {
             if-feature "tls-1-3 or dtls-1-3";
             type ianatp:cert-compression-algorithm;
             description
               "A list certificate compression algorithms
-               supported by the client";
+               supported by the client.";
           }
-          leaf-list certificate_authorities {
+          leaf-list certificate-authorities {
             if-feature "tls-1-3 or dtls-1-3";
             type ianatp:certificate_authority;
             description
               "A list of the distinguished names of certificate authorities
-               acceptable to the client";
+               acceptable to the client.";
           }
         }
       }
@@ -699,24 +702,29 @@ module ietf-acl-tls {
         <t>The TLS and DTLS IANA registries are available from <eref
         target="https://www.iana.org/assignments/tls-parameters/tls-parameters.txt"></eref>
         and <eref
-        target="https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.txt"></eref>.
-        The values for all the parameters in the "iana-tls-profile" YANG
+        target="https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.txt"></eref>.</t>
+        
+        <t>The values for all the parameters in the "iana-tls-profile" YANG
         module are defined in the TLS and DTLS IANA registries excluding the
-        tls_version, dtls_version, SPKI-pin-set and certificate_authority
-        parameters. The values of SPKI-pin-set and certificate_authority
-        parameters will be specific to the IoT device. The TLS and DTLS IANA
-        registry does not maintain (D)TLS version numbers. In TLS 1.2 and
-        below, legacy_version field in the ClientHello message is used for
+        tls-version, dtls-version, spki-pin-set, and certificate-authority
+        parameters. The values of spki-pin-set and certificate-authority
+        parameters will be specific to the IoT device.</t>
+        
+        <t>The TLS and DTLS IANA
+        registries do not maintain (D)TLS version numbers. In TLS 1.2 and
+        below, "legacy_version" field in the ClientHello message is used for
         version negotiation. However in TLS 1.3, the "supported_versions"
         extension is used by the client to indicate which versions of TLS it
-        supports. TLS 1.3 ClientHellos are identified as having a
-        legacy_version of 0x0303 and a supported_versions extension present
-        with 0x0304 as the highest version. In order to ease updating the
-        "iana-tls-profile" YANG module with new (D)TLS versions, new (D)TLS
+        supports. TLS 1.3 ClientHello messages are identified as having a
+        "legacy_version" of 0x0303 and a "supported_versions" extension present
+        with 0x0304 as the highest version. The version field for DTLS 1.2 use 0xfefd.</t>
+        
+        <t> In order to ease updating the
+        "iana-tls-profile" YANG module with future (D)TLS versions, new (D)TLS
         version registries are defined in <xref target="tls-registry"></xref>
         and <xref target="dtls-registry"></xref>. Whenever a new (D)TLS
         protocol version is defined, the registry will be updated using expert
-        review and the "iana-tls-profile" YANG module will be updated by
+        review; the "iana-tls-profile" YANG module will be automatically updated by
         IANA.</t>
 
         <t>The "iana-tls-profile" YANG module is defined as follows:</t>
@@ -768,61 +776,63 @@ module iana-tls-profile {
   typedef extension-type {
     type uint16;
     description
-      "Extension type";
+      "Extension type.";
   }
 
   typedef supported-group {
     type uint16;
     description
-      "Named group (DHE or ECDHE)";
+      "Named group (DHE or ECDHE).";
   }
 
-  typedef SPKI-pin-set {
+  typedef spki-pin-set {
     type binary;
     description
-      "Subject Public Key Info pin set";
+      "Subject Public Key Info pin set.";
   }
 
   typedef signature-algorithm {
     type uint16;
     description
-      "Signature algorithm";
+      "Signature algorithm: to be completed.";
   }
 
   typedef psk-key-exchange-mode {
     type uint8;
     description
-      "pre-shared key exchange mode";
+      "Pre-shared key exchange mode.";
   }
 
   typedef application-protocol {
     type string;
     description
-      "application protocol";
+      "Application protocol:to be completed.";
   }
 
   typedef cert-compression-algorithm {
     type uint16;
     description
-      "certificate compression algorithm";
+      "Certificate compression algorithm";
+    reference
+      "";
   }
 
-  typedef certificate_authority {
+  typedef certificate-authority {
     type string;
     description
-      "Distinguished Name of Certificate authority";
+      "Distinguished Name of Certificate authority.";
   }
 
   typedef cipher-algorithm {
     type uint8;
     description
-      "Cipher Algorithm";
+      "Cipher algorithm: to be completed.";
   }
 
   typedef aead-algorithm {
     type uint8;
     description
-      "AEAD Algorithm";
+      "AEAD Algorithm: to be completed.";
   }
 
   typedef tls-version {
@@ -830,8 +840,10 @@ module iana-tls-profile {
       enum tls-1.2 {
         value 1;
         description
-          "TLS Protocol Version 1.2. TLS 1.2 ClientHello contains
-           0x0303 in ClientHello.legacy_version";
+          "TLS Protocol Version 1.2. 
+
+           TLS 1.2 ClientHello contains
+           0x0303 in 'legacy_version'.";
         reference
           "RFC 5246: The Transport Layer Security (TLS) Protocol
                      Version 1.2";
@@ -839,10 +851,12 @@ module iana-tls-profile {
       enum tls-1.3 {
         value 2;
         description
-          "TLS Protocol Version 1.3. TLS 1.3 ClientHello contains a 
+          "TLS Protocol Version 1.3. 
+
+           TLS 1.3 ClientHello contains a 
            supported_versions extension with 0x0304 
            contained in its body and the ClientHello contains
-           0x0303 in ClientHello.legacy_version";
+           0x0303 in 'legacy_version'.";
         reference
           "RFC 8446: The Transport Layer Security (TLS) Protocol
                      Version 1.3";
@@ -857,18 +871,22 @@ module iana-tls-profile {
       enum dtls-1.2 {
         value 1;
         description
-          "DTLS Protocol Version 1.2. DTLS 1.2 ClientHello contains
-           0xfefd in ClientHello.legacy_version";
+          "DTLS Protocol Version 1.2.
+
+           DTLS 1.2 ClientHello contains
+           0xfefd in 'legacy_version'.";
         reference
           "RFC 6346: Datagram Transport Layer Security 1.2";
       }
       enum dtls-1.3 {
         value 2;
         description
-          "DTLS Protocol Version 1.3. DTLS 1.3 ClientHello contains a 
+          "DTLS Protocol Version 1.3. 
+
+           DTLS 1.3 ClientHello contains a 
            supported_versions extension with 0x0304 
            contained in its body and the ClientHello contains
-           0xfefd in ClientHello.legacy_version";
+           0xfefd in 'legacy_version'.";
         reference
           "RFC DDDD: Datagram Transport Layer Security 1.3";
       }
@@ -1319,13 +1337,15 @@ module ietf-mud-tls {
 
       <section title="(D)TLS Parameters registry">
         <t>IANA is requested to create a new subregistry titled "(D)TLS
-        parameters". The values for all the (D)TLS parameters in the registry
+        parameters".</t>
+        
+        <t>The values for all the (D)TLS parameters in the registry
         are defined in the TLS and DTLS IANA registries (<eref
         target="https://www.iana.org/assignments/tls-parameters/tls-parameters.txt"></eref>
         and <eref
         target="https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.txt"></eref>)
-        excluding the tls_version, dtls_version, SPKI-pin-set and
-        certificate_authority parameters. Further assignments are to be made
+        excluding the tls-version, dtls-version, spki-pin-set and
+        certificate-authority parameters. Further assignments are to be made
         through Expert Review <xref target="RFC8126"></xref>. The registry is
         initially populated with the following parameters:</t>
 
@@ -1339,7 +1359,7 @@ module ietf-mud-tls {
    +----------------------------+-------------+--------+---------------------------------------------+
    | supported-group            | uint16      | Number | Named group (DHE or ECDHE)                  |
    +----------------------------+-------------+--------+---------------------------------------------+
-   | SPKI-pin-set               | binary      | String | Subject Public Key Info pin set             |
+   | spki-pin-set               | binary      | String | Subject Public Key Info pin set             |
    +----------------------------+-------------+--------+---------------------------------------------+
    | signature-algorithm        | uint16      | Number | Signature algorithm                         |  
    +----------------------------+-------------+--------+---------------------------------------------+
@@ -1349,7 +1369,7 @@ module ietf-mud-tls {
    +----------------------------+-------------+--------+---------------------------------------------+
    | cert-compression-algorithm | uint16      | Number | certificate compression algorithm           |   
    +----------------------------+-------------+--------+---------------------------------------------+
-   | certificate_authority      | string      | String | Distinguished Name of Certificate authority | 
+   | certificate-authority      | string      | String | Distinguished Name of Certificate authority | 
    +----------------------------+-------------+--------+---------------------------------------------+
    | cipher-algorithm           | uint8       | Number | Cipher Algorithm                            |
    +----------------------------+-------------+--------+---------------------------------------------+
