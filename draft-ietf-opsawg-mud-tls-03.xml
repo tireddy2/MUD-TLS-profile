@@ -607,20 +607,20 @@ module ietf-acl-tls {
             leaf cipher {
               type ianatp:cipher-algorithm;
               description
-                "AEAD encryption algorithm.";
+                "AEAD encryption algorithm as defined in RFC5116.";
             }
             leaf hash {
               type ianatp:hash-algorithm;
               description
-                "Hash algorithm.";
+                "Hash algorithm used with HKDF as defined in RFC5869.";
             }
             description
-              "Cipher Suites";
+              "A list of Cipher Suites supported by the client.";
           }
           leaf-list extension-types {
             type ianatp:extension-type;
             description
-              "Extension Types allow extension of the TLS protocol.";
+              "A list of Extension Types supported by the client.";
           }
           leaf-list acceptlist-ta-certs {
             type ct:trust-anchor-cert-cms;
@@ -777,61 +777,73 @@ module iana-tls-profile {
   typedef extension-type {
     type uint16;
     description
-      "Extension type in the TLS ExtensionType Values registry.";
+      "Extension type in the TLS ExtensionType Values registry as 
+       defined in Section 7 of RFC8447.";
   }
 
   typedef supported-group {
     type uint16;
     description
-      "Supported Group (DHE or ECDHE) in the TLS Supported Groups.";
+      "Supported Group in the TLS Supported Groups registry as 
+       defined in Section 9 of RFC8447.";
   }
 
   typedef spki-pin-set {
     type binary;
     description
-      "Subject Public Key Info pin set.";
+      "Subject Public Key Info pin set as discussed in 
+       Section 2.4 of RFC7469.";
   }
 
   typedef signature-algorithm {
     type uint16;
     description
-      "Signature algorithm in the TLS SignatureScheme registry.";
+      "Signature algorithm in the TLS SignatureScheme registry as 
+       defined in Section 11 of RFC8446.";
   }
 
   typedef psk-key-exchange-mode {
     type uint8;
     description
-      "Pre-shared key exchange mode in the TLS PskKeyExchangeMode.";
+      "Pre-shared key exchange mode in the TLS PskKeyExchangeMode 
+       registry as defined in Section 11 of RFC8446.";
   }
 
   typedef application-protocol {
     type string;
     description
-      "Application-Layer Protocol Negotiation (ALPN) Protocol ID.";
+      "Application-Layer Protocol Negotiation (ALPN) Protocol ID 
+       registry as defined in Section 6 of RFC7301.";
   }
 
   typedef cert-compression-algorithm {
     type uint16;
     description
-      "Certificate compression algorithm in TLS Certificate Compression Algorithm IDs";
+      "Certificate compression algorithm in TLS Certificate 
+       Compression Algorithm IDs registry as defined in 
+       Section 7.3 of ietf-tls-certificate-compression";
   }
 
   typedef certificate-authority {
     type string;
     description
-      "Distinguished Name of Certificate authority.";
+      "Distinguished Name of Certificate authority as discussed 
+       in Section 4.2.4 of RFC8446.";
   }
 
   typedef cipher-algorithm {
     type uint8;
     description
-      "AEAD encryption algorithm in TLS Cipher Suites.";
+      "AEAD encryption algorithm in TLS Cipher Suites registry 
+       as discussed in Section 11 of RFC8446.";
   }
 
   typedef hash-algorithm {
     type uint8;
     description
-      "Hash algorithm in TLS Cipher Suites.";
+      "Hash algorithm used with HMAC-based Extract-and-Expand Key 
+       Derivation Function (HKDF) in TLS Cipher Suites registry 
+       as discussed in Section 11 of RFC8446.";
   }
 
   typedef tls-version {
