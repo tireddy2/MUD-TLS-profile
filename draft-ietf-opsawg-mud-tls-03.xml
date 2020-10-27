@@ -1183,10 +1183,6 @@ module ietf-mud-tls {
 
     <section anchor="IANA" title="IANA Considerations">
       <section title="(D)TLS Profile YANG Modules">
-        <t>Each normative YANG module MUST be registered in both the "IETF XML
-        Registry" <xref target="RFC3688"></xref> and the "YANG Module Names"
-        registry <xref target="RFC6020"></xref>.</t>
-
         <t>This document requests IANA to register the following URIs in the
         "ns" subregistry within the "IETF XML Registry" <xref
         target="RFC3688"></xref>: <figure>
@@ -1311,15 +1307,15 @@ module ietf-mud-tls {
         Expert Review <xref target="RFC8126"></xref>.</t>
 
         <t><figure>
-            <artwork><![CDATA[   +-----------+-------------+--------------------------+-----------+
-   | Value     | Label       | Description              | Reference | 
-   |           |             |                          |           |   
-   |           |             |                          |           |
-   +-----------+-------------+--------------------------+-----------+
-   | 1         | tls-1.2     | TLS Protocol Version 1.2 | [RFC5246] |
-   +----------------------------------------------------+-----------+
-   | 2         | tls-1.3     | TLS Protocol Version 1.3 | [RFC8446] |
-   +----------------------------+-----------------------+-----------+      
+            <artwork><![CDATA[   +-------+---------+-----------------+-----------+
+   | Value | Label   | Description     | Reference | 
+   |       |         |                 |           |   
+   |       |         |                 |           |
+   +-------+---------+-----------------+-----------+
+   | 1     | tls-1.2 | TLS Version 1.2 | [RFC5246] |
+   +-------+---------+-----------------+-----------+
+   | 2     | tls-1.3 | TLS Version 1.3 | [RFC8446] |
+   +-------+---------+-----------------+-----------+      
 ]]></artwork>
           </figure></t>
       </section>
@@ -1332,15 +1328,15 @@ module ietf-mud-tls {
 
         <t><figure>
             <artwork><![CDATA[
-   +-----------+-------------+---------------------------+-------------------------+
-   | Value     | Label       | Description               | Reference               | 
-   |           |             |                           |                         |   
-   |           |             |                           |                         |
-   +-----------+-------------+---------------------------+-------------------------+
-   | 1         | dtls-1.2    | DTLS Protocol Version 1.2 | [RFC6346]               |
-   +-----------------------------------------------------+-------------------------+
-   | 2         | dtls-1.3    | DTLS Protocol Version 1.3 | [draft-ietf-tls-dtls13] |
-   +----------------------------+------------------------+-------------------------+           
+   +-------+---------+----------------+-----------------------+
+   | Value | Label   | Description    | Reference             | 
+   |       |         |                |                       |   
+   |       |         |                |                       |
+   +-------+---------+----------------+-----------------------+
+   | 1     |dtls-1.2 |DTLS Version 1.2| [RFC6346]             |
+   +-------+---------+----------------+-----------------------+
+   | 2     |dtls-1.3 |DTLS Version 1.3|[draft-ietf-tls-dtls13]|
+   +-------+---------+----------------+-----------------------+          
 
 ]]></artwork>
           </figure></t>
