@@ -718,7 +718,7 @@ module ietf-acl-tls {
         "supported_versions" extension present with 0x0304 as the highest
         version. DTLS 1.3 ClientHello messages are identified as having a
         "legacy_version" of 0xfefd and a "supported_versions" extension
-        present with 0x0304 as the highest version. </t>
+        present with 0x0304 as the highest version.</t>
 
         <t>In order to ease updating the "iana-tls-profile" YANG module with
         future (D)TLS versions, new (D)TLS version registries are defined in
@@ -1039,7 +1039,7 @@ module ietf-mud-tls {
           if the cipher suite TLS_AES_128_CCM_8_SHA256 in the ClientHello
           message is specified in the MUD (D)TLS profile and the cipher suite
           is not recognized by the firewall, an alert will be triggered.
-          Similarly, If the (D)TLS version in the MUD file is not recognized
+          Similarly, if the (D)TLS version in the MUD file is not recognized
           by the firewall, an alert will be trigerred.</t>
         </list></t>
     </section>
@@ -1368,7 +1368,7 @@ module ietf-mud-tls {
    +----------------------------+-------------+--------+---------------------------------------------+
    | extension-type             | uint16      | Number | Extension type                              |
    +----------------------------+-------------+--------+---------------------------------------------+
-   | supported-group            | uint16      | Number | Named group (DHE or ECDHE)                  |
+   | supported-group            | uint16      | Number | Supported group                             |
    +----------------------------+-------------+--------+---------------------------------------------+
    | spki-pin-set               | binary      | String | Subject Public Key Info pin set             |
    +----------------------------+-------------+--------+---------------------------------------------+
@@ -1376,15 +1376,15 @@ module ietf-mud-tls {
    +----------------------------+-------------+--------+---------------------------------------------+
    | psk-key-exchange-mode      | uint8       | Number | pre-shared key exchange mode                | 
    +----------------------------+-------------+--------+---------------------------------------------+
-   | application-protocol       | string      | String | application protocol                        |
+   | application-protocol       | string      | String | Application protocol                        |
    +----------------------------+-------------+--------+---------------------------------------------+
-   | cert-compression-algorithm | uint16      | Number | certificate compression algorithm           |   
+   | cert-compression-algorithm | uint16      | Number | Certificate compression algorithm           |   
    +----------------------------+-------------+--------+---------------------------------------------+
    | certificate-authority      | string      | String | Distinguished Name of Certificate authority | 
    +----------------------------+-------------+--------+---------------------------------------------+
    | cipher-algorithm           | uint8       | Number | AEAD encryption algorithm                   |
    +----------------------------+-------------+--------+---------------------------------------------+
-   | hash-algorithm             | uint8       | Number | Hash Algorithm                              |
+   | hash-algorithm             | uint8       | Number | Hash algorithm                              |
    +----------------------------+-------------+--------+---------------------------------------------+
    | tls-version                | enumeration | String | TLS version                                 |
    +----------------------------+-------------+--------+---------------------------------------------+
