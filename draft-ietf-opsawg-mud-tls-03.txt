@@ -5,10 +5,10 @@
 OPSAWG WG                                                       T. Reddy
 Internet-Draft                                                    McAfee
 Intended status: Standards Track                                 D. Wing
-Expires: April 30, 2021                                           Citrix
+Expires: May 3, 2021                                              Citrix
                                                              B. Anderson
                                                                    Cisco
-                                                        October 27, 2020
+                                                        October 30, 2020
 
 
   Manufacturer Usage Description (MUD) (D)TLS Profiles for IoT Devices
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on April 30, 2021.
+   This Internet-Draft will expire on May 3, 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Reddy, et al.            Expires April 30, 2021                 [Page 1]
+Reddy, et al.              Expires May 3, 2021                  [Page 1]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Reddy, et al.            Expires April 30, 2021                 [Page 2]
+Reddy, et al.              Expires May 3, 2021                  [Page 2]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -165,7 +165,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                 [Page 3]
+Reddy, et al.              Expires May 3, 2021                  [Page 3]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -221,7 +221,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                 [Page 4]
+Reddy, et al.              Expires May 3, 2021                  [Page 4]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -263,10 +263,10 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
    malware agents will have a near-impossible task of similarly
    deploying updates and continuing to mimic the TLS behavior of the IoT
    device it has infected.  However, if the IoT device has reached end-
-   of-life and the IoT manufcaturer will not issue a firmware or
+   of-life and the IoT manufacturer will not issue a firmware or
    software update to the Thing or will not update the MUD file, the
    "is-supported" attribute defined in Section 3.6 of [RFC8520] can be
-   used by the MUD manager to identify the IoT manufcaturer no longer
+   used by the MUD manager to identify the IoT manufacturer no longer
    supports the device.
 
    The end-of-life of a device does not necessarily mean that it is
@@ -277,7 +277,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                 [Page 5]
+Reddy, et al.              Expires May 3, 2021                  [Page 5]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -333,7 +333,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                 [Page 6]
+Reddy, et al.              Expires May 3, 2021                  [Page 6]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -389,7 +389,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                 [Page 7]
+Reddy, et al.              Expires May 3, 2021                  [Page 7]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -445,7 +445,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                 [Page 8]
+Reddy, et al.              Expires May 3, 2021                  [Page 8]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -501,7 +501,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                 [Page 9]
+Reddy, et al.              Expires May 3, 2021                  [Page 9]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -557,7 +557,7 @@ module ietf-acl-tls {
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 10]
+Reddy, et al.              Expires May 3, 2021                 [Page 10]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -613,7 +613,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 11]
+Reddy, et al.              Expires May 3, 2021                 [Page 11]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -669,7 +669,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 12]
+Reddy, et al.              Expires May 3, 2021                 [Page 12]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -725,7 +725,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 13]
+Reddy, et al.              Expires May 3, 2021                 [Page 13]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -781,7 +781,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 14]
+Reddy, et al.              Expires May 3, 2021                 [Page 14]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -837,7 +837,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 15]
+Reddy, et al.              Expires May 3, 2021                 [Page 15]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -893,7 +893,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 16]
+Reddy, et al.              Expires May 3, 2021                 [Page 16]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -949,7 +949,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 17]
+Reddy, et al.              Expires May 3, 2021                 [Page 17]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1005,7 +1005,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 18]
+Reddy, et al.              Expires May 3, 2021                 [Page 18]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1061,7 +1061,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 19]
+Reddy, et al.              Expires May 3, 2021                 [Page 19]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1117,7 +1117,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 20]
+Reddy, et al.              Expires May 3, 2021                 [Page 20]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1173,7 +1173,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 21]
+Reddy, et al.              Expires May 3, 2021                 [Page 21]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1202,7 +1202,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
       ClientHello message is specified in the MUD (D)TLS profile and the
       cipher suite is not recognized by the firewall, an alert will be
       triggered.  Similarly, if the (D)TLS version in the MUD file is
-      not recognized by the firewall, an alert will be trigerred.
+      not recognized by the firewall, an alert will be triggered.
 
 7.  MUD File Example
 
@@ -1229,7 +1229,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 22]
+Reddy, et al.              Expires May 3, 2021                 [Page 22]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1285,7 +1285,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 23]
+Reddy, et al.              Expires May 3, 2021                 [Page 23]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1335,19 +1335,19 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 9.  Privacy Considerations
 
    Privacy considerations discussed in Section 16 of [RFC8520] to not
-   reveal the MUD URL to an atacker need to be taken into consideration.
-   The MUD URL can be stored in Trusted Execution Environment (TEE) for
+   reveal the MUD URL to an attacker need to be taken into
+   consideration.  The MUD URL can be stored in Trusted Execution
 
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 24]
+Reddy, et al.              Expires May 3, 2021                 [Page 24]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
-   secure operation, enhanced data security, and prevent exposure to
-   unauthorized software.
+   Environment (TEE) for secure operation, enhanced data security, and
+   prevent exposure to unauthorized software.
 
    The middlebox acting as a (D)TLS proxy must immediately delete the
    decrypted data upon completing any necessary inspection functions.
@@ -1397,7 +1397,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 25]
+Reddy, et al.              Expires May 3, 2021                 [Page 25]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1453,7 +1453,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 26]
+Reddy, et al.              Expires May 3, 2021                 [Page 26]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1509,7 +1509,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 27]
+Reddy, et al.              Expires May 3, 2021                 [Page 27]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1565,7 +1565,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 28]
+Reddy, et al.              Expires May 3, 2021                 [Page 28]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1621,7 +1621,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 29]
+Reddy, et al.              Expires May 3, 2021                 [Page 29]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1677,7 +1677,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 30]
+Reddy, et al.              Expires May 3, 2021                 [Page 30]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1733,7 +1733,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 31]
+Reddy, et al.              Expires May 3, 2021                 [Page 31]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1789,7 +1789,7 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 32]
+Reddy, et al.              Expires May 3, 2021                 [Page 32]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1845,7 +1845,7 @@ Authors' Addresses
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 33]
+Reddy, et al.              Expires May 3, 2021                 [Page 33]
 
 Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
@@ -1901,4 +1901,4 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices       October 2020
 
 
 
-Reddy, et al.            Expires April 30, 2021                [Page 34]
+Reddy, et al.              Expires May 3, 2021                 [Page 34]

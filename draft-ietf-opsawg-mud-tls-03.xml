@@ -240,11 +240,11 @@
       rapid deployment of updates, and malware agents will have a
       near-impossible task of similarly deploying updates and continuing to
       mimic the TLS behavior of the IoT device it has infected. However, if
-      the IoT device has reached end-of-life and the IoT manufcaturer will not
+      the IoT device has reached end-of-life and the IoT manufacturer will not
       issue a firmware or software update to the Thing or will not update the
       MUD file, the "is-supported" attribute defined in Section 3.6 of <xref
       target="RFC8520"></xref> can be used by the MUD manager to identify the
-      IoT manufcaturer no longer supports the device.</t>
+      IoT manufacturer no longer supports the device.</t>
 
       <t>The end-of-life of a device does not necessarily mean that it is
       defective; rather, it denotes a need to replace and upgrade the network
@@ -1040,7 +1040,7 @@ module ietf-mud-tls {
           message is specified in the MUD (D)TLS profile and the cipher suite
           is not recognized by the firewall, an alert will be triggered.
           Similarly, if the (D)TLS version in the MUD file is not recognized
-          by the firewall, an alert will be trigerred.</t>
+          by the firewall, an alert will be triggered.</t>
         </list></t>
     </section>
 
@@ -1161,8 +1161,8 @@ module ietf-mud-tls {
 
     <section anchor="Privacy" title="Privacy Considerations">
       <t>Privacy considerations discussed in Section 16 of <xref
-      target="RFC8520"></xref> to not reveal the MUD URL to an atacker need to
-      be taken into consideration. The MUD URL can be stored in Trusted
+      target="RFC8520"></xref> to not reveal the MUD URL to an attacker need
+      to be taken into consideration. The MUD URL can be stored in Trusted
       Execution Environment (TEE) for secure operation, enhanced data
       security, and prevent exposure to unauthorized software.</t>
 
