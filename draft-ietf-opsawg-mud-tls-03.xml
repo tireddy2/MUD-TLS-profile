@@ -306,7 +306,7 @@
         AAAA record). As discussed in Manufacturer Usage Description
         Specification <xref target="RFC8520"></xref>, because these devices
         tend to require access to very few sites, all other access should be
-        considered suspect. If an IoT device is pre-configured to use public
+        considered suspect. If an IoT device is pre-configured to use a public
         DoH/DoT server, the MUD policy enforcement point is moved to that
         public server, which cannot enforce the MUD policy based on domain
         names (Section 8 of <xref target="RFC8520"></xref>). If the DNS query
@@ -379,10 +379,10 @@
 
           <t>List of named groups (DHE or ECDHE) supported by the client</t>
 
-          <t>List signature algorithms the client can validate in X.509 server
+          <t>List of signature algorithms the client can validate in X.509 server
           certificates</t>
 
-          <t>List signature algorithms the client is willing to accept for
+          <t>List of signature algorithms the client is willing to accept for
           CertificateVerify message (Section 4.2.3 of <xref
           target="RFC8446"></xref>). For example, a TLS client implementation
           can support different sets of algorithms for certificates and in TLS
@@ -506,7 +506,7 @@ module ietf-acl-tls {
                    TirumaleswarReddy_Konda@McAfee.com
     ";
   description
-    "This YANG moudle defines a component that augments the
+    "This YANG module defines a component that augments the
       IETF description of an access list to allow (D)TLS profile
       as matching criteria.
 
