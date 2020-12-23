@@ -1145,7 +1145,7 @@ module ietf-mud-tls {
 
     <section anchor="Security" title="Security Considerations">
       <t>Security considerations in <xref target="RFC8520"></xref> need to be
-      taken into consideration. The middlebox must adher to the invariants
+      taken into consideration. The middlebox must adhere to the invariants
       discussed in Section 9.3 of <xref target="RFC8446"></xref> to act as a
       compliant proxy.</t>
 
