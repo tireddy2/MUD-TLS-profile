@@ -5,10 +5,10 @@
 OPSAWG WG                                                       T. Reddy
 Internet-Draft                                                    McAfee
 Intended status: Standards Track                                 D. Wing
-Expires: June 26, 2021                                            Citrix
+Expires: July 19, 2021                                            Citrix
                                                              B. Anderson
                                                                    Cisco
-                                                       December 23, 2020
+                                                        January 15, 2021
 
 
   Manufacturer Usage Description (MUD) (D)TLS Profiles for IoT Devices
@@ -37,11 +37,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 26, 2021.
+   This Internet-Draft will expire on July 19, 2021.
 
 Copyright Notice
 
-   Copyright (c) 2020 IETF Trust and the persons identified as the
+   Copyright (c) 2021 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Reddy, et al.             Expires June 26, 2021                 [Page 1]
+Reddy, et al.             Expires July 19, 2021                 [Page 1]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    include Simplified BSD License text as described in Section 4.e of
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Reddy, et al.             Expires June 26, 2021                 [Page 2]
+Reddy, et al.             Expires July 19, 2021                 [Page 2]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    how malware uses encryption compared with how non-malware uses
@@ -165,9 +165,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                 [Page 3]
+Reddy, et al.             Expires July 19, 2021                 [Page 3]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
       server's certificate is invalid.  In TLS 1.2, the ClientHello,
@@ -221,9 +221,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                 [Page 4]
+Reddy, et al.             Expires July 19, 2021                 [Page 4]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    "(D)TLS" is used for statements that apply to both Transport Layer
@@ -277,9 +277,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                 [Page 5]
+Reddy, et al.             Expires July 19, 2021                 [Page 5]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    discussed in Section 8 to identify malicious connections until the
@@ -333,9 +333,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                 [Page 6]
+Reddy, et al.             Expires July 19, 2021                 [Page 6]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
 4.2.  Encrypted DNS
@@ -389,9 +389,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                 [Page 7]
+Reddy, et al.             Expires July 19, 2021                 [Page 7]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
       middlebox will react as if the server certificate validation has
@@ -445,9 +445,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                 [Page 8]
+Reddy, et al.             Expires July 19, 2021                 [Page 8]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    o  List of the distinguished names [X501] of acceptable certificate
@@ -501,9 +501,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                 [Page 9]
+Reddy, et al.             Expires July 19, 2021                 [Page 9]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    module: ietf-acl-tls
@@ -557,9 +557,9 @@ module ietf-acl-tls {
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 10]
+Reddy, et al.             Expires July 19, 2021                [Page 10]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
     reference
@@ -613,9 +613,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 11]
+Reddy, et al.             Expires July 19, 2021                [Page 11]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
   revision 2020-11-02 {
@@ -669,9 +669,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 12]
+Reddy, et al.             Expires July 19, 2021                [Page 12]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
     description
@@ -725,9 +725,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 13]
+Reddy, et al.             Expires July 19, 2021                [Page 13]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
             description
@@ -781,9 +781,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 14]
+Reddy, et al.             Expires July 19, 2021                [Page 14]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
           }
@@ -837,9 +837,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 15]
+Reddy, et al.             Expires July 19, 2021                [Page 15]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    having a "legacy_version" of 0xfefd and a "supported_versions"
@@ -893,9 +893,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 16]
+Reddy, et al.             Expires July 19, 2021                [Page 16]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
        description
@@ -949,9 +949,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 17]
+Reddy, et al.             Expires July 19, 2021                [Page 17]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
      typedef cert-compression-algorithm {
@@ -1005,9 +1005,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 18]
+Reddy, et al.             Expires July 19, 2021                [Page 18]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
               TLS 1.3 ClientHello contains a
@@ -1061,9 +1061,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 19]
+Reddy, et al.             Expires July 19, 2021                [Page 19]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
 5.4.  MUD (D)TLS Profile Extension
@@ -1117,9 +1117,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 20]
+Reddy, et al.             Expires July 19, 2021                [Page 20]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
         without modification, is permitted pursuant to, and subject
@@ -1173,9 +1173,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 21]
+Reddy, et al.             Expires July 19, 2021                [Page 21]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    o  If the (D)TLS parameter observed in a (D)TLS session is not
@@ -1229,9 +1229,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 22]
+Reddy, et al.             Expires July 19, 2021                [Page 22]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
             "access-lists": {
@@ -1285,9 +1285,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 23]
+Reddy, et al.             Expires July 19, 2021                [Page 23]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
                          "forwarding": "accept"
@@ -1341,9 +1341,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 24]
+Reddy, et al.             Expires July 19, 2021                [Page 24]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
 9.  Privacy Considerations
@@ -1354,26 +1354,22 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
    Environment (TEE) for secure operation, enhanced data security, and
    prevent exposure to unauthorized software.
 
-   The middlebox acting as a (D)TLS proxy must immediately delete the
-   decrypted data upon completing any necessary inspection functions.
-   TLS proxy potentially has access to a user's PII (Personally
-   identifiable information) and PHI (Protected Health Information) on
-   health-care related IoT devices.  The TLS proxy must not store,
-   process or modify PII and PHI data.  For example, an enterprise
-   firewall administrator can configure the middlebox to bypass TLS
-   proxy functionality or payload inspection for connections destined to
-   a specific service due to privacy compliance requirements.
-   Alternatively, a IoT device could be configured to reject all
-   sessions that involve proxy servers to a specific service, in order
-   to enforce privacy policies to guard PII and PHI data.  Since the TLS
-   server authentication takes place before the payload exchange, the
-   IoT device can protect itself by rejecting TLS sessions with proxies
-   to specific services.  In addition, mechanisms based on object
-   security can be used by IoT devices to enable end-to-end security and
-   the middlebox will not have any access to the packet data.  For
-   example, Object Security for Constrained RESTful Environments
-   (OSCORE) [RFC8613] is a proposal that protects CoAP messages by
-   wrapping them in the COSE format [RFC8152].
+   Full handshake inspection (Section 4.1) requires a TLS proxy device
+   which needs to decrypt traffic between the IoT device and its
+   server(s).  There is a tradeoff between privacy of the data carried
+   inside TLS (especially e.g., personally identifiable information and
+   protected health information) and efficacy of endpoint security.  It
+   is strongly RECOMMENDED to avoid a TLS proxy whenever possible.  For
+   example, an enterprise firewall administrator can configure the
+   middlebox to bypass TLS proxy functionality or payload inspection for
+   connections destined to specific well-known services.  Alternatively,
+   a IoT device could be configured to reject all sessions that involve
+   proxy servers to specific well-known services.  In addition,
+   mechanisms based on object security can be used by IoT devices to
+   enable end-to-end security and the middlebox will not have any access
+   to the packet data.  For example, Object Security for Constrained
+   RESTful Environments (OSCORE) [RFC8613] is a proposal that protects
+   CoAP messages by wrapping them in the COSE format [RFC8152].
 
 10.  IANA Considerations
 
@@ -1394,17 +1390,18 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
          Registrant Contact: The IESG.
          XML: N/A; the requested URI is an XML namespace.
 
-
-
-
-Reddy, et al.             Expires June 26, 2021                [Page 25]
-
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
-
-
    IANA is requested to create an IANA-maintained YANG Module called
    "iana-tls-profile", based on the contents of Section 5.3, which will
    allow for new (D)TLS parameters and (D)TLS versions to be added to
+
+
+
+
+Reddy, et al.             Expires July 19, 2021                [Page 25]
+
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
+
+
    "client-profile".  The registration procedure will be Expert Review,
    as defined by [RFC8126].
 
@@ -1450,15 +1447,16 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
    module.  The following "enum" statement, and substatements thereof,
    should be defined:
 
-
-
-
-Reddy, et al.             Expires June 26, 2021                [Page 26]
-
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
-
-
    "enum":        Replicates the label from the registry.
+
+
+
+
+
+Reddy, et al.             Expires July 19, 2021                [Page 26]
+
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
+
 
    "value":       Contains the IANA-assigned value corresponding to the
                   'tls-version' or 'dtls-version'.
@@ -1498,22 +1496,6 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
    version' parameter.  Further assignments are to be made through
    Expert Review [RFC8126].
 
-
-
-
-
-
-
-
-
-
-
-
-Reddy, et al.             Expires June 26, 2021                [Page 27]
-
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
-
-
       +-------+---------+-----------------+-----------+
       | Value | Label   | Description     | Reference |
       |       |         |                 |           |
@@ -1523,6 +1505,14 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
       +-------+---------+-----------------+-----------+
       | 2     | tls-1.3 | TLS Version 1.3 | [RFC8446] |
       +-------+---------+-----------------+-----------+
+
+
+
+
+Reddy, et al.             Expires July 19, 2021                [Page 27]
+
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
+
 
 10.3.  ACL DTLS version registry
 
@@ -1565,9 +1555,19 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 28]
+
+
+
+
+
+
+
+
+
+
+Reddy, et al.             Expires July 19, 2021                [Page 28]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    +----------------------------+-------------+--------+---------------------------------------------+
@@ -1621,9 +1621,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 29]
+Reddy, et al.             Expires July 19, 2021                [Page 29]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
 12.  References
@@ -1677,9 +1677,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 30]
+Reddy, et al.             Expires July 19, 2021                [Page 30]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    [RFC8519]  Jethanandani, M., Agarwal, S., Huang, L., and D. Blair,
@@ -1733,9 +1733,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 31]
+Reddy, et al.             Expires July 19, 2021                [Page 31]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    [malware-doh]
@@ -1789,9 +1789,9 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 32]
+Reddy, et al.             Expires July 19, 2021                [Page 32]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    [RFC7951]  Lhotka, L., "JSON Encoding of Data Modeled with YANG",
@@ -1845,9 +1845,9 @@ Authors' Addresses
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 33]
+Reddy, et al.             Expires July 19, 2021                [Page 33]
 
-Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
+Internet-Draft     MUD (D)TLS Profile for IoT devices       January 2021
 
 
    Tirumaleswar Reddy
@@ -1901,4 +1901,4 @@ Internet-Draft     MUD (D)TLS Profile for IoT devices      December 2020
 
 
 
-Reddy, et al.             Expires June 26, 2021                [Page 34]
+Reddy, et al.             Expires July 19, 2021                [Page 34]

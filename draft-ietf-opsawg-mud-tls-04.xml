@@ -1171,13 +1171,23 @@ module ietf-mud-tls {
       Execution Environment (TEE) for secure operation, enhanced data
       security, and prevent exposure to unauthorized software.</t>
 
-      <t>Full handshake inspection (<xref target="full"/>) requires a                                                                                           
-      TLS proxy device which needs to decrypt and examines traffic                                                                                              
-      between the IoT device and its server(s).  There is a tradeoff                                                                                            
-      between privacy of the data carried inside TLS (especially e.g.,                                                                                          
-      personally identifiable information and protected health                                                                                                  
-      information) and efficacy of endpoint security.  It is strongly 
-      RECOMMENDED to avoid a TLS proxy whenever possible.</t>
+      <t>Full handshake inspection (<xref target="full"></xref>) requires a
+      TLS proxy device which needs to decrypt traffic between the IoT device
+      and its server(s). There is a tradeoff between privacy of the data
+      carried inside TLS (especially e.g., personally identifiable information
+      and protected health information) and efficacy of endpoint security. It
+      is strongly RECOMMENDED to avoid a TLS proxy whenever possible. For
+      example, an enterprise firewall administrator can configure the
+      middlebox to bypass TLS proxy functionality or payload inspection for
+      connections destined to specific well-known services. Alternatively, a
+      IoT device could be configured to reject all sessions that involve proxy
+      servers to specific well-known services. In addition, mechanisms based
+      on object security can be used by IoT devices to enable end-to-end
+      security and the middlebox will not have any access to the packet data.
+      For example, Object Security for Constrained RESTful Environments
+      (OSCORE) <xref target="RFC8613"></xref> is a proposal that protects CoAP
+      messages by wrapping them in the COSE format <xref
+      target="RFC8152"></xref>.</t>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -1472,6 +1482,10 @@ module ietf-mud-tls {
       <?rfc include='reference.RFC.7525'?>
 
       <?rfc include='reference.RFC.7301'?>
+
+      <?rfc include="reference.RFC.8152"?>
+
+      <?rfc include='reference.RFC.8613'?>
 
       <?rfc include="reference.I-D.ietf-tls-esni" ?>
 
